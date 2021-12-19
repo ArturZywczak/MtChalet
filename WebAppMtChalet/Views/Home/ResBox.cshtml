@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using WebAppMtChalet.Models
+@model WebAppMtChalet.Models.ReservationTemp
+
+<table style="background-color: lightblue; border:thick">
+    <tr style="width: 100%">
+        <td style="width:20%">
+            <input type="button" value="Twoja Rezerwacja" class="btn btn-danger" onclick="ResBoxAnim()" style="position: sticky; bottom: 50%; left: 0;" />
+            @if (Model.BedsList.Count>0) {<input type="button" value="Potwierdz rezerwacje" class="btn btn-light" onclick="confirm()"  /> }
+        </td>
+        <td style="width:80%">
+            Tutaj szczegóły zamówienia z modelu
+            @foreach (var x in Model.BedsList) {
+                <p>==============================================</p>
+                <p>Pokój nr: @x.RoomID</p>
+                <p>Ilość łóżek: @x.BedCount</p>
+                <p>Data zakwaterowania: @x.Date.ToString("dd/MM/yyyy")</p>
+                <p>Data wykwaterowania: @x.DateOut.ToString("dd/MM/yyyy")</p>
+                <p>==============================================</p>
+            }
+
+
+        </td>
+    </tr>
+</table>
+
+<script>
+    function ResBoxAnim() {
+        if (boxOpen) boxOpen = false;
+        else boxOpen = true;
+
+        let id = null;
+        const elem = document.getElementById("resBox");
+
+
+        let pos;
+        if (boxOpen) pos = 50;
+        else pos = -250;
+        clearInterval(id);
+        id = setInterval(frame, 5);
+        function frame() {
+            if (boxOpen) {
+                if (pos == -250) {
+                    clearInterval(id);
+                } else {
+                    pos -= 5;
+                    elem.style.right = pos + "px";
+                }
+            }
+            else {
+                if (pos == 50) {
+                    clearInterval(id);
+                } else {
+                    pos += 5;
+                    elem.style.right = pos + "px";
+                }
+            }
+        }
+    }
+
+    function confirm() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ajaxTest3")',
+            data: {  },
+
+            success: function (data) {
+                $(document.body).html(data);
+        },
+            error: function () {
+                
+            alert("Error while inserting data");
+        }
+        });
+        return false
+    }
+
+</script>

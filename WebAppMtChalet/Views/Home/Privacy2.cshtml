@@ -1,0 +1,45 @@
+﻿@using WebAppMtChalet.Models
+@model List<WebAppMtChalet.Models.RoomsInfo>
+
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+
+<div id="order-summary-panel" onmousedown="return false">
+    <table class="table" id="tabletest">
+        <thead>
+            <tr>
+                <th scope="col">Nr pokoju</th>
+                <th scope="col">Wolne Miejsca</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                
+                <tr>
+                    <th scope="row">@item.RoomNumber</th>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                            @for (int i = 0; i < item.RoomCap; i++) {
+                                @if (i < item.OcuppiedBeds) {
+                                    <input type="checkbox" class="btn-check" id="CBox@(Int32.Parse(item.RoomNumber) * 20 + i)" autocomplete="off" hidden>
+                                    <label class="btn btn-outline-danger " for=@(Int32.Parse(item.RoomNumber) * 20 + i) id="@(Int32.Parse(item.RoomNumber) * 20 + i)lbl">Zajete miejsce</label>
+                                }
+                                else {
+                                    <input type="checkbox" class="btn-check" id="CBox@(Int32.Parse(item.RoomNumber) * 20 + i)" autocomplete="off" hidden onchange="selected(this)">
+                                    <label class="btn btn-outline-primary" for="CBox@(Int32.Parse(item.RoomNumber) * 20 + i)" id="@(Int32.Parse(item.RoomNumber) * 20 + i)lbl" onclick="changeclass(this)">Wolne miejsce</label>
+                                }
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    
+
+</script>

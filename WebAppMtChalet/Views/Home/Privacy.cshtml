@@ -1,0 +1,113 @@
+﻿@using WebAppMtChalet.Models
+@model List<WebAppMtChalet.Models.RoomsInfo>
+
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+
+<h1>@ViewData["Title"]</h1>
+
+<input type="date" id="datetime-local" oninput="login(this)" onabort="logof(this)">
+
+<div id="order-summary-panel">
+
+</div>
+
+
+
+<div id="resBox" style="position: fixed; bottom: 50%; right: -250px; width: 400px; background-color: yellow; margin: 4px">
+
+
+</div>
+
+<script>
+
+    window.onload = function () {
+        showResBox();
+
+    };
+
+    function login(x) {
+        // switch screens
+        //document.getElementById('test').hidden = false;
+
+        var elem2 = document.getElementById("datetime-local").value;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ajaxTest")',
+            data: { ammount: elem2 },
+
+            success: function (data) {
+                if (!elem2 == "") {
+                    $("#order-summary-panel").html(data);
+                    //$("#test").load(" #test > *");
+                    document.getElementById('order-summary-panel').hidden = false;
+                }
+                else {
+                    document.getElementById('order-summary-panel').hidden = true;
+                }
+        },
+            error: function () {
+                document.getElementById('order-summary-panel').hidden = true;
+            alert("Error while inserting data");
+        }
+        });
+    return false;
+    }
+
+
+    function showResBox() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ajaxTest2")',
+            data: { },
+
+            success: function (data) {
+                $("#resBox").html(data);
+        },
+            error: function () {
+            alert("Error while inserting data");
+        }
+        });
+    }
+    function logof() {
+        // switch screens
+        document.getElementById('order-summary-panel').hidden = true;
+    }
+    function changeclass(element) {
+
+        $(element).toggleClass('btn btn-outline-warning');
+        if (element.innerHTML == 'Miejsce wybrane') element.innerHTML = 'Wolne miejsce';
+        else element.innerHTML = 'Miejsce wybrane';
+
+    }
+
+    var boxOpen;
+    boxOpen = true;
+
+
+    function selected(x) {
+        var elemdate = document.getElementById("datetime-local").value;
+        var elemid = x.id;
+        var elemstate = x.checked;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ajaxTest2")',
+            data: {
+                elemId: elemid,
+                date: elemdate,
+                checboxState: elemstate
+
+            },
+
+            success: function (data) {
+                $("#resBox").html(data);
+        },
+            error: function () {
+            alert("Error while inserting data");
+        }
+        });
+        
+    }
+</script>
