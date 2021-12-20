@@ -8,6 +8,8 @@ using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
+        
+        //TODO wywalic/zedytowac
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
         bool isBusy = false;

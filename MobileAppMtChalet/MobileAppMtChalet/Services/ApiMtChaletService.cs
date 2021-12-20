@@ -12,24 +12,24 @@ namespace MobileAppMtChalet.Services {
         public ApiMtChaletService(HttpClient httpClient) {
             _httpClient = httpClient;
         }
-        public async Task AddReservation(Reservations reservation) {
+        public async Task AddReservation(Reservation reservation) {
             throw new NotImplementedException();
         }
 
-        public Task DeleteReservation(Reservations reservation) {
+        public Task DeleteReservation(Reservation reservation) {
             throw new NotImplementedException();
         }
 
-        public Task EditReservation(Reservations oldReservation, Reservations newReservation) {
+        public Task EditReservation(Reservation oldReservation, Reservation newReservation) {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Reservations>> GetReservationOnDate(string date) {
+        public async Task<IEnumerable<Reservation>> GetReservationOnDate(string date) {
             var response = await _httpClient.GetAsync("WeatherForecast/" + date);
             response.EnsureSuccessStatusCode();
 
             var responseAsString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<Reservations>>(responseAsString);
+            return JsonConvert.DeserializeObject<List<Reservation>>(responseAsString);
         }
     }
 }

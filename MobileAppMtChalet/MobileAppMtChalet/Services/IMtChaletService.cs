@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 namespace MobileAppMtChalet.Services {
     public interface IMtChaletService {
 
-        Task<IEnumerable<Reservations>> GetReservationOnDate(string date);
-        Task AddReservation(Reservations reservation);
-        Task EditReservation(Reservations oldReservation, Reservations newReservation);
-        Task DeleteReservation(Reservations reservation);
+        Task<IEnumerable<Reservation>> GetReservationOnDate(string date);
+        Task AddReservation(Reservation reservation);
+        Task EditReservation(Reservation oldReservation, Reservation newReservation);
+        Task DeleteReservation(Reservation reservation);
 
     }
 }

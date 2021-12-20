@@ -69,7 +69,7 @@ namespace MobileAppMtChalet.Services {
                 string test = e.Message;
             }
 
-            List<Reservations> reservations = JsonConvert.DeserializeObject<List<Reservations>>(json);
+            List<Reservation> reservations = JsonConvert.DeserializeObject<List<Reservation>>(json);
 
             foreach (Item x in items) {
                 x.Text += "inny";
