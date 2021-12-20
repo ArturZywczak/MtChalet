@@ -12,17 +12,16 @@ using Xamarin.Forms.Xaml;
 
 namespace MobileAppMtChalet.Views {
     public partial class ItemsPage : ContentPage {
-        ItemsViewModel _viewModel;
-
+        private readonly ItemsViewModel _itemsViewModel;
         public ItemsPage() {
             InitializeComponent();
-
-            BindingContext = _viewModel = new ItemsViewModel();
+            _itemsViewModel = Startup.Resolve<ItemsViewModel>();
+            BindingContext = _itemsViewModel;
         }
 
         protected override void OnAppearing() {
             base.OnAppearing();
-            _viewModel.OnAppearing();
+            _itemsViewModel.OnAppearing();
         }
     }
 }

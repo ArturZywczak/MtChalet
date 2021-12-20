@@ -1,4 +1,5 @@
 ﻿using MobileAppMtChalet.Models;
+using MobileAppMtChalet.Services;
 using MobileAppMtChalet.Views;
 using System;
 using System.Collections.ObjectModel;
@@ -16,8 +17,10 @@ namespace MobileAppMtChalet.ViewModels {
         public Command AddItemCommand { get; }
         public Command<Item> ItemTapped { get; }
         public AsyncCommand<DatePicker> DateSelected { get; }
+        private readonly IMtChaletService _mtChaletService;
 
-        public ItemsViewModel() {
+        public ItemsViewModel(IMtChaletService mtChaletService) {
+            _mtChaletService = mtChaletService;
             Title = "Browse";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
@@ -72,7 +75,10 @@ namespace MobileAppMtChalet.ViewModels {
                 return _selectedDate;
             }
             set {
-                _selectedDate = value;
+                string temp = value;
+                temp = temp.Replace("/", string.Empty);
+                temp = temp.Remove(8);
+                _selectedDate = temp;
                 test();
             }
         }
@@ -82,6 +88,7 @@ namespace MobileAppMtChalet.ViewModels {
             IsBusy = true;
             try {
                 Items.Clear();
+                var test = await _mtChaletService.GetReservationOnDate(_selectedDate);
                 var items = await DataStore.GetItemsAsync2(_selectedDate);
                 foreach (var item in items) {
                     Items.Add(item);
