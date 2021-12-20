@@ -1,7 +1,10 @@
 ﻿using MobileAppMtChalet.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MobileAppMtChalet.Services {
@@ -46,6 +49,31 @@ namespace MobileAppMtChalet.Services {
         }
 
         public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false) {
+            return await Task.FromResult(items);
+        }
+
+        public async Task<IEnumerable<Item>> GetItemsAsync2(string date, bool forceRefresh = false) {
+            
+            HttpClient client = new HttpClient();
+
+            date = date.Replace("/", string.Empty);
+            date = date.Remove(8);
+            //var json = new WebClient().DownloadString("http://localhost:13122/api/WeatherForecast/" + date);
+            string json = "";
+            try {
+                HttpResponseMessage response = await client.GetAsync("http://localhost:13122/api/WeatherForecast/" + date);
+            response.EnsureSuccessStatusCode();
+            json = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException e) {
+                string test = e.Message;
+            }
+
+            List<Reservations> reservations = JsonConvert.DeserializeObject<List<Reservations>>(json);
+
+            foreach (Item x in items) {
+                x.Text += "inny";
+            }
             return await Task.FromResult(items);
         }
     }

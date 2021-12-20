@@ -9,5 +9,6 @@ namespace MobileAppMtChalet.Services {
         Task<bool> DeleteItemAsync(string id);
         Task<T> GetItemAsync(string id);
         Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
+        Task<IEnumerable<T>> GetItemsAsync2(string date, bool forceRefresh = false);
     }
 }
