@@ -11,10 +11,10 @@ namespace APIMtChalet.Models {
             : base(options) {
         }
 
-        public virtual DbSet<Reservations> Reservations { get; set; }
+        public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<Rooms> Rooms { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.Entity<Reservations>(entity => {
+            modelBuilder.Entity<Reservation>(entity => {
                 entity.HasKey(e => e.ReservationId);
 
                 entity.Property(e => e.ReservationId).HasColumnName("ReservationID");

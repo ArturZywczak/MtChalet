@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace APIMtChalet.Models {
-    public partial class Reservations {
+    public partial class Reservation {
         public int ReservationId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using APIMtChalet.Models;
+using APIMtChalet.Repositories;
 
 namespace APIMtChalet {
     public class Startup {
@@ -23,7 +24,12 @@ namespace APIMtChalet {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-
+            
+            services.AddMvc(options =>
+            {
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
+            services.AddScoped<IMtChaletRepository, MtChaletRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIMtChalet", Version = "v1" });
