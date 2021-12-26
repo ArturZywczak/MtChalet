@@ -65,5 +65,10 @@ namespace APIMtChalet.Controllers {
             await _mtChaletRepository.DeleteReservation(reservationToDelete.ReservationId);
             return Ok();
         }
+
+        [HttpGet("rooms")]
+        public async Task<IEnumerable<Room>> GetRooms() {
+            return await _mtChaletRepository.GetRooms();
+        }
     }
 }

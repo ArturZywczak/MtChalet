@@ -37,6 +37,10 @@ namespace APIMtChalet.Repositories {
             return t;
         }
 
+        public async Task<IEnumerable<Room>> GetRooms() {
+            return await _context.Rooms.ToListAsync();
+        }
+
         public async Task UpdateReservation(Reservation reservation) {
             _context.Entry(reservation).State = EntityState.Modified;
             await _context.SaveChangesAsync();

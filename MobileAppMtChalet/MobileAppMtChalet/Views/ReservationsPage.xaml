@@ -17,34 +17,49 @@
             <RowDefinition Height="50"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <RefreshView Grid.Row ="1" x:DataType="local:ReservationsViewModel" Command="{Binding LoadReservationsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-            <CollectionView x:Name="ReservationsViewList"
-            ItemsSource="{Binding Reservations}"
-            SelectionMode="None">
-                <CollectionView.ItemTemplate>
+        <RefreshView Grid.Row ="1" Command="{Binding LoadReservationsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <ListView ItemsSource="{Binding ReservationsList}" 
+          HasUnevenRows="True" 
+          SeparatorVisibility="None"
+          SeparatorColor="Transparent"
+          IsGroupingEnabled="True">
+                <ListView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10" x:DataType="model:Reservation">
-                            <Label Text="{Binding Name}" 
-                        LineBreakMode="NoWrap" 
-                        Style="{DynamicResource ListItemTextStyle}" 
-                        FontSize="16" />
-                            <Label Text="{Binding Surname}" 
-                        LineBreakMode="NoWrap"
-                        Style="{DynamicResource ListItemDetailTextStyle}"
-                        FontSize="13" />
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer 
+                        <ViewCell>
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Pokój nr 1"
+                               FontAttributes="Bold"/>
+                                    <Label Text="{Binding Key.Room.RoomId}"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout >
+                                <Grid>
+                                    <!-- TODO ładny wygląd here -->
+                                    
+                                    
+                                </Grid>
+                                <Label Text="{Binding ReservationId}" BackgroundColor="Green" />
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
                             NumberOfTapsRequired="1"
                             Command="{Binding Source={RelativeSource AncestorType={x:Type local:ReservationsViewModel}}, Path=ReservationTapped}"		
                             CommandParameter="{Binding .}">
-                                </TapGestureRecognizer>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
         </RefreshView>
         <DatePicker Date="{Binding SelectedDate}" Grid.Row="0" HorizontalOptions="Fill" BackgroundColor="MediumAquamarine" x:Name="SelectedDatee" />
-
+                
     </Grid>
 </ContentPage>

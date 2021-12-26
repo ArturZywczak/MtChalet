@@ -12,7 +12,7 @@ namespace APIMtChalet.Models {
         }
 
         public virtual DbSet<Reservation> Reservations { get; set; }
-        public virtual DbSet<Rooms> Rooms { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Reservation>(entity => {
                 entity.HasKey(e => e.ReservationId);
@@ -52,7 +52,7 @@ namespace APIMtChalet.Models {
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Rooms>(entity => {
+            modelBuilder.Entity<Room>(entity => {
                 entity.HasKey(e => e.RoomId);
 
                 entity.Property(e => e.RoomId).HasColumnName("RoomID");

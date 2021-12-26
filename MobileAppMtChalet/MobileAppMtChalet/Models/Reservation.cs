@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MobileAppMtChalet.Models {
     public partial class Reservation {
@@ -31,6 +32,26 @@ namespace MobileAppMtChalet.Models {
         public DateTime Date { get; set; }
         public DateTime DateOut { get; set; }
         
+    }
+
+    public class ReservationsByRoom {
+        public Room Room { get; set; }
+
+        public List<Reservation> Reservations { get; set; }
+
+        public ReservationsByRoom() {
+            this.Reservations = new List<Reservation>();
+        }
+    }
+
+    public class Grouping<K, T> : ObservableCollection<T> {
+        public K Key { get; private set; }
+
+        public Grouping(K key, IEnumerable<T> items) {
+            Key = key;
+            foreach (var item in items)
+                this.Items.Add(item);
+        }
     }
 }
 

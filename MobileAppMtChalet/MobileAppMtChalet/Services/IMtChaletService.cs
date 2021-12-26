@@ -9,6 +9,7 @@ namespace MobileAppMtChalet.Services {
         Task AddReservation(Reservation reservation);
         Task EditReservation(Reservation oldReservation, Reservation newReservation);
         Task DeleteReservation(Reservation reservation);
+        Task<IEnumerable<Room>> GetRooms();
 
     }
 }

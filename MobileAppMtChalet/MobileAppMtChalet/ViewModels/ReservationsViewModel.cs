@@ -2,6 +2,7 @@
 using MobileAppMtChalet.Services;
 using MobileAppMtChalet.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace MobileAppMtChalet.ViewModels {
     public class ReservationsViewModel : BaseViewModel {
         private Reservation _selectedReservation;
         private readonly IMtChaletService _mtChaletService;
-        private string _selectedDate;
+        private string _selectedDate;        
         public string SelectedDate {
             get {
                 return _selectedDate;
@@ -32,6 +33,7 @@ namespace MobileAppMtChalet.ViewModels {
                 OnReservationSelected(value);
             }
         }
+        public ObservableCollection<Models.Grouping<ReservationsByRoom, Reservation>> ReservationsList { get; set; }
         public ObservableCollection<Reservation> Reservations { get; }
         public Command LoadReservationsCommand { get; }
         public Command AddReservationCommand { get; }
@@ -46,17 +48,31 @@ namespace MobileAppMtChalet.ViewModels {
             LoadReservationsCommand = new Command(async () => await ExecuteLoadReservationsCommand());
             ReservationTapped = new Command<Reservation>(OnReservationSelected);
             AddReservationCommand = new Command(OnAddReservation);
-            DateSelected = new AsyncCommand<DatePicker>(GetReservationsOnDate);
+            ReservationsList = new ObservableCollection<Models.Grouping<ReservationsByRoom, Reservation>>();
+        }
+
+        private void SetupRoomData(IEnumerable<Reservation> reservations, IEnumerable<Room> rooms) {
+
+            foreach(var room in rooms) {
+                var asset = new ReservationsByRoom();
+                asset.Room = room;
+                
+                foreach(var reservation in reservations) {
+                    if (reservation.RoomId == room.RoomId) asset.Reservations.Add(reservation);
+                }
+
+                var group = new Models.Grouping<ReservationsByRoom, Reservation>(asset, asset.Reservations);
+                ReservationsList.Add(group);
+            }
 
         }
 
         async Task ExecuteLoadReservationsCommand() {
             try {
-                Reservations.Clear();
+                ReservationsList.Clear();
                 var reservations = await _mtChaletService.GetReservationOnDate(_selectedDate);
-                foreach (var res in reservations) {
-                    Reservations.Add(res);
-                }
+                var rooms = await _mtChaletService.GetRooms();
+                SetupRoomData(reservations,rooms);
             }
             catch (Exception ex) {
                 Debug.WriteLine(ex);
@@ -64,10 +80,6 @@ namespace MobileAppMtChalet.ViewModels {
             finally {
                 IsBusy = false;
             }
-        }
-    
-        async Task GetReservationsOnDate(DatePicker calendar) {
-            await Application.Current.MainPage.DisplayAlert("eyooo", "egggg", "okeyyy");
         }
 
         public void OnAppearing() {
