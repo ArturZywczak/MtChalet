@@ -89,7 +89,7 @@ namespace MobileAppMtChalet.ViewModels {
 
         private async void OnAddReservation(object obj) {
             //TODO dodać dodawanie rezerwacji
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
+            await Shell.Current.GoToAsync(nameof(NewReservationPage));
         }
 
         async void OnReservationSelected(Reservation reservation) {

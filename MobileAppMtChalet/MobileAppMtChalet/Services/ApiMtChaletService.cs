@@ -13,7 +13,14 @@ namespace MobileAppMtChalet.Services {
             _httpClient = httpClient;
         }
         public async Task AddReservation(Reservation reservation) {
-            throw new NotImplementedException();
+            // Serialize our concrete class into a JSON String
+            var stringPayload = JsonConvert.SerializeObject(reservation).Trim('\\');
+            
+            // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
+            var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("MtChalet", httpContent);
+            //throw new NotImplementedException();
         }
 
         public Task DeleteReservation(Reservation reservation) {

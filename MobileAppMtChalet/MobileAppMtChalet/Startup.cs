@@ -23,6 +23,8 @@ namespace MobileAppMtChalet {
             services.AddTransient<LoginViewModel>();
             services.AddTransient<NewItemViewModel>();
             services.AddTransient<ReservationsViewModel>();
+            services.AddTransient<NewReservationViewModel>();
+
 
             serviceProvider = services.BuildServiceProvider();
         }

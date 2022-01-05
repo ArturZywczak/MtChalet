@@ -33,7 +33,7 @@ namespace APIMtChalet.Repositories {
 
         public async Task<IEnumerable<Reservation>> GetReservation(DateTime date) {
 
-            var t = await Task.Run(() => { return _context.Reservations.Where(s => s.StartingDate >= date && s.EndingDate <= date).AsEnumerable(); });
+            var t = await Task.Run(() => { return _context.Reservations.Where(s => s.StartingDate == date).AsEnumerable(); });
             return t;
         }
 

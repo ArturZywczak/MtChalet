@@ -59,7 +59,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </RefreshView>
-        <DatePicker Date="{Binding SelectedDate}" Grid.Row="0" HorizontalOptions="Fill" BackgroundColor="MediumAquamarine" x:Name="SelectedDatee" />
+        <DatePicker Format="MM/dd/yyyy" Date="{Binding SelectedDate}" Grid.Row="0" HorizontalOptions="Fill" BackgroundColor="MediumAquamarine" x:Name="SelectedDatee" />
                 
     </Grid>
 </ContentPage>

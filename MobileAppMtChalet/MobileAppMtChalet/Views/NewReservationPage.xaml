@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileAppMtChalet.Views.NewReservationPage"
+             Shell.PresentationMode="ModalAnimated"
+             Title="New Reservation"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true">
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15">
+            
+            <Label Text="Imie" FontSize="Medium" />
+            <Entry Text="{Binding Name, Mode=TwoWay}" FontSize="Medium" />
+            <Label Text="Nazwisko" FontSize="Medium" />
+            <Entry Text="{Binding Surname, Mode=TwoWay}" FontSize="Medium" />
+            <Label Text="IdPokoju" FontSize="Medium" />
+            <Entry Text="{Binding RoomID, Mode=TwoWay}" FontSize="Medium" />
+            <Label Text="Ile miejsc" FontSize="Medium" />
+            <Entry Text="{Binding NumberOfPeople, Mode=TwoWay}" FontSize="Medium" />
+            <Label Text="Data przyjazdu" FontSize="Medium" />
+            <DatePicker Date="{Binding StartingDate, Mode=TwoWay}"/>
+            <Label Text="Data wyjazdu" FontSize="Medium" />
+            <DatePicker Date="{Binding EndingDate, Mode=TwoWay}"/>
+            <Label Text="NrTel" FontSize="Medium" />
+            <Entry Text="{Binding Phone, Mode=TwoWay}" FontSize="Medium" />
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+    
+</ContentPage>
