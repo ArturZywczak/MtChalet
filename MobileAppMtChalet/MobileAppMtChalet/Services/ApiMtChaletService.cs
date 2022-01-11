@@ -31,6 +31,14 @@ namespace MobileAppMtChalet.Services {
             throw new NotImplementedException();
         }
 
+        public async Task<Reservation> GetReservation(string id) {
+            var response = await _httpClient.GetAsync(@"MtChalet/id/" + id);
+            response.EnsureSuccessStatusCode();
+
+            var responseAsString = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Reservation>(responseAsString);
+        }
+
         public async Task<IEnumerable<Reservation>> GetReservationOnDate(string date) {
             var response = await _httpClient.GetAsync("MtChalet/" + date);
             response.EnsureSuccessStatusCode();
