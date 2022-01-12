@@ -17,19 +17,17 @@
             <RowDefinition Height="50"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <RefreshView Grid.Row ="1" Command="{Binding LoadReservationsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <RefreshView Grid.Row ="1" Command="{Binding LoadReservationsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Margin="5">
             <ListView ItemsSource="{Binding ReservationsList}" 
           HasUnevenRows="True" 
           SeparatorVisibility="None"
           SeparatorColor="Transparent"
-          IsGroupingEnabled="True"
-          Margin="5">
+          IsGroupingEnabled="True">
                 <ListView.GroupHeaderTemplate >
                     <DataTemplate >
                         <ViewCell Height="40">
                             <StackLayout Orientation="Horizontal" Padding="2" BackgroundColor="Black">
-
-                                    <Label  BackgroundColor="#2f72c4" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontAttributes="Bold">
+                                <Label  BackgroundColor="#2f72c4" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontAttributes="Bold">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}Pokój nr: {0}, Pokój {1}-osobowy, wolne miejsca: {2}">
                                                 <Binding Path="Key.Room.RoomId"/>
@@ -72,7 +70,6 @@
                                         NumberOfTapsRequired="1"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:ReservationsViewModel}}, Path=ReservationTapped}"		
                                         CommandParameter="{Binding .}"/>
-
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
                         </ViewCell>
