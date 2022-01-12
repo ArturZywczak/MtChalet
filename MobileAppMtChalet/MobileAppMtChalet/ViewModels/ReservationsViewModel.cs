@@ -56,9 +56,12 @@ namespace MobileAppMtChalet.ViewModels {
             foreach(var room in rooms) {
                 var asset = new ReservationsByRoom();
                 asset.Room = room;
-                
+                asset.FreeBeds = room.RoomCap;
                 foreach(var reservation in reservations) {
-                    if (reservation.RoomId == room.RoomId) asset.Reservations.Add(reservation);
+                    if (reservation.RoomId == room.RoomId) { 
+                        asset.Reservations.Add(reservation);
+                        asset.FreeBeds -= reservation.NumberOfPeople;
+                    }
                 }
 
                 var group = new Models.Grouping<ReservationsByRoom, Reservation>(asset, asset.Reservations);
@@ -88,15 +91,12 @@ namespace MobileAppMtChalet.ViewModels {
         }
 
         private async void OnAddReservation(object obj) {
-            //TODO dodać dodawanie rezerwacji
             await Shell.Current.GoToAsync(nameof(NewReservationPage));
         }
 
         async void OnReservationSelected(Reservation reservation) {
             if (reservation == null) return;
-
-            //TODO szczegóły rezerwacji
-            //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?{nameof(ReservationDetailViewModel.ReservationId)}={reservation.ReservationId}");
         }
     }
 

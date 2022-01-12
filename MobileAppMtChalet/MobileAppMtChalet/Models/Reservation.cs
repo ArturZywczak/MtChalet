@@ -35,6 +35,8 @@ namespace MobileAppMtChalet.Models {
     }
 
     public class ReservationsByRoom {
+
+        public int FreeBeds { get; set; }
         public Room Room { get; set; }
 
         public List<Reservation> Reservations { get; set; }

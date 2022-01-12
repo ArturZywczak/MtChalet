@@ -22,36 +22,57 @@
           HasUnevenRows="True" 
           SeparatorVisibility="None"
           SeparatorColor="Transparent"
-          IsGroupingEnabled="True">
-                <ListView.GroupHeaderTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="Pokój nr 1"
-                               FontAttributes="Bold"/>
-                                    <Label Text="{Binding Key.Room.RoomId}"/>
+          IsGroupingEnabled="True"
+          Margin="5">
+                <ListView.GroupHeaderTemplate >
+                    <DataTemplate >
+                        <ViewCell Height="40">
+                            <StackLayout Orientation="Horizontal" Padding="2" BackgroundColor="Black">
+
+                                    <Label  BackgroundColor="#2f72c4" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontAttributes="Bold">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}Pokój nr: {0}, Pokój {1}-osobowy, wolne miejsca: {2}">
+                                                <Binding Path="Key.Room.RoomId"/>
+                                                <Binding Path="Key.Room.RoomCap"/>
+                                                <Binding Path="Key.FreeBeds"/>
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
                                 </StackLayout>
-                            </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.GroupHeaderTemplate>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout >
-                                <Grid>
-                                    <!-- TODO ładny wygląd here -->
-                                    
-                                    
+                            <StackLayout>
+                                <Grid BackgroundColor="#181a1c" Padding="2" RowSpacing="2" ColumnSpacing="2" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label  Grid.Column="0" BackgroundColor="#5398ed" VerticalTextAlignment="Center" Padding="2">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{1}os {0} {2}">
+                                                <Binding Path="Surname"/>
+                                                <Binding Path="NumberOfPeople"/>
+                                                <Binding Path="Name"/>
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <Label Grid.Column="1" Text="{Binding Phone}" BackgroundColor="#5398ed" VerticalTextAlignment="Center" Padding="2"/>
+                                    <Label Grid.Column="2" Text="TuKasa" BackgroundColor="#5398ed" VerticalTextAlignment="Center" Padding="2"/>
                                 </Grid>
-                                <Label Text="{Binding ReservationId}" BackgroundColor="Green" />
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer 
-                            NumberOfTapsRequired="1"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ReservationsViewModel}}, Path=ReservationTapped}"		
-                            CommandParameter="{Binding .}">
-                                    </TapGestureRecognizer>
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ReservationsViewModel}}, Path=ReservationTapped}"		
+                                        CommandParameter="{Binding .}"/>
+
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
                         </ViewCell>
