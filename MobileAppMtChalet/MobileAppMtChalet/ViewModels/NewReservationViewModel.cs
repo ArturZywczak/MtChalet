@@ -2,6 +2,8 @@
 using MobileAppMtChalet.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -21,6 +23,12 @@ namespace MobileAppMtChalet.ViewModels {
         private string extraInfo;
         private int employeeID;
         private DateTime creationDate;
+        private bool roomChoosed;
+        private bool roomChoosedInv;
+
+        public List<Room> Rooms { get; set; }
+        public ObservableCollection<int> AvaliableBeds { get; }
+        public ObservableCollection<int> RoomIDs { get; }
 
         public NewReservationViewModel(IMtChaletService mtChaletService) {
             _mtChaletService = mtChaletService;
@@ -30,6 +38,26 @@ namespace MobileAppMtChalet.ViewModels {
                 (_, __) => SaveCommand.ChangeCanExecute();
             startingDate = DateTime.Now;
             endingDate = DateTime.Now;
+            roomChoosed = false;
+            roomChoosedInv = true;
+            AvaliableBeds = new ObservableCollection<int>();
+            RoomIDs = new ObservableCollection<int>();
+            Rooms = new List<Room>();
+            RoomID = -1;
+            PrepareRoomInfo();
+        }
+
+        async void PrepareRoomInfo() {
+            try {
+                var rooms = await _mtChaletService.GetRooms();
+                foreach (var room in rooms) { 
+                    RoomIDs.Add(room.RoomId);
+                    Rooms.Add(room);
+                }
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
         }
 
         private bool ValidateSave() {
@@ -40,6 +68,17 @@ namespace MobileAppMtChalet.ViewModels {
                 && endingDate > startingDate
                 ;
         }
+
+        public bool RoomChoosed {
+            get => roomChoosed;
+            set => SetProperty(ref roomChoosed, value);
+        }
+
+        public bool RoomChoosedInv {
+            get => roomChoosedInv;
+            set => SetProperty(ref roomChoosedInv, value);
+        }
+
 
         public string Name {
             get => name;
@@ -53,7 +92,14 @@ namespace MobileAppMtChalet.ViewModels {
 
         public int RoomID {
             get => roomID;
-            set => SetProperty(ref roomID, value);
+            set {
+                SetProperty(ref roomID, value);
+                if (roomID != -1) { 
+                    RoomChoosed = true;
+                    RoomChoosedInv = false;
+                    ChangeSelectedRoom();
+                }
+            }
         }
 
         public int NumberOfPeople {
@@ -117,6 +163,11 @@ namespace MobileAppMtChalet.ViewModels {
             var rooms = await _mtChaletService.GetRooms();
             foreach (var room in rooms) if (room.RoomId == roomId) return true;
             return false;
+        }
+
+        private void ChangeSelectedRoom() {
+            AvaliableBeds.Clear();
+            for (int i = 1; i<=Rooms[roomID].RoomCap; i++) AvaliableBeds.Add(i);
         }
     }
 }
