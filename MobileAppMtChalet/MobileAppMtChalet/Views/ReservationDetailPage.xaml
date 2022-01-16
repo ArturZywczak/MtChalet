@@ -4,11 +4,61 @@
              x:Class="MobileAppMtChalet.Views.ReservationDetailPage"
              Title="{Binding Title}"
              >
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Name}" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Surname}" FontSize="Small"/>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Dodaj" Command="{Binding AddReservationCommand}" />
+        
+    </ContentPage.ToolbarItems>
+
+    
+    <StackLayout Spacing="20" Padding="15" >
+        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand">
+        <Label Text="Włącz edycję" FontSize="Large" />
+        <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding EditMode}"/>
+        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Label Text="Imię:" FontSize="Large"/>
+                <Label Text="{Binding Name}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Entry Text="{Binding Name, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+                
+                <Label Text="Nazwisko:" FontSize="Large"/>
+                <Label Text="{Binding Surname}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Entry Text="{Binding Surname, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+
+                <Label Text="Pokój" FontSize="Large" />
+                <Label Text="{Binding RoomID}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Picker ItemsSource="{Binding RoomIDs}" SelectedIndex="{Binding RoomID-1, Mode=TwoWay}" IsVisible="{Binding EditMode}"></Picker>
+
+                <Label Text="Ilość miejsc" FontSize="Large" />
+                <Label Text="{Binding NumberOfPeople}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Picker ItemsSource="{Binding AvaliableBeds}" SelectedIndex="{Binding NumberOfPeople-1, Mode=TwoWay}" IsVisible="{Binding EditMode}" ></Picker>
+
+                <Label Text="Data Przyjazdu" FontSize="Large" />
+                <Label Text="{Binding StartingDate}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
+                <DatePicker Date="{Binding StartingDate, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+
+                <Label Text="Data Wyjazdu" FontSize="Large" />
+                <Label Text="{Binding EndingDate}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
+                <DatePicker Date="{Binding EndingDate, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+
+                <Label Text="Telefon:" FontSize="Large"/>
+                <Label Text="{Binding Phone}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Entry Text="{Binding Phone, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+
+                <Label Text="Email:" FontSize="Large"/>
+                <Label Text="{Binding Email}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Entry Text="{Binding Email, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+
+                <Label Text="Dodatkowe Informacje:" FontSize="Large"/>
+                <Label Text="{Binding ExtraInfo}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Editor Text="{Binding ExtraInfo, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+            </StackLayout>
+        </ScrollView>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Anuluj" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Zapisz Zmiany" Command="{Binding SaveEditCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EditMode}"></Button>
+        </StackLayout>
     </StackLayout>
     
 </ContentPage>

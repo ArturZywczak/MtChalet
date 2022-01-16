@@ -27,8 +27,16 @@ namespace MobileAppMtChalet.Services {
             throw new NotImplementedException();
         }
 
-        public Task EditReservation(Reservation oldReservation, Reservation newReservation) {
-            throw new NotImplementedException();
+        public async Task EditReservation(int id, Reservation reservation) {
+            var updatedSegments2 = JsonConvert.SerializeObject(reservation);
+            var updatedSegments = JsonConvert.SerializeObject(reservation).Trim('\\');
+
+            var httpContent = new StringContent(updatedSegments, Encoding.UTF8, "application/json");
+
+
+            var response = await _httpClient.PutAsync($"MtChalet/{id}", httpContent);
+
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task<Reservation> GetReservation(string id) {
