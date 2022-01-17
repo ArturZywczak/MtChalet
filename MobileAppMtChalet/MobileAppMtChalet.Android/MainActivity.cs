@@ -4,14 +4,23 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Android.Content;
 
 namespace MobileAppMtChalet.Droid
 {
-    [Activity(Label = "MobileAppMtChalet", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+    [Activity(Label = "AndroidSample", MainLauncher = true,
+    LaunchMode = LaunchMode.SingleTask)]
+    [IntentFilter(
+    new[] { Intent.ActionView },
+    Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+    DataScheme = "com.companyname.mobileappmtchalet",
+    DataHost = "dev-g02o2lna.eu.auth0.com",
+    DataPathPrefix = "/android/com.companyname.mobileappmtchalet/callback")]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
+        protected override void OnCreate(Bundle savedInstanceState) {
+
+
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -23,6 +32,12 @@ namespace MobileAppMtChalet.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnNewIntent(Intent intent) {
+            base.OnNewIntent(intent);
+
+            Auth0.OidcClient.ActivityMediator.Instance.Send(intent.DataString);
         }
     }
 }

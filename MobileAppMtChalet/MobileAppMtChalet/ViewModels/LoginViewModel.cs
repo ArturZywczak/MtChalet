@@ -1,6 +1,8 @@
-﻿using MobileAppMtChalet.Views;
+﻿using MobileAppMtChalet.Services.Interfaces;
+using MobileAppMtChalet.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Xamarin.Forms;
 
@@ -13,8 +15,15 @@ namespace MobileAppMtChalet.ViewModels {
         }
 
         private async void OnLoginClicked(object obj) {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+
+
+            var authenticationService = DependencyService.Get<IAuthenticationService>();
+            var authenticationResult = await authenticationService.Authenticate();
+            if (!authenticationResult.IsError) {
+                Debug.WriteLine($"email: {authenticationResult.Email}");
+                // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
+                await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            }
         }
     }
 }
