@@ -16,7 +16,6 @@ namespace MobileAppMtChalet.ViewModels {
 
         private async void OnLoginClicked(object obj) {
 
-
             var authenticationService = DependencyService.Get<IAuthenticationService>();
             var authenticationResult = await authenticationService.Authenticate();
             if (!authenticationResult.IsError) {

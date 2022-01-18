@@ -11,9 +11,18 @@ using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
     public class ReservationsViewModel : BaseViewModel {
+
+        #region Private and Public Binding
         private Reservation _selectedReservation;
+        public Reservation SelectedReservation {
+            get => _selectedReservation;
+            set {
+                SetProperty(ref _selectedReservation, value);
+                OnReservationSelected(value);
+            }
+        }
         private readonly IMtChaletService _mtChaletService;
-        private string _selectedDate;        
+        private string _selectedDate;
         public string SelectedDate {
             get {
                 return _selectedDate;
@@ -26,19 +35,15 @@ namespace MobileAppMtChalet.ViewModels {
                 IsBusy = true;
             }
         }
-        public Reservation SelectedReservation {
-            get => _selectedReservation;
-            set {
-                SetProperty(ref _selectedReservation, value);
-                OnReservationSelected(value);
-            }
-        }
+        #endregion
+        #region Public List & Commands
         public ObservableCollection<Models.Grouping<ReservationsByRoom, Reservation>> ReservationsList { get; set; }
         public ObservableCollection<Reservation> Reservations { get; }
         public Command LoadReservationsCommand { get; }
         public Command AddReservationCommand { get; }
         public Command<Reservation> ReservationTapped { get; }
         public AsyncCommand<DatePicker> DateSelected { get; }
+        #endregion
 
         public ReservationsViewModel(IMtChaletService mtChaletService) {
 
@@ -51,6 +56,30 @@ namespace MobileAppMtChalet.ViewModels {
             ReservationsList = new ObservableCollection<Models.Grouping<ReservationsByRoom, Reservation>>();
         }
 
+        #region Commands functions
+        private async void OnAddReservation(object obj) {
+            await Shell.Current.GoToAsync(nameof(NewReservationPage));
+        }
+        async void OnReservationSelected(Reservation reservation) {
+            if (reservation == null) return;
+            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?{nameof(ReservationDetailViewModel.ReservationId)}={reservation.ReservationId}");
+        }
+        async Task ExecuteLoadReservationsCommand() {
+            try {
+                ReservationsList.Clear();
+                var reservations = await _mtChaletService.GetReservationOnDate(_selectedDate);
+                var rooms = await _mtChaletService.GetRooms();
+                SetupRoomData(reservations, rooms);
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
+            finally {
+                IsBusy = false;
+            }
+        }
+        #endregion
+        #region Other functions
         private void SetupRoomData(IEnumerable<Reservation> reservations, IEnumerable<Room> rooms) {
 
             foreach(var room in rooms) {
@@ -69,35 +98,12 @@ namespace MobileAppMtChalet.ViewModels {
             }
 
         }
-
-        async Task ExecuteLoadReservationsCommand() {
-            try {
-                ReservationsList.Clear();
-                var reservations = await _mtChaletService.GetReservationOnDate(_selectedDate);
-                var rooms = await _mtChaletService.GetRooms();
-                SetupRoomData(reservations,rooms);
-            }
-            catch (Exception ex) {
-                Debug.WriteLine(ex);
-            }
-            finally {
-                IsBusy = false;
-            }
-        }
-
         public void OnAppearing() {
             IsBusy = true;
             SelectedReservation = null;
         }
+        #endregion
 
-        private async void OnAddReservation(object obj) {
-            await Shell.Current.GoToAsync(nameof(NewReservationPage));
-        }
-
-        async void OnReservationSelected(Reservation reservation) {
-            if (reservation == null) return;
-            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?{nameof(ReservationDetailViewModel.ReservationId)}={reservation.ReservationId}");
-        }
     }
 
 }

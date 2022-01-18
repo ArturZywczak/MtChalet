@@ -9,9 +9,6 @@ using Xamarin.Forms;
 namespace MobileAppMtChalet.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
         
-        //TODO wywalic/zedytowac
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
-
         public Employee loggedUser = new Employee();
 
         bool isBusy = false;

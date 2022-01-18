@@ -17,22 +17,6 @@ namespace MobileAppMtChalet.Models {
         public int EmployeeId { get; set; }
         public DateTime CreationDate { get; set; }
     }
-    public partial class ReservationTemp {
-
-        public List<ReservationTempSingle> BedsList {get;set;}
-
-        public ReservationTemp() {
-            this.BedsList = new List<ReservationTempSingle>();
-        }
-    }
-    public class ReservationTempSingle {
-
-        public int RoomID { get; set; }
-        public int BedCount { get; set; }
-        public DateTime Date { get; set; }
-        public DateTime DateOut { get; set; }
-        
-    }
 
     public class ReservationsByRoom {
 

@@ -20,7 +20,6 @@ namespace MobileAppMtChalet.Services {
             var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync("MtChalet", httpContent);
-            //throw new NotImplementedException();
         }
 
         public Task DeleteReservation(Reservation reservation) {
@@ -28,7 +27,6 @@ namespace MobileAppMtChalet.Services {
         }
 
         public async Task EditReservation(int id, Reservation reservation) {
-            var updatedSegments2 = JsonConvert.SerializeObject(reservation);
             var updatedSegments = JsonConvert.SerializeObject(reservation).Trim('\\');
 
             var httpContent = new StringContent(updatedSegments, Encoding.UTF8, "application/json");

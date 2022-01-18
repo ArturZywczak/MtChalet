@@ -10,7 +10,6 @@ namespace MobileAppMtChalet {
         public App() {
             InitializeComponent();
             Startup.ConfigureServices();
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 
