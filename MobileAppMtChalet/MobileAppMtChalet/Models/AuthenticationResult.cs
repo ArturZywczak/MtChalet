@@ -14,7 +14,7 @@ namespace MobileAppMtChalet.Models {
         public bool IsError { get; }
 
         public string Error { get; }
-        public string Email { get; set; }
+        public string User_Id { get; set; }
 
 
         public AuthenticationResult() { }

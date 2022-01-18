@@ -20,7 +20,7 @@ namespace MobileAppMtChalet.ViewModels {
             var authenticationService = DependencyService.Get<IAuthenticationService>();
             var authenticationResult = await authenticationService.Authenticate();
             if (!authenticationResult.IsError) {
-                Debug.WriteLine($"email: {authenticationResult.Email}");
+                loggedUser.Auth0ID = authenticationResult.User_Id;
                 // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
                 await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
             }

@@ -32,13 +32,8 @@ namespace MobileAppMtChalet.Droid.Services {
         public AuthenticationResult AuthenticationResult { get; private set; }
 
         public async Task<AuthenticationResult> Authenticate() {
-            LoginResult auth0LoginResult = new LoginResult();
-            try {
-                auth0LoginResult = await _auth0Client.LoginAsync(new { audience = AuthenticationConfig.Audience });
-            }
-            catch (Exception ex) {
-                
-            }
+
+            var auth0LoginResult = await _auth0Client.LoginAsync(new { audience = AuthenticationConfig.Audience });
 
             AuthenticationResult authenticationResult;
 
@@ -47,7 +42,7 @@ namespace MobileAppMtChalet.Droid.Services {
                     AccessToken = auth0LoginResult.AccessToken,
                     IdToken = auth0LoginResult.IdentityToken,
                     UserClaims = auth0LoginResult.User.Claims,
-                    Email = auth0LoginResult.User.FindFirst(c => c.Type == "email")?.Value
+                    User_Id = auth0LoginResult.User.FindFirst(c => c.Type == "sub")?.Value
                 };
             }
             else

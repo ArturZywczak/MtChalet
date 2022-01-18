@@ -12,6 +12,8 @@ namespace MobileAppMtChalet.ViewModels {
         //TODO wywalic/zedytowac
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
+        public Employee loggedUser = new Employee();
+
         bool isBusy = false;
         public bool IsBusy {
             get { return isBusy; }
