@@ -8,7 +8,13 @@
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
+            <Button VerticalOptions="Center" Text="Zaloguj się" Command="{Binding LoginCommand}" IsEnabled="{Binding ProcessingInv}"/>
+            <Button VerticalOptions="Center" Text="Przeglądaj bez zalogowania" Command="{Binding PreviewCommand}" IsEnabled="{Binding ProcessingInv}"/>
+            <StackLayout Orientation="Horizontal" IsVisible="{Binding Processing}">
+                <Label Text="Logowanie, proszę czekać"  FontSize="Large" Margin="10"/>
+                <ActivityIndicator IsRunning="true" Scale="0.6" />
+            </StackLayout>
+            <Label FontSize="Medium" TextColor="Red" Text="Błąd logowania, sprawdź połączenie z internetem i spróbuj ponownie" IsVisible="{Binding LoginError}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
