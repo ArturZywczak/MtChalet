@@ -9,7 +9,7 @@ using Xamarin.Forms;
 namespace MobileAppMtChalet.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
         
-        public Employee loggedUser = new Employee();
+        public Employee loggedUser;
 
         bool isBusy = false;
         public bool IsBusy {

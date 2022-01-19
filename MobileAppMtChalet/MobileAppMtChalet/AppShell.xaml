@@ -83,10 +83,10 @@
 
 
     </ShellItem>
-
+<!--
     <FlyoutItem Title="About" Icon="icon_about.png">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-    </FlyoutItem>
+    </FlyoutItem> -->
     <FlyoutItem Title="Pokaz rezerwacje" Icon="icon_feed.png">
         <ShellContent Route="ReservationsPage" ContentTemplate="{DataTemplate local:ReservationsPage}" />
     </FlyoutItem>

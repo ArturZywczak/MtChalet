@@ -10,6 +10,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
+    [QueryProperty(nameof(UserID), "UserID")]
     public class ReservationsViewModel : BaseViewModel {
 
         #region Private and Public Binding
@@ -35,6 +36,17 @@ namespace MobileAppMtChalet.ViewModels {
                 IsBusy = true;
             }
         }
+        private string userID;
+        public string UserID {
+            get {
+                return userID;
+            }
+            set {
+                SetProperty(ref userID, value);
+                AddReservationCommand.ChangeCanExecute();
+            }
+        }
+
         #endregion
         #region Public List & Commands
         public ObservableCollection<Models.Grouping<ReservationsByRoom, Reservation>> ReservationsList { get; set; }
@@ -46,15 +58,24 @@ namespace MobileAppMtChalet.ViewModels {
         #endregion
 
         public ReservationsViewModel(IMtChaletService mtChaletService) {
-
+           
             _mtChaletService = mtChaletService;
             Title = "Rezerwacje";
             Reservations = new ObservableCollection<Reservation>();
             LoadReservationsCommand = new Command(async () => await ExecuteLoadReservationsCommand());
             ReservationTapped = new Command<Reservation>(OnReservationSelected);
-            AddReservationCommand = new Command(OnAddReservation);
+
+            AddReservationCommand = new Command(
+                execute: () => {
+                    OnAddReservation(this);
+                },
+                canExecute: () => {
+                    if (UserID == null) return false;
+                    else return UserID.Length != 0;
+                });
             ReservationsList = new ObservableCollection<Models.Grouping<ReservationsByRoom, Reservation>>();
         }
+
 
         #region Commands functions
         private async void OnAddReservation(object obj) {
@@ -62,7 +83,7 @@ namespace MobileAppMtChalet.ViewModels {
         }
         async void OnReservationSelected(Reservation reservation) {
             if (reservation == null) return;
-            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?{nameof(ReservationDetailViewModel.ReservationId)}={reservation.ReservationId}");
+            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?{nameof(ReservationDetailViewModel.ReservationId)}={reservation.ReservationId}&UserID={UserID}");
         }
         async Task ExecuteLoadReservationsCommand() {
             try {

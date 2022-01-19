@@ -45,10 +45,11 @@ namespace MobileAppMtChalet.ViewModels {
             processing = false;
             processingInv = true;
             loginError = false;
+            loggedUser = new Models.Employee();
         }
 
         private async void OnPreviewClicked(object obj) {
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}?UserID={loggedUser.Auth0ID}");
         }
 
         private async void OnLoginClicked(object obj) {
@@ -58,7 +59,7 @@ namespace MobileAppMtChalet.ViewModels {
             if (!authenticationResult.IsError) {
                 loggedUser.Auth0ID = authenticationResult.User_Id;
                 // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-                await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+                await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}?UserID={loggedUser.Auth0ID}");
             }
             else LoginError = true;
         }

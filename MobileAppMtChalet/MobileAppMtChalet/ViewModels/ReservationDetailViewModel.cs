@@ -9,6 +9,7 @@ using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
     [QueryProperty(nameof(ReservationId), nameof(ReservationId))]
+    [QueryProperty(nameof(UserID), "UserID")]
     class ReservationDetailViewModel : BaseViewModel {
         #region Private & Public for binding values
         private readonly IMtChaletService _mtChaletService;
@@ -89,6 +90,21 @@ namespace MobileAppMtChalet.ViewModels {
                 OnPropertyChanged();
             }
         }
+        private string userID;
+        public string UserID {
+            get {
+                return userID;
+            }
+            set {
+                SetProperty(ref userID, value);
+                IsLogged = (value.Length != 0);
+            }
+        }
+        private bool isLogged;
+        public bool IsLogged { 
+            get => isLogged;
+            set => SetProperty(ref isLogged, value);
+        }
         #endregion
         # region Public Lists & Commands
         public ObservableCollection<int> RoomIDs { get; }
@@ -99,7 +115,8 @@ namespace MobileAppMtChalet.ViewModels {
         public Command CancelCommand { get; }
         #endregion
         public ReservationDetailViewModel(IMtChaletService mtChaletService) {
-            
+
+            IsLogged = false;
             _mtChaletService = mtChaletService;
             SaveEditCommand = new Command(OnSave);
             CancelCommand = new Command(OnCancel);

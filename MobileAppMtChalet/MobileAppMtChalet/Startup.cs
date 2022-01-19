@@ -16,7 +16,6 @@ namespace MobileAppMtChalet {
             });
 
             //add viewmodels
-            services.AddTransient<AboutViewModel>();
             services.AddTransient<BaseViewModel>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<ReservationsViewModel>();

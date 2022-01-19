@@ -6,15 +6,14 @@
              >
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Dodaj" Command="{Binding AddReservationCommand}" />
-        
+
     </ContentPage.ToolbarItems>
 
     
     <StackLayout Spacing="20" Padding="15" >
-        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand">
+        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsLogged}">
         <Label Text="Włącz edycję" FontSize="Large" />
-        <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding EditMode}"/>
+            <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding EditMode}" />
         </StackLayout>
         <ScrollView>
             <StackLayout>
@@ -28,11 +27,11 @@
 
                 <Label Text="Pokój" FontSize="Large" />
                 <Label Text="{Binding RoomID}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Picker ItemsSource="{Binding RoomIDs}" SelectedIndex="{Binding RoomID-1, Mode=TwoWay}" IsVisible="{Binding EditMode}"></Picker>
+                <Picker ItemsSource="{Binding RoomIDs}" SelectedIndex="{Binding RoomID, Mode=TwoWay}" IsVisible="{Binding EditMode}"></Picker>
 
                 <Label Text="Ilość miejsc" FontSize="Large" />
                 <Label Text="{Binding NumberOfPeople}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Picker ItemsSource="{Binding AvaliableBeds}" SelectedIndex="{Binding NumberOfPeople-1, Mode=TwoWay}" IsVisible="{Binding EditMode}" ></Picker>
+                <Picker ItemsSource="{Binding AvaliableBeds}" SelectedIndex="{Binding NumberOfPeople, Mode=TwoWay}" IsVisible="{Binding EditMode}" ></Picker>
 
                 <Label Text="Data Przyjazdu" FontSize="Large" />
                 <Label Text="{Binding StartingDate}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
@@ -55,7 +54,7 @@
                 <Editor Text="{Binding ExtraInfo, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
             </StackLayout>
         </ScrollView>
-        <StackLayout Orientation="Horizontal">
+        <StackLayout Orientation="Horizontal" IsVisible="{Binding IsLogged}">
             <Button Text="Anuluj" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
             <Button Text="Zapisz Zmiany" Command="{Binding SaveEditCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EditMode}"></Button>
         </StackLayout>
