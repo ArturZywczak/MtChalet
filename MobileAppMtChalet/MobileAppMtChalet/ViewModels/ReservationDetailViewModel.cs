@@ -78,6 +78,8 @@ namespace MobileAppMtChalet.ViewModels {
             get => editMode;
             set {
                 SetProperty(ref editMode, value);
+                SelectedBedCountID = NumberOfPeople - 1;
+                SelectedRoomID = RoomID - 1;
                 EditModeInversed = !value;
                 OnPropertyChanged();
             }
@@ -104,6 +106,18 @@ namespace MobileAppMtChalet.ViewModels {
         public bool IsLogged { 
             get => isLogged;
             set => SetProperty(ref isLogged, value);
+        }
+        //terrible hack, bug fix
+        private int selectedRoomID;
+        public int SelectedRoomID {
+            get => selectedRoomID;
+            set => SetProperty(ref selectedRoomID, value);
+        }
+
+        private int selectedBedCountID;
+        public int SelectedBedCountID {
+            get => selectedBedCountID;
+            set => SetProperty(ref selectedBedCountID, value);
         }
         #endregion
         # region Public Lists & Commands
