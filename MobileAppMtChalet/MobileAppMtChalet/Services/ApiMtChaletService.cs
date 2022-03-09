@@ -22,8 +22,11 @@ namespace MobileAppMtChalet.Services {
             var response = await _httpClient.PostAsync("MtChalet", httpContent);
         }
 
-        public Task DeleteReservation(Reservation reservation) {
-            throw new NotImplementedException();
+        public async Task DeleteReservation(int reservationID) {
+
+            var response = await _httpClient.DeleteAsync($"MtChalet/{reservationID}");
+            response.EnsureSuccessStatusCode();
+
         }
 
         public async Task EditReservation(int id, Reservation reservation) {

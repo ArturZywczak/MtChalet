@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -29,9 +30,13 @@ namespace MobileAppMtChalet.ViewModels {
                 return _selectedDate;
             }
             set {
+                var testtemp = value;
                 string temp = value;
                 temp = temp.Replace("/", string.Empty);
                 temp = temp.Remove(8);
+                StringBuilder sb = new StringBuilder(temp);
+                sb[0] = temp[2]; sb[1] = temp[3]; sb[2] = temp[0]; sb[3] = temp[1];
+                temp = sb.ToString();
                 _selectedDate = temp;
                 IsBusy = true;
             }

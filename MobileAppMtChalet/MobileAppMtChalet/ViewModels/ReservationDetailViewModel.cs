@@ -127,6 +127,7 @@ namespace MobileAppMtChalet.ViewModels {
         public Command EditReservationCommand { get; }
         public Command SaveEditCommand { get; }
         public Command CancelCommand { get; }
+        public Command DeleteCommand { get; }
         #endregion
         public ReservationDetailViewModel(IMtChaletService mtChaletService) {
 
@@ -135,6 +136,7 @@ namespace MobileAppMtChalet.ViewModels {
             SaveEditCommand = new Command(OnSave);
             CancelCommand = new Command(OnCancel);
             EditReservationCommand = new Command(OnEditReservation);
+            DeleteCommand = new Command(OnDelete);
             EditMode = false;
             EditModeInversed = true;
             RoomIDs = new ObservableCollection<int>();
@@ -173,6 +175,11 @@ namespace MobileAppMtChalet.ViewModels {
         private void OnEditReservation(object obj) {
             editMode = true;
             editModeInv = false;
+        }
+        private async void OnDelete() {
+
+            await _mtChaletService.DeleteReservation(Int32.Parse(ReservationId));
+            await Shell.Current.GoToAsync("..");
         }
         #endregion
         #region Other Functions

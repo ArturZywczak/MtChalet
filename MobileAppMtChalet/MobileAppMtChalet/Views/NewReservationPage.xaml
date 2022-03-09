@@ -74,7 +74,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Row="0" Text="Data Przyjazdu" FontSize="Large" BackgroundColor="#2f72c4"/>
-                        <DatePicker Grid.Row="1" Date="{Binding StartingDate, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                        <DatePicker Grid.Row="1" Date="{Binding StartingDate, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="Medium" BackgroundColor="White"/>
                     </Grid>
                     <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
                         <Grid.RowDefinitions>
@@ -86,7 +86,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Row="0" Text="Data Wyjazdu" FontSize="Large" BackgroundColor="#2f72c4"/>
-                        <DatePicker Grid.Row="1" Date="{Binding EndingDate, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                        <DatePicker Grid.Row="1" Date="{Binding EndingDate, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="Medium" BackgroundColor="White"/>
                     </Grid>
                     <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
                         <Grid.RowDefinitions>

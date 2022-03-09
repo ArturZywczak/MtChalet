@@ -12,6 +12,7 @@
     
     <StackLayout Spacing="20" Padding="15" >
         <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsLogged}">
+            <Button Text="Usun Rezerwacje" Command="{Binding DeleteCommand}" BackgroundColor="Red"></Button>
         <Label Text="Włącz edycję" FontSize="Large" />
             <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding EditMode}" />
         </StackLayout>
