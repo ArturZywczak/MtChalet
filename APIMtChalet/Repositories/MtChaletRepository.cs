@@ -45,5 +45,10 @@ namespace APIMtChalet.Repositories {
             _context.Entry(reservation).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
+        //public async Task EditReservation() {
+
+            
+        //}
     }
 }
