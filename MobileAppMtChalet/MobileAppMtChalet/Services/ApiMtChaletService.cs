@@ -19,29 +19,30 @@ namespace MobileAppMtChalet.Services {
             // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
             var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("MtChalet", httpContent);
+            var response = await _httpClient.PostAsync("reservations", httpContent);
         }
 
         public async Task DeleteReservation(int reservationID) {
 
-            var response = await _httpClient.DeleteAsync($"MtChalet/{reservationID}");
+            var response = await _httpClient.DeleteAsync($"reservations/{reservationID}");
             response.EnsureSuccessStatusCode();
 
         }
 
+        //TODO REWORK THIS
         public async Task EditReservation(int id, Reservation reservation) {
             var updatedSegments = JsonConvert.SerializeObject(reservation).Trim('\\');
 
             var httpContent = new StringContent(updatedSegments, Encoding.UTF8, "application/json");
 
 
-            var response = await _httpClient.PutAsync($"MtChalet/{id}", httpContent);
+            var response = await _httpClient.PutAsync($"reservations/id/{id}", httpContent);
 
             response.EnsureSuccessStatusCode();
         }
 
         public async Task<Reservation> GetReservation(string id) {
-            var response = await _httpClient.GetAsync(@"MtChalet/id/" + id);
+            var response = await _httpClient.GetAsync(@"reservations/id/" + id);
             response.EnsureSuccessStatusCode();
 
             var responseAsString = await response.Content.ReadAsStringAsync();
@@ -49,7 +50,7 @@ namespace MobileAppMtChalet.Services {
         }
 
         public async Task<IEnumerable<Reservation>> GetReservationOnDate(string date) {
-            var response = await _httpClient.GetAsync("MtChalet/" + date);
+            var response = await _httpClient.GetAsync("reservations/date/" + date);
             response.EnsureSuccessStatusCode();
 
             var responseAsString = await response.Content.ReadAsStringAsync();
@@ -57,7 +58,7 @@ namespace MobileAppMtChalet.Services {
         }
 
         public async Task<IEnumerable<Room>> GetRooms() {
-            var response = await _httpClient.GetAsync(@"MtChalet/rooms");
+            var response = await _httpClient.GetAsync(@"rooms");
             response.EnsureSuccessStatusCode();
 
             var responseAsString = await response.Content.ReadAsStringAsync();

@@ -19,7 +19,7 @@ namespace APIMtChalet.Controllers {
         }
 
 
-        [HttpGet("{dateRaw}")]
+        [HttpGet("reservations/date/{dateRaw}")]
         public async Task<IEnumerable<Reservation>> GetReservationsByDate(string dateRaw) {
 
             if (dateRaw.Length == 8) {
@@ -34,19 +34,19 @@ namespace APIMtChalet.Controllers {
             }
         }
 
-        [HttpGet("id/{resId}")]
+        [HttpGet("reservations/id/{resId}")]
         public async Task<Reservation> GetReservationsById(int resId) {
 
                 return await _mtChaletRepository.GetReservation(resId);
         }
 
-        [HttpPost]
+        [HttpPost("reservations")]
         public async Task<ActionResult<Reservation>>PostReservation([FromBody] Reservation reservation) {
             var newReservation = await _mtChaletRepository.CreateReservation(reservation);
             return CreatedAtAction(nameof(PostReservation), new { id = newReservation.ReservationId }, newReservation);
         }
 
-        [HttpPost("test")]
+        [HttpPost("reservations/edit")]
         public async Task<ActionResult<Reservation>> UpdateReservation([FromBody] ReservationsEditHistory reservation) {
 
             var newReservation = await _mtChaletRepository.EditReservation(reservation);
@@ -64,7 +64,7 @@ namespace APIMtChalet.Controllers {
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("reservations/{id}")]
         public async Task<ActionResult> DeleteReservation (int id) {
             var reservationToDelete = await _mtChaletRepository.GetReservation(id);
             if (reservationToDelete == null) return NotFound();

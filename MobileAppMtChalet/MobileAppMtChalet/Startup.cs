@@ -11,7 +11,7 @@ namespace MobileAppMtChalet {
 
             //add services
             services.AddHttpClient<IMtChaletService, ApiMtChaletService>(c => {
-                c.BaseAddress = new Uri("http://10.0.2.2:5000/api/");
+                c.BaseAddress = new Uri("http://10.0.2.2:5000/api/MtChalet/");
                 c.DefaultRequestHeaders.Add("Accept", "application/json");
             });
 
