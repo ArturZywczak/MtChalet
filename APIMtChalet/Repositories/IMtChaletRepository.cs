@@ -16,5 +16,8 @@ namespace APIMtChalet.Repositories {
 
         //ROOMS
         Task<IEnumerable<Room>> GetRooms();
+
+        //RESERVATION HISTORY
+        Task<Reservation> EditReservation(ReservationsEditHistory newReservation);
     }
 }

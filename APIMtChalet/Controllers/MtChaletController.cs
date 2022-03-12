@@ -46,15 +46,12 @@ namespace APIMtChalet.Controllers {
             return CreatedAtAction(nameof(PostReservation), new { id = newReservation.ReservationId }, newReservation);
         }
 
-/*        [HttpPost]
-        public async Task<ActionResult<Reservation>> UpdateReservation([FromBody] Reservation reservation) {
+        [HttpPost("test")]
+        public async Task<ActionResult<Reservation>> UpdateReservation([FromBody] ReservationsEditHistory reservation) {
 
-            var tempRes = await _mtChaletRepository.GetReservation(reservation.ReservationId);
-            var updatedReservation = await _mtChaletRepository.CreateReservation(reservation);
-
-            var newReservation = await _mtChaletRepository.CreateReservation(reservation);
-            return CreatedAtAction(nameof(PostReservation), new { id = newReservation.ReservationId }, newReservation);
-        }*/
+            var newReservation = await _mtChaletRepository.EditReservation(reservation);
+            return CreatedAtAction(nameof(UpdateReservation), new { id = newReservation.ReservationId }, newReservation);
+        }
 
         [HttpPut]
         public async Task<ActionResult> PutReservation(int id, [FromBody] Reservation reservation) {

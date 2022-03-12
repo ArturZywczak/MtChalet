@@ -46,9 +46,56 @@ namespace APIMtChalet.Repositories {
             await _context.SaveChangesAsync();
         }
 
-        //public async Task EditReservation() {
+        public async Task<Reservation> EditReservation(ReservationsEditHistory newReservation) {
 
-            
-        //}
+            //pobierz poprzednia
+            var oldReservation = await _context.Reservations.FindAsync(newReservation.OldReservationId);
+            //dodaj nowa
+            var temp = new Reservation {
+                Name = newReservation.Name,
+                Surname = newReservation.Surname,
+                RoomId = newReservation.RoomId,
+                NumberOfPeople = newReservation.NumberOfPeople,
+                StartingDate = newReservation.StartingDate,
+                EndingDate = newReservation.EndingDate,
+                Phone = newReservation.Phone,
+                Email = newReservation.Email,
+                ExtraInfo = newReservation.ExtraInfo,
+                EmployeeId = newReservation.EditedByEmployeeId,
+                CreationDate = newReservation.CreationDate
+            };
+            _context.Reservations.Add(temp);
+            await _context.SaveChangesAsync();
+
+            //poprzednia dodaj do historii
+            _context.ReservationsEditsHistory.Add(new ReservationsEditHistory {
+                OldReservationId = oldReservation.ReservationId,
+                Name = oldReservation.Name,
+                Surname = oldReservation.Surname,
+                RoomId = oldReservation.RoomId,
+                NumberOfPeople = oldReservation.NumberOfPeople,
+                StartingDate = oldReservation.StartingDate,
+                EndingDate = oldReservation.EndingDate,
+                Phone = oldReservation.Phone,
+                Email = oldReservation.Email,
+                ExtraInfo = oldReservation.ExtraInfo,
+                EmployeeId = oldReservation.EmployeeId,
+                CreationDate = oldReservation.CreationDate,
+                EditDate = DateTime.Now,
+                EditedByEmployeeId = newReservation.EditedByEmployeeId,
+                NewReservationId = _context.Reservations.Where(s => s.Surname == newReservation.Surname
+                                                                && s.RoomId == newReservation.RoomId
+                                                                && s.NumberOfPeople == newReservation.NumberOfPeople
+                                                                && s.StartingDate == newReservation.StartingDate
+                                                                && s.EndingDate == newReservation.EndingDate).FirstOrDefault().ReservationId
+            });
+
+            await _context.SaveChangesAsync();
+            //usuń poprzednia
+            _context.Reservations.Remove(oldReservation);
+            await _context.SaveChangesAsync();
+
+            return temp;
+        }
     }
 }

@@ -151,7 +151,7 @@ namespace MobileAppMtChalet.ViewModels {
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
-        private async void OnSave() {
+        private async void OnSave() { //TODO zamiast rezerwacji ma przygotować ReservationsEditHistory(zmienić nazwe?, ma dac stare id i dane pracownika)
             Reservation newReservation = new Reservation() {
                 Name = name,
                 Surname = surname,

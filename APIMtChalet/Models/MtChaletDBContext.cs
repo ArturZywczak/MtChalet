@@ -13,6 +13,7 @@ namespace APIMtChalet.Models {
 
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<ReservationsEditHistory> ReservationsEditsHistory { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             modelBuilder.Entity<Employee>(entity => {
