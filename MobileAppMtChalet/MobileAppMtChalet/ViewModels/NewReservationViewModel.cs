@@ -127,7 +127,7 @@ namespace MobileAppMtChalet.ViewModels {
                 Phone = phone,
                 Email = email,
                 ExtraInfo = extraInfo,
-                EmployeeId = 0,
+                EmployeeId = "0",
                 CreationDate = DateTime.Now
 
             };

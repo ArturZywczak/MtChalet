@@ -5,8 +5,7 @@ using System.Collections.Generic;
 
 namespace APIMtChalet.Models
 {
-    public partial class ReservationsEditHistory
-    {
+    public partial class ReservationsEditHistory {
         public int ReservationEditId { get; set; }
         public int OldReservationId { get; set; }
         public string Name { get; set; }
@@ -18,10 +17,10 @@ namespace APIMtChalet.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string ExtraInfo { get; set; }
-        public int EmployeeId { get; set; }
+        public string EmployeeId { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime EditDate { get; set; }
-        public int EditedByEmployeeId { get; set; }
-        public int NewReservationId { get; set; }
+        public string EditedByEmployeeId { get; set; }
+        public int? NewReservationId { get; set; }
     }
 }

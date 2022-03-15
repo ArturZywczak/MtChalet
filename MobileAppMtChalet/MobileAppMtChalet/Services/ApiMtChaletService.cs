@@ -30,13 +30,13 @@ namespace MobileAppMtChalet.Services {
         }
 
         //TODO REWORK THIS
-        public async Task EditReservation(int id, Reservation reservation) {
+        public async Task EditReservation(EditedReservation reservation) {
             var updatedSegments = JsonConvert.SerializeObject(reservation).Trim('\\');
 
             var httpContent = new StringContent(updatedSegments, Encoding.UTF8, "application/json");
 
 
-            var response = await _httpClient.PutAsync($"reservations/id/{id}", httpContent);
+            var response = await _httpClient.PostAsync($"reservations/edit", httpContent);
 
             response.EnsureSuccessStatusCode();
         }

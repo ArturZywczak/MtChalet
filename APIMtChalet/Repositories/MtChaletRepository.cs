@@ -67,6 +67,10 @@ namespace APIMtChalet.Repositories {
             _context.Reservations.Add(temp);
             await _context.SaveChangesAsync();
 
+            //usuń poprzednia
+            _context.Reservations.Remove(oldReservation);
+            await _context.SaveChangesAsync();
+
             //poprzednia dodaj do historii
             _context.ReservationsEditsHistory.Add(new ReservationsEditHistory {
                 OldReservationId = oldReservation.ReservationId,
@@ -91,9 +95,7 @@ namespace APIMtChalet.Repositories {
             });
 
             await _context.SaveChangesAsync();
-            //usuń poprzednia
-            _context.Reservations.Remove(oldReservation);
-            await _context.SaveChangesAsync();
+
 
             return temp;
         }

@@ -15,6 +15,7 @@ namespace APIMtChalet.Models {
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<ReservationsEditHistory> ReservationsEditsHistory { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Employee>(entity => {
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
@@ -53,7 +54,11 @@ namespace APIMtChalet.Models {
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
+                entity.Property(e => e.EmployeeId)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("EmployeeID");
 
                 entity.Property(e => e.EndingDate).HasColumnType("date");
 
@@ -91,13 +96,21 @@ namespace APIMtChalet.Models {
 
                 entity.Property(e => e.EditDate).HasColumnType("datetime");
 
-                entity.Property(e => e.EditedByEmployeeId).HasColumnName("EditedByEmployeeID");
+                entity.Property(e => e.EditedByEmployeeId)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("EditedByEmployeeID");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
+                entity.Property(e => e.EmployeeId)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("EmployeeID");
 
                 entity.Property(e => e.EndingDate).HasColumnType("date");
 

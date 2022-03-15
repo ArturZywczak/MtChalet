@@ -13,7 +13,7 @@ namespace APIMtChalet.Models {
         public string Phone { get; set; }
         public string Email { get; set; }
         public string ExtraInfo { get; set; }
-        public int EmployeeId { get; set; }
+        public string EmployeeId { get; set; }
         public DateTime CreationDate { get; set; }
     }
     public partial class ReservationTemp {

@@ -35,12 +35,12 @@
                 <Picker ItemsSource="{Binding AvaliableBeds}" SelectedIndex="{Binding SelectedBedCountID, Mode=TwoWay}" IsVisible="{Binding EditMode}" ></Picker>
 
                 <Label Text="Data Przyjazdu" FontSize="Large" />
-                <Label Text="{Binding StartingDate,StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
-                <DatePicker Date="{Binding StartingDate, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding StartingDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
+                <DatePicker Format="dd/MM/yyyy" Date="{Binding StartingDate, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
 
                 <Label Text="Data Wyjazdu" FontSize="Large" />
-                <Label Text="{Binding EndingDate,StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
-                <DatePicker Date="{Binding EndingDate, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding EndingDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
+                <DatePicker Format="dd/MM/yyyy" Date="{Binding EndingDate, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
 
                 <Label Text="Telefon:" FontSize="Large"/>
                 <Label Text="{Binding Phone}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>

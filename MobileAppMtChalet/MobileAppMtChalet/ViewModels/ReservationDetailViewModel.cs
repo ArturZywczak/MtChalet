@@ -38,7 +38,9 @@ namespace MobileAppMtChalet.ViewModels {
             get => roomID;
             set {
                 SetProperty(ref roomID, value);
-                ChangeSelectedRoom();
+                if (roomID != -1) {
+                    ChangeSelectedRoom();
+                }
             }
         }
         private int numberOfPeople;
@@ -73,13 +75,17 @@ namespace MobileAppMtChalet.ViewModels {
         }
         private int employeeID;
         private DateTime creationDate;
+        public DateTime CreationDate {
+            get => creationDate;
+            set => SetProperty(ref creationDate, value);
+        }
         private bool editMode;
         public bool EditMode {
             get => editMode;
             set {
                 SetProperty(ref editMode, value);
-                SelectedBedCountID = NumberOfPeople - 1;
                 SelectedRoomID = RoomID - 1;
+                SelectedBedCountID = NumberOfPeople - 1;
                 EditModeInversed = !value;
                 OnPropertyChanged();
             }
@@ -102,6 +108,15 @@ namespace MobileAppMtChalet.ViewModels {
                 IsLogged = (value.Length != 0);
             }
         }
+        private string oldUserID;
+        public string OldUserID {
+            get {
+                return oldUserID;
+            }
+            set {
+                SetProperty(ref oldUserID, value);
+            }
+        }
         private bool isLogged;
         public bool IsLogged { 
             get => isLogged;
@@ -111,7 +126,12 @@ namespace MobileAppMtChalet.ViewModels {
         private int selectedRoomID;
         public int SelectedRoomID {
             get => selectedRoomID;
-            set => SetProperty(ref selectedRoomID, value);
+            set { 
+                SetProperty(ref selectedRoomID, value);
+                if (roomID != -1) {
+                    ChangeSelectedRoom();
+                }
+            }
         }
 
         private int selectedBedCountID;
@@ -131,6 +151,7 @@ namespace MobileAppMtChalet.ViewModels {
         #endregion
         public ReservationDetailViewModel(IMtChaletService mtChaletService) {
 
+            RoomID = -1;
             IsLogged = false;
             _mtChaletService = mtChaletService;
             SaveEditCommand = new Command(OnSave);
@@ -152,22 +173,25 @@ namespace MobileAppMtChalet.ViewModels {
             await Shell.Current.GoToAsync("..");
         }
         private async void OnSave() { //TODO zamiast rezerwacji ma przygotować ReservationsEditHistory(zmienić nazwe?, ma dac stare id i dane pracownika)
-            Reservation newReservation = new Reservation() {
+
+            EditedReservation editedReservation = new EditedReservation() {
+                OldReservationId = Int32.Parse(ReservationId),
                 Name = name,
                 Surname = surname,
-                RoomId = roomID,
-                NumberOfPeople = numberOfPeople,
+                RoomId = SelectedRoomID + 1,
+                NumberOfPeople = selectedBedCountID + 1,
                 StartingDate = startingDate,
                 EndingDate = endingDate,
                 Phone = phone,
                 Email = email,
                 ExtraInfo = extraInfo,
-                EmployeeId = 0,
-                CreationDate = DateTime.Now,
-                ReservationId = Int32.Parse(ReservationId)
-            };
+                EmployeeId = oldUserID,
+                CreationDate = creationDate,
+                EditDate = DateTime.Now,
+                EditedByEmployeeId = userID
+                };
 
-            await _mtChaletService.EditReservation(Int32.Parse(ReservationId), newReservation);
+            await _mtChaletService.EditReservation(editedReservation);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
@@ -185,7 +209,10 @@ namespace MobileAppMtChalet.ViewModels {
         #region Other Functions
         private void ChangeSelectedRoom() {
             AvaliableBeds.Clear();
-            for (int i = 1; i <= Rooms[roomID].RoomCap; i++) AvaliableBeds.Add(i);
+            if (editMode)
+            for (int i = 1; i <= Rooms[selectedRoomID].RoomCap; i++) AvaliableBeds.Add(i); //here
+            else
+                for (int i = 1; i <= Rooms[roomID-1].RoomCap; i++) AvaliableBeds.Add(i); //here
         }
         async void PrepareRoomInfo() {
             try {
@@ -211,6 +238,7 @@ namespace MobileAppMtChalet.ViewModels {
                 Phone = reservation.Phone;
                 Email = reservation.Email;
                 ExtraInfo = reservation.ExtraInfo;
+                CreationDate = reservation.CreationDate;
             }
             catch (Exception) {
                 Debug.WriteLine("Failed to Load Item");
