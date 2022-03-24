@@ -16,7 +16,9 @@
         <Label Text="Włącz edycję" FontSize="Large" />
             <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding EditMode}" />
         </StackLayout>
-        <ScrollView>
+        
+        <Grid>
+        <ScrollView VerticalOptions="FillAndExpand">
             <StackLayout>
                 <Label Text="Imię:" FontSize="Large"/>
                 <Label Text="{Binding Name}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
@@ -55,6 +57,24 @@
                 <Editor Text="{Binding ExtraInfo, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
             </StackLayout>
         </ScrollView>
+            <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="305" x:Name="EmployeeInfoBox">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="280"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" BackgroundColor="Red" Text="Dodatkowe Info" Clicked="ShowExtraInfo_Clicked" VerticalOptions="Center"/>
+                <StackLayout Grid.Column="1" BackgroundColor="Aquamarine">
+                    <Label Text="Dodane przez XXXX dnia XXXXX"/>
+                    <Label Text="Ostatnio edytowane przez przez XXXX dnia XXXXX"/>
+                    <Label Text="Historia edycji:"/>
+                    <ListView>
+                        
+                    </ListView>
+                </StackLayout>
+
+            </Grid>
+        </Grid>
+    
         <StackLayout Orientation="Horizontal" IsVisible="{Binding IsLogged}">
             <Button Text="Anuluj" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
             <Button Text="Zapisz Zmiany" Command="{Binding SaveEditCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EditMode}"></Button>

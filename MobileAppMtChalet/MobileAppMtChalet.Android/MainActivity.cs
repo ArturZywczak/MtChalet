@@ -8,7 +8,7 @@ using Android.Content;
 
 namespace MobileAppMtChalet.Droid
 {
-    [Activity(Label = "AndroidSample", MainLauncher = true,
+    [Activity(Label = "AndroidSample", MainLauncher = true, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize,
     LaunchMode = LaunchMode.SingleTask)]
     [IntentFilter(
     new[] { Intent.ActionView },
