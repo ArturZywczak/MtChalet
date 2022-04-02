@@ -80,7 +80,7 @@ namespace APIMtChalet.Repositories {
 
         public async Task<IEnumerable<Reservation>> GetReservation(DateTime date) {
 
-            var t = await Task.Run(() => { return _context.Reservations.Where(s => s.StartingDate == date).AsEnumerable(); });
+            var t = await Task.Run(() => { return _context.Reservations.Where(s => s.StartingDate == date).AsEnumerable(); }); //WTF XDDD
             return t;
         }
 
@@ -145,6 +145,22 @@ namespace APIMtChalet.Repositories {
 
 
             return temp;
+        }
+
+        public async Task<IEnumerable<ReservationsEditHistory>> GetReservationEditHistory(int id) {
+
+            List<ReservationsEditHistory> result = new List<ReservationsEditHistory>();
+
+            var temp = _context.ReservationsEditsHistory.Where(s => s.NewReservationId == id).FirstOrDefault();
+            result.Add(temp);
+
+            while (temp.OldReservationId != 0) {
+                temp = await _context.ReservationsEditsHistory.Where(s => s.NewReservationId == temp.OldReservationId).FirstOrDefaultAsync();
+                result.Add(temp);
+            }
+            var t = await Task.Run(() => { return result; }); //WTF XDDD
+            return t;
+
         }
     }
 }

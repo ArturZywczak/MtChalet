@@ -40,6 +40,12 @@ namespace APIMtChalet.Controllers {
                 return await _mtChaletRepository.GetReservation(resId);
         }
 
+        [HttpGet("reservations/id/edit/{resId}")]
+        public async Task<IEnumerable<ReservationsEditHistory>> GetReservationEditHistoryById(int resId) {
+
+            return await _mtChaletRepository.GetReservationEditHistory(resId);
+        }
+
         [HttpPost("reservations")]
         public async Task<ActionResult<Reservation>>PostReservation([FromBody] Reservation reservation) {
             var newReservation = await _mtChaletRepository.CreateReservation(reservation);
