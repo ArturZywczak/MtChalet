@@ -32,5 +32,12 @@ namespace APIMtChalet.Models {
         public DateTime DateOut { get; set; }
         
     }
+
+    public class ReservationForDeleting {
+
+        public int ReservationId { get; set; }
+        public string EmployeeId { get; set; }
+
+    }
 }
 

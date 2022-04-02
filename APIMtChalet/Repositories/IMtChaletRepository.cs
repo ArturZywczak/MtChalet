@@ -13,6 +13,7 @@ namespace APIMtChalet.Repositories {
         Task<Reservation> CreateReservation(Reservation reservation);
         Task UpdateReservation(Reservation reservation);
         Task DeleteReservation(int id);
+        Task DeleteReservationWithBody(ReservationForDeleting data);
 
         //ROOMS
         Task<IEnumerable<Room>> GetRooms();

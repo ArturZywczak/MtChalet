@@ -17,12 +17,59 @@ namespace APIMtChalet.Repositories {
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
 
+            //Add creation info to EditHistory
+            _context.ReservationsEditsHistory.Add(new ReservationsEditHistory {
+                OldReservationId = 0,
+                Name = "",
+                RoomId = 0,
+                NumberOfPeople = 0,
+                StartingDate = DateTime.Now, //Enter lowest date?
+                EndingDate = DateTime.Now,
+                EmployeeId = reservation.EmployeeId,
+                CreationDate = DateTime.Now,
+                EditDate = DateTime.Now,
+                EditedByEmployeeId = "SYSTEM",
+                NewReservationId = _context.Reservations.Where(s => s.Surname == reservation.Surname
+                                                                && s.RoomId == reservation.RoomId
+                                                                && s.NumberOfPeople == reservation.NumberOfPeople
+                                                                && s.StartingDate == reservation.StartingDate
+                                                                && s.EndingDate == reservation.EndingDate).FirstOrDefault().ReservationId
+            });
+            await _context.SaveChangesAsync();
+
             return reservation;
         }
 
         public async Task DeleteReservation(int id) {
             var reservationToDelete = await _context.Reservations.FindAsync(id);
             _context.Reservations.Remove(reservationToDelete);
+            await _context.SaveChangesAsync();
+
+        }
+
+        public async Task DeleteReservationWithBody(ReservationForDeleting data) {
+            var reservationToDelete = await _context.Reservations.FindAsync(data.ReservationId);
+            _context.Reservations.Remove(reservationToDelete);
+            await _context.SaveChangesAsync();
+
+            //Add delete info to EditHistory
+            _context.ReservationsEditsHistory.Add(new ReservationsEditHistory {
+                OldReservationId = data.ReservationId,
+                Name = reservationToDelete.Name,
+                Surname = reservationToDelete.Surname,
+                RoomId = reservationToDelete.RoomId,
+                NumberOfPeople = reservationToDelete.NumberOfPeople,
+                StartingDate = reservationToDelete.StartingDate,
+                EndingDate = reservationToDelete.EndingDate,
+                Phone = reservationToDelete.Phone,
+                Email = reservationToDelete.Email,
+                ExtraInfo = reservationToDelete.ExtraInfo,
+                EmployeeId = reservationToDelete.EmployeeId,
+                CreationDate = reservationToDelete.CreationDate,
+                EditDate = DateTime.Now,
+                EditedByEmployeeId = data.EmployeeId,
+                NewReservationId = 0
+            });
             await _context.SaveChangesAsync();
         }
 

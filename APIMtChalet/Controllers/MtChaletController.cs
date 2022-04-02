@@ -73,6 +73,16 @@ namespace APIMtChalet.Controllers {
             return Ok();
         }
 
+        //TEST delete with body
+        [HttpDelete("reservations")]
+        public async Task<ActionResult> DeleteReservationWithBody([FromBody] ReservationForDeleting data) {
+            var reservationToDelete = await _mtChaletRepository.GetReservation(data.ReservationId);
+            if (reservationToDelete == null) return NotFound();
+
+            await _mtChaletRepository.DeleteReservationWithBody(data);
+            return Ok();
+        }
+
         [HttpGet("rooms")]
         public async Task<IEnumerable<Room>> GetRooms() {
             return await _mtChaletRepository.GetRooms();
