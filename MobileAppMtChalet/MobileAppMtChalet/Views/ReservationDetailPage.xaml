@@ -13,10 +13,10 @@
     <StackLayout Spacing="20" Padding="15" >
         <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsLogged}">
             <Button Text="Usun Rezerwacje" Command="{Binding DeleteCommand}" BackgroundColor="Red"></Button>
-        <Label Text="Włącz edycję" FontSize="Large" />
+            <Label Text="Włącz edycję" FontSize="Large" />
             <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding EditMode}" />
         </StackLayout>
-        
+
         <Grid>
         <ScrollView VerticalOptions="FillAndExpand">
             <StackLayout>
@@ -64,11 +64,29 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" BackgroundColor="Red" Text="Dodatkowe Info" Clicked="ShowExtraInfo_Clicked" VerticalOptions="Center"/>
                 <StackLayout Grid.Column="1" BackgroundColor="Aquamarine">
-                    <Label Text="Dodane przez XXXX dnia XXXXX"/>
-                    <Label Text="Ostatnio edytowane przez przez XXXX dnia XXXXX"/>
-                    <Label Text="Historia edycji:"/>
-                    <ListView>
-                        
+                    <ListView ItemsSource="{Binding EditDetailsList}" BackgroundColor="Green">
+                        <ListView.Header>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Siema Test"/>
+                            </StackLayout>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label>
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} zmienil {1} z {2} na {3} w dniu {4}">
+                                                <Binding Path="UserName"/>
+                                                <Binding Path="ChangedType"/>
+                                                <Binding Path="ChangedBefore"/>
+                                                <Binding Path="ChangedAfter"/>
+                                                <Binding Path="Date"/>
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
 

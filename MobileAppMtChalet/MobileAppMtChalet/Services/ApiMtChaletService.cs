@@ -64,5 +64,14 @@ namespace MobileAppMtChalet.Services {
             var responseAsString = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<Room>>(responseAsString);
         }
+
+        public async Task<IEnumerable<EditedReservation>> GetEditReservationDetails(int reservationID) {
+            var response = await _httpClient.GetAsync("reservations/id/edit/" + reservationID);
+            response.EnsureSuccessStatusCode();
+
+            var responseAsString = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<EditedReservation>>(responseAsString);
+
+        }
     }
 }
