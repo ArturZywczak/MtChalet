@@ -30,7 +30,6 @@ namespace MobileAppMtChalet.ViewModels {
                 return _selectedDate;
             }
             set {
-                var testtemp = value;
                 string temp = value;
                 temp = temp.Replace("/", string.Empty);
                 temp = temp.Remove(8);
@@ -84,7 +83,7 @@ namespace MobileAppMtChalet.ViewModels {
 
         #region Commands functions
         private async void OnAddReservation(object obj) {
-            await Shell.Current.GoToAsync(nameof(NewReservationPage));
+            await Shell.Current.GoToAsync($"{nameof(NewReservationPage)}");
         }
         async void OnReservationSelected(Reservation reservation) {
             if (reservation == null) return;

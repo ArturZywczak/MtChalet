@@ -10,6 +10,7 @@ namespace MobileAppMtChalet {
             InitializeComponent();
             Routing.RegisterRoute(nameof(NewReservationPage), typeof(NewReservationPage));
             Routing.RegisterRoute(nameof(ReservationDetailPage), typeof(ReservationDetailPage));
+            Routing.RegisterRoute(nameof(NewReservationStep2Page), typeof(NewReservationStep2Page));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e) {

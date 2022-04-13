@@ -15,7 +15,7 @@
             <ScrollView>
                 <FlexLayout Wrap="Wrap"
                         JustifyContent="SpaceAround">
-
+                    
                     <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -25,9 +25,10 @@
                             <ColumnDefinition Width="250"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="0" Text="Imie" FontSize="Large" BackgroundColor="#5398ed"/>
-                        <Entry Grid.Row="1" Text="{Binding Name, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                        <Label Grid.Row="0" Text="Data Przyjazdu" FontSize="Large" BackgroundColor="#2f72c4"/>
+                        <DatePicker Grid.Row="1" Date="{Binding StartingDate, Mode=TwoWay}" Format="dd/MM/yyyy" FontSize="Medium" BackgroundColor="White"/>
                     </Grid>
+                    
                     <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -37,9 +38,10 @@
                             <ColumnDefinition Width="250"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="0" Text="Nazwisko" FontSize="Large" BackgroundColor="#5398ed"/>
-                        <Entry Grid.Row="1" Text="{Binding Surname, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                        <Label Grid.Row="0" Text="Data Wyjazdu" FontSize="Large" BackgroundColor="#2f72c4"/>
+                        <DatePicker Grid.Row="1" Date="{Binding EndingDate, Mode=TwoWay}" Format="dd/MM/yyyy" FontSize="Medium" BackgroundColor="White"/>
                     </Grid>
+                    
                     <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -52,6 +54,7 @@
                         <Label Grid.Row="0" Text="Wybierz pokój" FontSize="Large" BackgroundColor="#5398ed"/>
                         <Picker Grid.Row="1" ItemsSource="{Binding RoomIDs}" SelectedIndex="{Binding RoomID, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White" ></Picker>
                     </Grid>
+                    
                     <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -64,71 +67,13 @@
                         <Label Grid.Row="0" IsVisible="{Binding RoomChoosedInv}" FontSize="Small" TextColor="Red" Text="Najpierw wybierz pokój"/>
                         <Picker Grid.Row="1" IsEnabled="{Binding RoomChoosed}" ItemsSource="{Binding AvaliableBeds}" SelectedIndex="{Binding NumberOfPeople, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"></Picker>
                     </Grid>
-                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="250"/>
-                        </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="0" Text="Data Przyjazdu" FontSize="Large" BackgroundColor="#2f72c4"/>
-                        <DatePicker Grid.Row="1" Date="{Binding StartingDate, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="Medium" BackgroundColor="White"/>
-                    </Grid>
-                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="250"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Label Grid.Row="0" Text="Data Wyjazdu" FontSize="Large" BackgroundColor="#2f72c4"/>
-                        <DatePicker Grid.Row="1" Date="{Binding EndingDate, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="Medium" BackgroundColor="White"/>
-                    </Grid>
-                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="250"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Text="NrTel" FontSize="Large" BackgroundColor="#5398ed"/>
-                        <Entry Grid.Row="1" Text="{Binding Phone, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
-                    </Grid>
-                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="250"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Label Grid.Row="0" Text="Email" FontSize="Large" BackgroundColor="#5398ed"/>
-                        <Entry Grid.Row="1" Text="{Binding Email, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
-                    </Grid>
-                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="250"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Label Grid.Row="0" Text="Dodatkowe Informacje" FontSize="Large" BackgroundColor="#5398ed"/>
-                        <Entry Grid.Row="1" Text="{Binding ExtraInfo, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
-                    </Grid>
 
                 </FlexLayout>
             </ScrollView>
             <StackLayout Orientation="Horizontal">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
-                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="{Binding SaveButtonText}" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

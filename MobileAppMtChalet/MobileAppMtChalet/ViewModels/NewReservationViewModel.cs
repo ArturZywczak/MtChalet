@@ -1,5 +1,7 @@
 ﻿using MobileAppMtChalet.Models;
 using MobileAppMtChalet.Services;
+using MobileAppMtChalet.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,6 +28,7 @@ namespace MobileAppMtChalet.ViewModels {
         public int RoomID {
             get => roomID;
             set {
+                if (value != roomID) Unvalidate();
                 SetProperty(ref roomID, value);
                 if (roomID != -1) {
                     RoomChoosed = true;
@@ -37,17 +40,28 @@ namespace MobileAppMtChalet.ViewModels {
         private int numberOfPeople;
         public int NumberOfPeople {
             get => numberOfPeople;
-            set => SetProperty(ref numberOfPeople, value);
+            set {
+                if (value != numberOfPeople) Unvalidate();
+                SetProperty(ref numberOfPeople, value); 
+            }
         }
         private DateTime startingDate;
         public DateTime StartingDate {
             get => startingDate;
-            set => SetProperty(ref startingDate, value);
+            set {
+                if (value != startingDate) Unvalidate();
+                EndingDate = value.AddDays(1);
+                SetProperty(ref startingDate, value);
+
+            }
         }
         private DateTime endingDate;
         public DateTime EndingDate {
             get => endingDate;
-            set => SetProperty(ref endingDate, value);
+            set {
+                if (value != endingDate) Unvalidate();
+                SetProperty(ref endingDate, value); 
+            }
         }
         private string phone;
         public string Phone {
@@ -76,6 +90,13 @@ namespace MobileAppMtChalet.ViewModels {
             get => roomChoosedInv;
             set => SetProperty(ref roomChoosedInv, value);
         }
+
+        bool valid;
+        private string saveButtonText;
+        public string SaveButtonText {
+            get => saveButtonText;
+            set => SetProperty(ref saveButtonText, value);
+        }
         #endregion
 
         #region  Public Commands & Lists
@@ -93,22 +114,25 @@ namespace MobileAppMtChalet.ViewModels {
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
             startingDate = DateTime.Now;
-            endingDate = DateTime.Now;
+            endingDate = DateTime.Now.AddDays(1);
             roomChoosed = false;
             roomChoosedInv = true;
             AvaliableBeds = new ObservableCollection<int>();
             RoomIDs = new ObservableCollection<int>();
             Rooms = new List<Room>();
             RoomID = -1;
+            
+            valid = false;
+            saveButtonText = "Sprawdź dostępność";
             PrepareRoomInfo();
         }
 
         #region Comamnd functions
         private bool ValidateSave() {
-            return !String.IsNullOrWhiteSpace(surname)
+            return //!String.IsNullOrWhiteSpace(surname)
                 //&& RoomExists(roomID).Result
-                && numberOfPeople > 0
-                && startingDate > DateTime.Now
+                 numberOfPeople >= 0
+                //&& startingDate >= DateTime.Now TYMCZASOWE
                 && endingDate > startingDate
                 ;
         }
@@ -117,25 +141,80 @@ namespace MobileAppMtChalet.ViewModels {
             await Shell.Current.GoToAsync("..");
         }
         private async void OnSave() {
-            Reservation newReservation = new Reservation() {
-                Name = name,
-                Surname = surname,
-                RoomId = roomID,
-                NumberOfPeople = numberOfPeople,
+            //TODO pause input, add loading screen
+
+            if (valid) {
+
+                Reservation newReservation = new Reservation() {
+                RoomId = roomID + 1,
+                NumberOfPeople = numberOfPeople + 1,
                 StartingDate = startingDate,
                 EndingDate = endingDate,
-                Phone = phone,
-                Email = email,
-                ExtraInfo = extraInfo,
-                EmployeeId = "0",
-                CreationDate = DateTime.Now
+
+                //EmployeeId = "0",
+                //CreationDate = DateTime.Now
 
             };
+                //TODO go to next page, entering details
 
-            await _mtChaletService.AddReservation(newReservation);
+                //TEST JSON
+                string jsonString = JsonConvert.SerializeObject(newReservation);
+
+                await Shell.Current.GoToAsync($"{nameof(NewReservationStep2Page)}?NewReservation={jsonString}");
+
+                //await Shell.Current.GoToAsync("..");
+            }
+            else {
+                //check if reservation is valid
+
+                
+                bool enoughBeds = true;
+
+                //If reservation is longer than i day check avaliability for every day
+                for (int i = 0; i < (endingDate - startingDate).TotalDays; i++) {
+                    //Get starting date, format it
+                    string day = startingDate.AddDays(i).Day.ToString(); if (day.Length == 1) day = "0" + day;
+                    string month = startingDate.AddDays(i).Month.ToString(); if (month.Length == 1) month = "0" + month;
+                    string year = startingDate.AddDays(i).Year.ToString();
+                    string result = day + month + year;
+
+                    //get reservations on this day
+                    var reservationsOnDay = await _mtChaletService.GetReservationOnDate(result);
+
+                    var freeBeds = Rooms[roomID].RoomCap - numberOfPeople - 1; //count avaliable beds including currently created reservation, -1 because it takes index
+
+                    //Count remaining beds, if not enough to enter currently created reservation throw error
+                    foreach (Reservation res in reservationsOnDay) {
+                        if (res.RoomId == roomID+1) freeBeds -= res.NumberOfPeople; //+1 because it takes index
+                        if (freeBeds < 0) {
+                            enoughBeds = false;
+                            break;
+                            } 
+                    }
+
+                    if (!enoughBeds) break;
+                }
+
+                if (enoughBeds) {
+                    //TODO TEMP Reservation to DB
+
+                    valid = true;
+                    SaveButtonText = "Dalej";
+                }
+                else {
+                    //TODO some kind of error msg
+                    valid = false;
+                }
+               
+
+
+            }
+           
+
+            //await _mtChaletService.AddReservation(newReservation);
 
             // This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
+            //await Shell.Current.GoToAsync("..");
         }
         #endregion
 
@@ -155,6 +234,11 @@ namespace MobileAppMtChalet.ViewModels {
         private void ChangeSelectedRoom() {
             AvaliableBeds.Clear();
             for (int i = 1; i <= Rooms[roomID].RoomCap; i++) AvaliableBeds.Add(i);
+        }
+
+        private void Unvalidate() {
+            valid = false;
+            SaveButtonText = "Sprawdź dostępność";
         }
         #endregion
     }
