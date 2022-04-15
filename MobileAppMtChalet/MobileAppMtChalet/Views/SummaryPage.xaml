@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileAppMtChalet.Views.SummaryPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding ReservationDetails}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Value}" Detail="{Binding Key}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Text="Czy wszystko się zgadza?"/>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Nie, cofnij" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Tak, dodaj rezerwację" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+
+        </StackLayout>
+
+
+    </ContentPage.Content>
+</ContentPage>

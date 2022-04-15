@@ -3,10 +3,81 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobileAppMtChalet.Views.NewReservationStep2Page">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Spacing="3" Padding="15">
+            <Label Text="Dodaj Rezerwacje" FontSize="Title" FontAttributes="Bold"></Label>
+            <ScrollView>
+                <FlexLayout Wrap="Wrap"
+                        JustifyContent="SpaceAround">
+
+                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Text="Imie" FontSize="Large" BackgroundColor="#5398ed"/>
+                        <Entry Grid.Row="1" Text="{Binding Name, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                    </Grid>
+                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Text="Nazwisko" FontSize="Large" BackgroundColor="#5398ed"/>
+                        <Entry Grid.Row="1" Text="{Binding Surname, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                    </Grid>
+
+                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Text="NrTel" FontSize="Large" BackgroundColor="#5398ed"/>
+                        <Entry Grid.Row="1" Text="{Binding Phone, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                    </Grid>
+                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Text="Email" FontSize="Large" BackgroundColor="#5398ed"/>
+                        <Entry Grid.Row="1" Text="{Binding Email, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                    </Grid>
+                    
+                    <Grid BackgroundColor="#2f72c4" Padding="5" RowSpacing="-5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Text="Dodatkowe Informacje" FontSize="Large" BackgroundColor="#5398ed"/>
+                        <Entry Grid.Row="1" Text="{Binding ExtraInfo, Mode=TwoWay}" FontSize="Medium" BackgroundColor="White"/>
+                    </Grid>
+
+
+                </FlexLayout>
+            </ScrollView>
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Przejdź do potwierdzenia" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

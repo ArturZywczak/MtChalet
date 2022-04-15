@@ -14,16 +14,7 @@ namespace MobileAppMtChalet.ViewModels {
     class NewReservationViewModel : BaseViewModel {
         #region Private & Public Binding
         private readonly IMtChaletService _mtChaletService;
-        private string name;
-        public string Name {
-            get => name;
-            set => SetProperty(ref name, value);
-        }
-        private string surname;
-        public string Surname {
-            get => surname;
-            set => SetProperty(ref surname, value);
-        }
+        
         private int roomID;
         public int RoomID {
             get => roomID;
@@ -63,21 +54,7 @@ namespace MobileAppMtChalet.ViewModels {
                 SetProperty(ref endingDate, value); 
             }
         }
-        private string phone;
-        public string Phone {
-            get => phone;
-            set => SetProperty(ref phone, value);
-        }
-        private string email;
-        public string Email {
-            get => email;
-            set => SetProperty(ref email, value);
-        }
-        private string extraInfo;
-        public string ExtraInfo {
-            get => extraInfo;
-            set => SetProperty(ref extraInfo, value);
-        }
+        
         private int employeeID;
         private DateTime creationDate;
         private bool roomChoosed;
@@ -121,7 +98,8 @@ namespace MobileAppMtChalet.ViewModels {
             RoomIDs = new ObservableCollection<int>();
             Rooms = new List<Room>();
             RoomID = -1;
-            
+            numberOfPeople = -1;
+
             valid = false;
             saveButtonText = "Sprawdź dostępność";
             PrepareRoomInfo();
@@ -129,11 +107,11 @@ namespace MobileAppMtChalet.ViewModels {
 
         #region Comamnd functions
         private bool ValidateSave() {
-            return //!String.IsNullOrWhiteSpace(surname)
-                //&& RoomExists(roomID).Result
-                 numberOfPeople >= 0
-                //&& startingDate >= DateTime.Now TYMCZASOWE
+            return numberOfPeople >= 0
+                && startingDate >= DateTime.Now.AddDays(-1)
                 && endingDate > startingDate
+                && RoomID != -1
+                && numberOfPeople != -1
                 ;
         }
         private async void OnCancel() {
@@ -152,13 +130,13 @@ namespace MobileAppMtChalet.ViewModels {
                 EndingDate = endingDate,
 
                 //EmployeeId = "0",
-                //CreationDate = DateTime.Now
+                CreationDate = DateTime.Now
 
             };
                 //TODO go to next page, entering details
 
                 //TEST JSON
-                string jsonString = JsonConvert.SerializeObject(newReservation);
+                string jsonString = JsonConvert.SerializeObject(newReservation, new JsonSerializerSettings { DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ" }); //Date format! Throws exception on deserialising if using default format
 
                 await Shell.Current.GoToAsync($"{nameof(NewReservationStep2Page)}?NewReservation={jsonString}");
 

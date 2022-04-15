@@ -258,7 +258,7 @@ namespace MobileAppMtChalet.ViewModels {
                 var editsList = edits.Reverse().ToList();
 
                 for (int i = 0; i != editsList.Count-1; i++) { //-1 bo ostatni edit musi zostać porównany do aktualnej rezerwacji
-                    if (editsList[i].OldReservationId == 0) ; //HERE NEW
+                    if (editsList[i].OldReservationId == 0) ; //TODO HERE NEW
 
                     else { //porównaj do poprzedniego, jeśli się nie zgadza to dodaj do listy zmian
                         //to powinno być w jakiejś funkcji
