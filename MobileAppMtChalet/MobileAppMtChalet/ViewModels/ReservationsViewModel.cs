@@ -83,7 +83,7 @@ namespace MobileAppMtChalet.ViewModels {
 
         #region Commands functions
         private async void OnAddReservation(object obj) {
-            await Shell.Current.GoToAsync($"{nameof(NewReservationPage)}");
+            await Shell.Current.GoToAsync($"{nameof(NewReservationPage)}?UserID={UserID}");
         }
         async void OnReservationSelected(Reservation reservation) {
             if (reservation == null) return;

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
+    [QueryProperty(nameof(UserID), "UserID")]
     class NewReservationViewModel : BaseViewModel {
         #region Private & Public Binding
         private readonly IMtChaletService _mtChaletService;
@@ -73,6 +74,16 @@ namespace MobileAppMtChalet.ViewModels {
         public string SaveButtonText {
             get => saveButtonText;
             set => SetProperty(ref saveButtonText, value);
+        }
+
+        private string userID;
+        public string UserID {
+            get {
+                return userID;
+            }
+            set {
+                SetProperty(ref userID, value);
+            }
         }
         #endregion
 
@@ -138,7 +149,7 @@ namespace MobileAppMtChalet.ViewModels {
                 //TEST JSON
                 string jsonString = JsonConvert.SerializeObject(newReservation, new JsonSerializerSettings { DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ" }); //Date format! Throws exception on deserialising if using default format
 
-                await Shell.Current.GoToAsync($"{nameof(NewReservationStep2Page)}?NewReservation={jsonString}");
+                await Shell.Current.GoToAsync($"{nameof(NewReservationStep2Page)}?NewReservation={jsonString}&UserID={UserID}");
 
                 //await Shell.Current.GoToAsync("..");
             }
