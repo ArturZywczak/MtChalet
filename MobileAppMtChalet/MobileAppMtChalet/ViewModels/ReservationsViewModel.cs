@@ -30,7 +30,7 @@ namespace MobileAppMtChalet.ViewModels {
             get => userDataJson;
             set {
                 SetProperty(ref userDataJson, value);
-                DeserializeUserData();
+                UserData = new Employee(value);
             }
         }
 
@@ -144,9 +144,6 @@ namespace MobileAppMtChalet.ViewModels {
             IsBusy = true;
         }
 
-        void DeserializeUserData() {
-            UserData = JsonConvert.DeserializeObject<Employee>(userDataJson);
-        }
         #endregion
 
     }

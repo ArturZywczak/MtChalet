@@ -1,4 +1,5 @@
-﻿using MobileAppMtChalet.Services;
+﻿using MobileAppMtChalet.Models;
+using MobileAppMtChalet.Services;
 using MobileAppMtChalet.Services.Interfaces;
 using MobileAppMtChalet.Views;
 using Newtonsoft.Json;
@@ -66,7 +67,7 @@ namespace MobileAppMtChalet.ViewModels {
                 //TODO add api acces, check auth0id with user id in database, if error throw msg, if correct serialise and send to next screen, in next screen deserialise
                 var test =  await _mtChaletService.GetEmployee(loggedUser.Auth0ID);
                 
-                string jsonString = JsonConvert.SerializeObject(test, new JsonSerializerSettings());
+                string jsonString = test.Serialize();
 
                 // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
                 await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}?UserData={jsonString}");
