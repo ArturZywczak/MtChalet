@@ -21,5 +21,9 @@ namespace APIMtChalet.Repositories {
         //RESERVATION HISTORY
         Task<Reservation> EditReservation(ReservationsEditHistory newReservation);
         Task<IEnumerable<ReservationsEditHistory>> GetReservationEditHistory(int id);
+
+        //EMPLOYEES
+
+        Task<Employee> GetEmployee(string auth0ID);
     }
 }

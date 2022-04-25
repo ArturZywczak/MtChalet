@@ -93,5 +93,10 @@ namespace APIMtChalet.Controllers {
         public async Task<IEnumerable<Room>> GetRooms() {
             return await _mtChaletRepository.GetRooms();
         }
+
+        [HttpGet("employee/{auth0ID}")]
+        public async Task<Employee> GetEmployee(string auth0ID) {
+            return await _mtChaletRepository.GetEmployee(auth0ID);
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace APIMtChalet.Models {
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<ReservationsEditHistory> ReservationsEditsHistory { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
@@ -25,6 +26,10 @@ namespace APIMtChalet.Models {
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("Auth0ID");
+
+                entity.Property(e => e.ConnectionType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)

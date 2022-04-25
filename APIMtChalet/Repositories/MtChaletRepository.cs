@@ -162,5 +162,10 @@ namespace APIMtChalet.Repositories {
             return t;
 
         }
+
+        public async Task<Employee> GetEmployee(string auth0ID) {
+
+            return await _context.Employees.Where(s => s.Auth0Id == auth0ID).FirstOrDefaultAsync();
+        }
     }
 }
