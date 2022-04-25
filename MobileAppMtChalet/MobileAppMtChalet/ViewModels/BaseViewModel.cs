@@ -7,9 +7,27 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
+
+    [QueryProperty(nameof(UserDataJson), "UserData")]
     public class BaseViewModel : INotifyPropertyChanged {
-        
-        public Employee loggedUser;
+
+        private string userDataJson;
+        public string UserDataJson {
+            get => userDataJson;
+            set {
+                SetProperty(ref userDataJson, value);
+                UserData = new Employee(value);
+            }
+        }
+
+        private Employee userData;
+        public Employee UserData {
+            get => userData;
+            set {
+                SetProperty(ref userData, value);
+            }
+        }
+
 
         bool isBusy = false;
         public bool IsBusy {

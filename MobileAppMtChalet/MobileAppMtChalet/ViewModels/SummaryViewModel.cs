@@ -10,7 +10,6 @@ using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
     [QueryProperty(nameof(NewReservationJson), "NewReservation")]
-    [QueryProperty(nameof(UserID), "UserID")]
     class SummaryViewModel : BaseViewModel {
         private readonly IMtChaletService _mtChaletService;
 
@@ -20,15 +19,6 @@ namespace MobileAppMtChalet.ViewModels {
             set {
                 SetProperty(ref newReservationJson, value);
                 deserializeReservation();
-            }
-        }
-        private string userID;
-        public string UserID {
-            get {
-                return userID;
-            }
-            set {
-                SetProperty(ref userID, value);
             }
         }
 
@@ -60,15 +50,14 @@ namespace MobileAppMtChalet.ViewModels {
             await Shell.Current.GoToAsync("..");
         }
         private async void OnSave() {
-            //TODO employee stuff
-            newReservation.EmployeeId = "TEMP TEST";
+
 
 
             await _mtChaletService.AddReservation(newReservation);
 
             //TODO some kind of loading, confirmation/error msg
 
-            await Shell.Current.GoToAsync($"//ReservationsPage?UserID={UserID}");
+            await Shell.Current.GoToAsync($"//ReservationsPage?UserData={UserData.Serialize()}");
         }
 
         void deserializeReservation() {

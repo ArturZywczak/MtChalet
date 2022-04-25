@@ -51,11 +51,10 @@ namespace MobileAppMtChalet.ViewModels {
             processing = false;
             processingInv = true;
             loginError = false;
-            loggedUser = new Models.Employee();
         }
 
         private async void OnPreviewClicked(object obj) {
-            await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}?UserID={loggedUser.Auth0ID}");
+            await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}");
         }
 
         private async void OnLoginClicked(object obj) {
@@ -63,16 +62,18 @@ namespace MobileAppMtChalet.ViewModels {
             var authenticationService = DependencyService.Get<IAuthenticationService>();
             var authenticationResult = await authenticationService.Authenticate();
             if (!authenticationResult.IsError) {
-                loggedUser.Auth0ID = authenticationResult.User_Id;
                 //TODO add api acces, check auth0id with user id in database, if error throw msg, if correct serialise and send to next screen, in next screen deserialise
-                var test =  await _mtChaletService.GetEmployee(loggedUser.Auth0ID);
+                var test =  await _mtChaletService.GetEmployee(authenticationResult.User_Id);
                 
                 string jsonString = test.Serialize();
 
                 // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
                 await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}?UserData={jsonString}");
+                
             }
             else LoginError = true;
+
+            Processing = false;
         }
     }
 }

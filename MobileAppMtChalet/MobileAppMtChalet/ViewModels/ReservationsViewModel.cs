@@ -12,7 +12,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
-    [QueryProperty(nameof(UserDataJson), "UserData")]
+    
     public class ReservationsViewModel : BaseViewModel {
 
         #region Private and Public Binding
@@ -22,15 +22,6 @@ namespace MobileAppMtChalet.ViewModels {
             set {
                 SetProperty(ref _selectedReservation, value);
                 OnReservationSelected(value);
-            }
-        }
-
-        private string userDataJson;
-        public string UserDataJson {
-            get => userDataJson;
-            set {
-                SetProperty(ref userDataJson, value);
-                UserData = new Employee(value);
             }
         }
 
@@ -52,14 +43,7 @@ namespace MobileAppMtChalet.ViewModels {
             }
         }
 
-        private Employee userData;
-        public Employee UserData {
-            get => userData;
-            set {
-                SetProperty(ref userData, value);
-                AddReservationCommand.ChangeCanExecute();
-            }
-        }
+
 
         #endregion
         #region Public List & Commands
@@ -87,7 +71,7 @@ namespace MobileAppMtChalet.ViewModels {
                     if (UserData == null) return false;
                     else { 
 
-                        return UserData.Role > 2; 
+                        return UserData.Role > 1; 
                     
                     }
                 });
@@ -99,7 +83,7 @@ namespace MobileAppMtChalet.ViewModels {
 
         #region Commands functions
         private async void OnAddReservation(object obj) {
-            await Shell.Current.GoToAsync($"{nameof(NewReservationPage)}?UserID={"TODOHERE"}");
+            await Shell.Current.GoToAsync($"{nameof(NewReservationPage)}?UserData={UserData.Serialize()}");
         }
         async void OnReservationSelected(Reservation reservation) {
             if (reservation == null) return;
@@ -142,6 +126,7 @@ namespace MobileAppMtChalet.ViewModels {
         }
         public void OnAppearing() {
             IsBusy = true;
+            AddReservationCommand.ChangeCanExecute();
         }
 
         #endregion
