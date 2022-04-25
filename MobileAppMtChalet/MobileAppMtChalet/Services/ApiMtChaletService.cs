@@ -73,5 +73,13 @@ namespace MobileAppMtChalet.Services {
             return JsonConvert.DeserializeObject<List<EditedReservation>>(responseAsString);
 
         }
+
+        public async Task<Employee> GetEmployee(string auth0ID) {
+            var response = await _httpClient.GetAsync("employee/" + auth0ID);
+            response.EnsureSuccessStatusCode(); //TODO what if employee isint in db? Add some kind of alert to contact db admin
+
+            var responseAsString = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Employee>(responseAsString);
+        }
     }
 }

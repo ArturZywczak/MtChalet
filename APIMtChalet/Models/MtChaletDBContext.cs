@@ -21,7 +21,7 @@ namespace APIMtChalet.Models {
             modelBuilder.Entity<Employee>(entity => {
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
 
-                entity.Property(e => e.Auth0Id)
+                entity.Property(e => e.Auth0ID)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)

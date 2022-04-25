@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Auth0.OidcClient;
 using IdentityModel.OidcClient;
+using IdentityModel.OidcClient.Browser;
 using MobileAppMtChalet.Config;
 using MobileAppMtChalet.Droid.Services;
 using MobileAppMtChalet.Models;
@@ -50,6 +51,12 @@ namespace MobileAppMtChalet.Droid.Services {
 
             AuthenticationResult = authenticationResult;
             return authenticationResult;
+        }
+
+        public async Task<bool> Logout() {
+            BrowserResultType browserResult = await _auth0Client.LogoutAsync();
+            //TODO add something if logout failed (can it?)
+            return true;
         }
     }
 }

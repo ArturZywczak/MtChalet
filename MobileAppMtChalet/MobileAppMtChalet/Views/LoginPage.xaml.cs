@@ -10,9 +10,13 @@ using Xamarin.Forms.Xaml;
 namespace MobileAppMtChalet.Views {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage {
+        private readonly LoginViewModel _logInViewModel;
         public LoginPage() {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
+            //this.BindingContext = new LoginViewModel();
+
+            _logInViewModel = Startup.Resolve<LoginViewModel>();
+            BindingContext = _logInViewModel;
         }
     }
 }

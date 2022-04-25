@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace MobileAppMtChalet.Services.Interfaces {
     public interface IAuthenticationService {
         Task<AuthenticationResult> Authenticate();
+        Task<bool> Logout();
         AuthenticationResult AuthenticationResult { get; }
     }
 }

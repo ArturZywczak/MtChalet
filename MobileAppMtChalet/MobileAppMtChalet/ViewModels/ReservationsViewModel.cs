@@ -1,6 +1,7 @@
 ﻿using MobileAppMtChalet.Models;
 using MobileAppMtChalet.Services;
 using MobileAppMtChalet.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
-    [QueryProperty(nameof(UserID), "UserID")]
+    [QueryProperty(nameof(UserDataJson), "UserData")]
     public class ReservationsViewModel : BaseViewModel {
 
         #region Private and Public Binding
@@ -23,6 +24,16 @@ namespace MobileAppMtChalet.ViewModels {
                 OnReservationSelected(value);
             }
         }
+
+        private string userDataJson;
+        public string UserDataJson {
+            get => userDataJson;
+            set {
+                SetProperty(ref userDataJson, value);
+                DeserializeUserData();
+            }
+        }
+
         private readonly IMtChaletService _mtChaletService;
         private string _selectedDate;
         public string SelectedDate {
@@ -40,13 +51,12 @@ namespace MobileAppMtChalet.ViewModels {
                 IsBusy = true;
             }
         }
-        private string userID;
-        public string UserID {
-            get {
-                return userID;
-            }
+
+        private Employee userData;
+        public Employee UserData {
+            get => userData;
             set {
-                SetProperty(ref userID, value);
+                SetProperty(ref userData, value);
                 AddReservationCommand.ChangeCanExecute();
             }
         }
@@ -74,24 +84,31 @@ namespace MobileAppMtChalet.ViewModels {
                     OnAddReservation(this);
                 },
                 canExecute: () => {
-                    if (UserID == null) return false;
-                    else return UserID.Length != 0;
+                    if (UserData == null) return false;
+                    else { 
+
+                        return UserData.Role > 2; 
+                    
+                    }
                 });
             ReservationsList = new ObservableCollection<Models.Grouping<ReservationsByRoom, Reservation>>();
+
+
         }
 
 
         #region Commands functions
         private async void OnAddReservation(object obj) {
-            await Shell.Current.GoToAsync($"{nameof(NewReservationPage)}?UserID={UserID}");
+            await Shell.Current.GoToAsync($"{nameof(NewReservationPage)}?UserID={"TODOHERE"}");
         }
         async void OnReservationSelected(Reservation reservation) {
             if (reservation == null) return;
-            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?{nameof(ReservationDetailViewModel.ReservationId)}={reservation.ReservationId}&UserID={UserID}");
+            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?{nameof(ReservationDetailViewModel.ReservationId)}={reservation.ReservationId}&UserID={"TODOHERE"}");
         }
         async Task ExecuteLoadReservationsCommand() {
             try {
                 ReservationsList.Clear();
+                if (_selectedDate == null) SelectedDate = DateTime.Now.ToString("MM/dd/yyyy");
                 var reservations = await _mtChaletService.GetReservationOnDate(_selectedDate);
                 var rooms = await _mtChaletService.GetRooms();
                 SetupRoomData(reservations, rooms);
@@ -125,7 +142,10 @@ namespace MobileAppMtChalet.ViewModels {
         }
         public void OnAppearing() {
             IsBusy = true;
-            SelectedReservation = null;
+        }
+
+        void DeserializeUserData() {
+            UserData = JsonConvert.DeserializeObject<Employee>(userDataJson);
         }
         #endregion
 

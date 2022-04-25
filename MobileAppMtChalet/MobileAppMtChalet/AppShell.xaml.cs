@@ -1,4 +1,5 @@
-﻿using MobileAppMtChalet.ViewModels;
+﻿using MobileAppMtChalet.Services.Interfaces;
+using MobileAppMtChalet.ViewModels;
 using MobileAppMtChalet.Views;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace MobileAppMtChalet {
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e) {
+            var authenticationService = DependencyService.Get<IAuthenticationService>();
+            await authenticationService.Logout();
+
             await Shell.Current.GoToAsync("//LoginPage");
         }
     }
