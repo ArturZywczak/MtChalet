@@ -87,7 +87,7 @@ namespace MobileAppMtChalet.ViewModels {
         }
         async void OnReservationSelected(Reservation reservation) {
             if (reservation == null) return;
-            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?{nameof(ReservationDetailViewModel.ReservationId)}={reservation.ReservationId}&UserID={"TODOHERE"}");
+            await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?ReservationData={reservation.Serialize()}&UserData={UserData.Serialize()}");
         }
         async Task ExecuteLoadReservationsCommand() {
             try {

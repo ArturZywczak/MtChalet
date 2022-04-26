@@ -58,7 +58,7 @@ namespace MobileAppMtChalet.Services {
         }
 
         public async Task<IEnumerable<Room>> GetRooms() {
-            var response = await _httpClient.GetAsync(@"rooms");
+            var response = await _httpClient.GetAsync("rooms");
             response.EnsureSuccessStatusCode();
 
             var responseAsString = await response.Content.ReadAsStringAsync();

@@ -9,12 +9,33 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MobileAppMtChalet.ViewModels {
-    [QueryProperty(nameof(ReservationId), nameof(ReservationId))]
-    [QueryProperty(nameof(UserID), "UserID")]
+    [QueryProperty(nameof(ReservationDataJson), "ReservationData")]
+    [QueryProperty(nameof(UserDataJson), "UserData")]
     class ReservationDetailViewModel : BaseViewModel {
 
         #region Private & Public for binding values
         private readonly IMtChaletService _mtChaletService;
+
+        //PASSING RESERVATION DATA
+        private string reservationDataJson;
+        public string ReservationDataJson {
+            get => reservationDataJson;
+            set {
+                SetProperty(ref reservationDataJson, value);
+                ReservationData = new Reservation(value);
+            }
+        }
+
+        private Reservation reservationData;
+        public Reservation ReservationData {
+            get => reservationData;
+            set {
+                SetProperty(ref reservationData, value);
+                if (Rooms.Count>0) LoadReservation();
+            }
+        }
+        //END
+
         private string reservationId;
         public string ReservationId {
             get {
@@ -22,7 +43,7 @@ namespace MobileAppMtChalet.ViewModels {
             }
             set {
                 reservationId = value;
-                LoadReservationId(value);
+                //LoadReservationId(value);
             }
         }
         private string name;
@@ -75,7 +96,6 @@ namespace MobileAppMtChalet.ViewModels {
             get => extraInfo;
             set => SetProperty(ref extraInfo, value);
         }
-        private int employeeID;
         private DateTime creationDate;
         public DateTime CreationDate {
             get => creationDate;
@@ -100,16 +120,6 @@ namespace MobileAppMtChalet.ViewModels {
                 OnPropertyChanged();
             }
         }
-        private string userID;
-        public string UserID {
-            get {
-                return userID;
-            }
-            set {
-                SetProperty(ref userID, value);
-                IsLogged = (value.Length != 0);
-            }
-        }
         private string oldUserID;
         public string OldUserID {
             get {
@@ -118,11 +128,6 @@ namespace MobileAppMtChalet.ViewModels {
             set {
                 SetProperty(ref oldUserID, value);
             }
-        }
-        private bool isLogged;
-        public bool IsLogged { 
-            get => isLogged;
-            set => SetProperty(ref isLogged, value);
         }
         //terrible hack, bug fix
         private int selectedRoomID;
@@ -155,21 +160,30 @@ namespace MobileAppMtChalet.ViewModels {
         public ReservationDetailViewModel(IMtChaletService mtChaletService) {
 
             RoomID = -1;
-            IsLogged = false;
             _mtChaletService = mtChaletService;
             SaveEditCommand = new Command(OnSave);
             CancelCommand = new Command(OnCancel);
             EditReservationCommand = new Command(OnEditReservation);
             DeleteCommand = new Command(OnDelete);
-            EditMode = false;
-            EditModeInversed = true;
+
             RoomIDs = new ObservableCollection<int>();
             Rooms = new List<Room>();
             AvaliableBeds = new ObservableCollection<int>();
             EditDetailsList = new ObservableCollection<EditHistoryDetail>();
+
             PrepareRoomInfo();
+
+
+            EditMode = false;
+            EditModeInversed = true;
+            
+
+            
         }
 
+        public void OnAppearing() {
+            LoadReservation();
+        }
 
         #region Commands Functions
         private async void OnCancel() {
@@ -192,7 +206,7 @@ namespace MobileAppMtChalet.ViewModels {
                 EmployeeId = oldUserID,
                 CreationDate = creationDate,
                 EditDate = DateTime.Now,
-                EditedByEmployeeId = userID
+                EditedByEmployeeId = UserData.Auth0ID
                 };
 
             await _mtChaletService.EditReservation(editedReservation);
@@ -213,14 +227,17 @@ namespace MobileAppMtChalet.ViewModels {
 
         #region Other Functions
         private void ChangeSelectedRoom() {
-            AvaliableBeds.Clear();
-            if (editMode)
-            for (int i = 1; i <= Rooms[selectedRoomID].RoomCap; i++) AvaliableBeds.Add(i); //here
-            else
-                for (int i = 1; i <= Rooms[roomID-1].RoomCap; i++) AvaliableBeds.Add(i); //here
+            if (Rooms.Count > 0) {
+                AvaliableBeds.Clear();
+                if (editMode)
+                    for (int i = 1; i <= Rooms[selectedRoomID].RoomCap; i++) AvaliableBeds.Add(i); //here
+                else
+                    for (int i = 1; i <= Rooms[roomID - 1].RoomCap; i++) AvaliableBeds.Add(i); //here
+            }
         }
         async void PrepareRoomInfo() {
             try {
+                IsBusy = true;
                 var rooms = await _mtChaletService.GetRooms();
                 foreach (var room in rooms) {
                     RoomIDs.Add(room.RoomId);
@@ -230,10 +247,14 @@ namespace MobileAppMtChalet.ViewModels {
             catch (Exception ex) {
                 Debug.WriteLine(ex);
             }
+            finally {
+                IsBusy = false;
+            }
         }
-        public async void LoadReservationId(string reservationId) {
+        public void LoadReservationId(string reservationId) {
             try {
-                var reservation = await _mtChaletService.GetReservation(reservationId);
+                //var reservation = await _mtChaletService.GetReservation(reservationId);
+                var reservation = new Reservation(reservationDataJson);
                 Name = reservation.Name;
                 Surname = reservation.Surname;
                 RoomID = reservation.RoomId;
@@ -245,11 +266,33 @@ namespace MobileAppMtChalet.ViewModels {
                 ExtraInfo = reservation.ExtraInfo;
                 CreationDate = reservation.CreationDate;
 
+                ReservationId = reservation.ReservationId.ToString(); //added
                 PrepareEditInfo();
             }
             catch (Exception) {
                 Debug.WriteLine("Failed to Load Item");
             }
+        }
+
+        public void LoadReservation() {
+            
+
+            var reservation = new Reservation(reservationDataJson);
+            Name = reservation.Name;
+            Surname = reservation.Surname;
+            RoomID = reservation.RoomId;
+            NumberOfPeople = reservation.NumberOfPeople;
+            StartingDate = reservation.StartingDate;
+            EndingDate = reservation.EndingDate;
+            Phone = reservation.Phone;
+            Email = reservation.Email;
+            ExtraInfo = reservation.ExtraInfo;
+            CreationDate = reservation.CreationDate;
+
+            ReservationId = reservation.ReservationId.ToString(); //added
+
+            //TODO If not allowed dont do it?
+            PrepareEditInfo();
         }
 
         async void PrepareEditInfo() {

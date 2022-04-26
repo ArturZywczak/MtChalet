@@ -20,6 +20,11 @@ namespace MobileAppMtChalet.Views {
             BindingContext = _reservationDetailViewModel;
         }
 
+        protected override void OnAppearing() {
+            base.OnAppearing();
+            _reservationDetailViewModel.OnAppearing();
+        }
+
         async void ShowExtraInfo_Clicked(Object sender, EventArgs e) {
             if (!IsBoxOut) {
                 await EmployeeInfoBox.TranslateTo(EmployeeInfoBox.TranslationX - 280, 0, 500);

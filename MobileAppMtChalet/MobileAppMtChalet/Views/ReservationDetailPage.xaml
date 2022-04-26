@@ -11,7 +11,8 @@
 
     
     <StackLayout Spacing="20" Padding="15" >
-        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsLogged}">
+        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" >
+            <!--  IsVisible="{Binding CanEdit}"    -->
             <Button Text="Usun Rezerwacje" Command="{Binding DeleteCommand}" BackgroundColor="Red"></Button>
             <Label Text="Włącz edycję" FontSize="Large" />
             <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding EditMode}" />
@@ -57,7 +58,8 @@
                 <Editor Text="{Binding ExtraInfo, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
             </StackLayout>
         </ScrollView>
-            <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="305" x:Name="EmployeeInfoBox">
+            <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="305" x:Name="EmployeeInfoBox" >
+                <!--  IsVisible="{Binding CanViewDetails}"    -->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="280"/>
@@ -93,7 +95,8 @@
             </Grid>
         </Grid>
     
-        <StackLayout Orientation="Horizontal" IsVisible="{Binding IsLogged}">
+        <StackLayout Orientation="Horizontal" >
+            <!--  IsVisible="{Binding IsLogged}" Tak było ale tu powinno być inaczej, dla niezalogowanego tylko cofnij(?)    -->
             <Button Text="Anuluj" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
             <Button Text="Zapisz Zmiany" Command="{Binding SaveEditCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EditMode}"></Button>
         </StackLayout>
