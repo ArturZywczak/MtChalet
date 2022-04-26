@@ -23,6 +23,10 @@ namespace MobileAppMtChalet.ViewModels {
             set {
                 SetProperty(ref reservationDataJson, value);
                 ReservationData = new Reservation(value);
+                SelectedRoomIndex = reservationData.RoomId - 1;
+                SelectedBedCountIndex = reservationData.NumberOfPeople - 1;
+
+                PrepareEditInfo();
             }
         }
 
@@ -31,88 +35,26 @@ namespace MobileAppMtChalet.ViewModels {
             get => reservationData;
             set {
                 SetProperty(ref reservationData, value);
-                if (Rooms.Count>0) LoadReservation();
             }
         }
         //END
 
-        private string reservationId;
-        public string ReservationId {
-            get {
-                return reservationId;
-            }
-            set {
-                reservationId = value;
-                //LoadReservationId(value);
-            }
-        }
-        private string name;
-        public string Name {
-            get => name;
-            set => SetProperty(ref name, value);
-        }
-        private string surname;
-        public string Surname {
-            get => surname;
-            set => SetProperty(ref surname, value);
-        }
-        private int roomID;
-        public int RoomID {
-            get => roomID;
-            set {
-                SetProperty(ref roomID, value);
-                if (roomID != -1) {
-                    ChangeSelectedRoom();
-                }
-            }
-        }
-        private int numberOfPeople;
-        public int NumberOfPeople {
-            get => numberOfPeople;
-            set => SetProperty(ref numberOfPeople, value);
-        }
-        private DateTime startingDate;
-        public DateTime StartingDate {
-            get => startingDate;
-            set => SetProperty(ref startingDate, value);
-        }
-        private DateTime endingDate;
-        public DateTime EndingDate {
-            get => endingDate;
-            set => SetProperty(ref endingDate, value);
-        }
-        private string phone;
-        public string Phone {
-            get => phone;
-            set => SetProperty(ref phone, value);
-        }
-        private string email;
-        public string Email {
-            get => email;
-            set => SetProperty(ref email, value);
-        }
-        private string extraInfo;
-        public string ExtraInfo {
-            get => extraInfo;
-            set => SetProperty(ref extraInfo, value);
-        }
-        private DateTime creationDate;
-        public DateTime CreationDate {
-            get => creationDate;
-            set => SetProperty(ref creationDate, value);
-        }
-        private bool editMode;
+        private bool editMode = false;
         public bool EditMode {
             get => editMode;
             set {
                 SetProperty(ref editMode, value);
-                SelectedRoomID = RoomID - 1;
-                SelectedBedCountID = NumberOfPeople - 1;
+                //SelectedRoomIndex = reservationData.RoomId - 1;
+                //SelectedBedCountIndex = reservationData.NumberOfPeople - 1;
+
+                SetProperty(ref selectedRoomIndex, reservationData.RoomId - 1);
+                SetProperty(ref selectedBedCountIndex, reservationData.NumberOfPeople - 1);
+
                 EditModeInversed = !value;
                 OnPropertyChanged();
             }
         }
-        private bool editModeInv;
+        private bool editModeInv = true;
         public bool EditModeInversed {
             get => editModeInv;
             set {
@@ -120,33 +62,23 @@ namespace MobileAppMtChalet.ViewModels {
                 OnPropertyChanged();
             }
         }
-        private string oldUserID;
-        public string OldUserID {
-            get {
-                return oldUserID;
-            }
-            set {
-                SetProperty(ref oldUserID, value);
-            }
-        }
-        //terrible hack, bug fix
-        private int selectedRoomID;
-        public int SelectedRoomID {
-            get => selectedRoomID;
+
+        private int selectedRoomIndex;
+        public int SelectedRoomIndex {
+            get => selectedRoomIndex;
             set { 
-                SetProperty(ref selectedRoomID, value);
-                if (roomID != -1) {
-                    ChangeSelectedRoom();
-                }
+                SetProperty(ref selectedRoomIndex, value);
+                ChangeSelectedRoom();
             }
         }
 
-        private int selectedBedCountID;
-        public int SelectedBedCountID {
-            get => selectedBedCountID;
-            set => SetProperty(ref selectedBedCountID, value);
+        private int selectedBedCountIndex;
+        public int SelectedBedCountIndex {
+            get => selectedBedCountIndex;
+            set => SetProperty(ref selectedBedCountIndex, value);
         }
         #endregion
+
         # region Public Lists & Commands
         public ObservableCollection<int> RoomIDs { get; }
         public List<Room> Rooms { get; set; }
@@ -159,7 +91,7 @@ namespace MobileAppMtChalet.ViewModels {
         #endregion
         public ReservationDetailViewModel(IMtChaletService mtChaletService) {
 
-            RoomID = -1;
+            //RoomID = -1;
             _mtChaletService = mtChaletService;
             SaveEditCommand = new Command(OnSave);
             CancelCommand = new Command(OnCancel);
@@ -173,16 +105,13 @@ namespace MobileAppMtChalet.ViewModels {
 
             PrepareRoomInfo();
 
-
-            EditMode = false;
-            EditModeInversed = true;
-            
-
+            //EditMode = false;
+            //EditModeInversed = true;
             
         }
 
         public void OnAppearing() {
-            LoadReservation();
+            //LoadReservation();
         }
 
         #region Commands Functions
@@ -193,18 +122,18 @@ namespace MobileAppMtChalet.ViewModels {
         private async void OnSave() { //TODO zamiast rezerwacji ma przygotować ReservationsEditHistory(zmienić nazwe?, ma dac stare id i dane pracownika)
 
             EditedReservation editedReservation = new EditedReservation() {
-                OldReservationId = Int32.Parse(ReservationId),
-                Name = name,
-                Surname = surname,
-                RoomId = SelectedRoomID + 1,
-                NumberOfPeople = selectedBedCountID + 1,
-                StartingDate = startingDate,
-                EndingDate = endingDate,
-                Phone = phone,
-                Email = email,
-                ExtraInfo = extraInfo,
-                EmployeeId = oldUserID,
-                CreationDate = creationDate,
+                OldReservationId = reservationData.ReservationId,
+                Name = reservationData.Name,
+                Surname = reservationData.Surname,
+                RoomId = SelectedRoomIndex + 1,
+                NumberOfPeople = selectedBedCountIndex + 1,
+                StartingDate = reservationData.StartingDate,
+                EndingDate = reservationData.EndingDate,
+                Phone = reservationData.Phone,
+                Email = reservationData.Email,
+                ExtraInfo = reservationData.ExtraInfo,
+                EmployeeId = reservationData.EmployeeId,
+                CreationDate = reservationData.CreationDate,
                 EditDate = DateTime.Now,
                 EditedByEmployeeId = UserData.Auth0ID
                 };
@@ -220,7 +149,7 @@ namespace MobileAppMtChalet.ViewModels {
         }
         private async void OnDelete() {
 
-            await _mtChaletService.DeleteReservation(Int32.Parse(ReservationId));
+            await _mtChaletService.DeleteReservation(reservationData.ReservationId);
             await Shell.Current.GoToAsync("..");
         }
         #endregion
@@ -230,9 +159,9 @@ namespace MobileAppMtChalet.ViewModels {
             if (Rooms.Count > 0) {
                 AvaliableBeds.Clear();
                 if (editMode)
-                    for (int i = 1; i <= Rooms[selectedRoomID].RoomCap; i++) AvaliableBeds.Add(i); //here
+                    for (int i = 1; i <= Rooms[selectedRoomIndex].RoomCap; i++) AvaliableBeds.Add(i); //here
                 else
-                    for (int i = 1; i <= Rooms[roomID - 1].RoomCap; i++) AvaliableBeds.Add(i); //here
+                    for (int i = 1; i <= Rooms[reservationData.RoomId - 1].RoomCap; i++) AvaliableBeds.Add(i); //here
             }
         }
         async void PrepareRoomInfo() {
@@ -251,53 +180,11 @@ namespace MobileAppMtChalet.ViewModels {
                 IsBusy = false;
             }
         }
-        public void LoadReservationId(string reservationId) {
-            try {
-                //var reservation = await _mtChaletService.GetReservation(reservationId);
-                var reservation = new Reservation(reservationDataJson);
-                Name = reservation.Name;
-                Surname = reservation.Surname;
-                RoomID = reservation.RoomId;
-                NumberOfPeople = reservation.NumberOfPeople;
-                StartingDate = reservation.StartingDate;
-                EndingDate = reservation.EndingDate;
-                Phone = reservation.Phone;
-                Email = reservation.Email;
-                ExtraInfo = reservation.ExtraInfo;
-                CreationDate = reservation.CreationDate;
 
-                ReservationId = reservation.ReservationId.ToString(); //added
-                PrepareEditInfo();
-            }
-            catch (Exception) {
-                Debug.WriteLine("Failed to Load Item");
-            }
-        }
-
-        public void LoadReservation() {
-            
-
-            var reservation = new Reservation(reservationDataJson);
-            Name = reservation.Name;
-            Surname = reservation.Surname;
-            RoomID = reservation.RoomId;
-            NumberOfPeople = reservation.NumberOfPeople;
-            StartingDate = reservation.StartingDate;
-            EndingDate = reservation.EndingDate;
-            Phone = reservation.Phone;
-            Email = reservation.Email;
-            ExtraInfo = reservation.ExtraInfo;
-            CreationDate = reservation.CreationDate;
-
-            ReservationId = reservation.ReservationId.ToString(); //added
-
-            //TODO If not allowed dont do it?
-            PrepareEditInfo();
-        }
 
         async void PrepareEditInfo() {
             try {
-                IEnumerable<EditedReservation> edits = await _mtChaletService.GetEditReservationDetails(Int32.Parse(ReservationId));
+                IEnumerable<EditedReservation> edits = await _mtChaletService.GetEditReservationDetails(reservationData.ReservationId);
                 var editsList = edits.Reverse().ToList();
 
                 for (int i = 0; i != editsList.Count-1; i++) { //-1 bo ostatni edit musi zostać porównany do aktualnej rezerwacji
@@ -388,84 +275,84 @@ namespace MobileAppMtChalet.ViewModels {
                 }
 
                 { 
-                        if (editsList.Last().Name != name)
+                        if (editsList.Last().Name != reservationData.Name)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Imię",
                             ChangedBefore = editsList.Last().Name,
-                            ChangedAfter = name,
+                            ChangedAfter = reservationData.Name,
                             Date = editsList.Last().EditDate
                         });
 
-                    if (editsList.Last().Surname != surname)
+                    if (editsList.Last().Surname != reservationData.Surname)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Nazwisko",
                             ChangedBefore = editsList.Last().Surname,
-                            ChangedAfter = surname,
+                            ChangedAfter = reservationData.Surname,
                             Date = editsList.Last().EditDate
                         });
 
-                    if (editsList.Last().RoomId != roomID)
+                    if (editsList.Last().RoomId != reservationData.RoomId)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Nr pokoju",
                             ChangedBefore = editsList.Last().RoomId.ToString(),
-                            ChangedAfter = roomID.ToString(),
+                            ChangedAfter = reservationData.RoomId.ToString(),
                             Date = editsList.Last().EditDate
                         });
 
-                    if (editsList.Last().NumberOfPeople != numberOfPeople)
+                    if (editsList.Last().NumberOfPeople != reservationData.NumberOfPeople)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Ilość osób w pokoju",
                             ChangedBefore = editsList.Last().NumberOfPeople.ToString(),
-                            ChangedAfter = numberOfPeople.ToString(),
+                            ChangedAfter = reservationData.NumberOfPeople.ToString(),
                             Date = editsList.Last().EditDate
                         });
 
-                    if (editsList.Last().StartingDate != startingDate)
+                    if (editsList.Last().StartingDate != reservationData.StartingDate)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Datę przybycia",
                             ChangedBefore = editsList.Last().StartingDate.ToString(),
-                            ChangedAfter = startingDate.ToString(),
+                            ChangedAfter = reservationData.StartingDate.ToString(),
                             Date = editsList.Last().EditDate
                         });
 
-                    if (editsList.Last().EndingDate != endingDate)
+                    if (editsList.Last().EndingDate != reservationData.EndingDate)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Datę wyjazdu",
                             ChangedBefore = editsList.Last().EndingDate.ToString(),
-                            ChangedAfter = endingDate.ToString(),
+                            ChangedAfter = reservationData.EndingDate.ToString(),
                             Date = editsList.Last().EditDate
                         });
 
-                    if (editsList.Last().Phone != phone)
+                    if (editsList.Last().Phone != reservationData.Phone)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Nr telefonu",
                             ChangedBefore = editsList.Last().Phone,
-                            ChangedAfter = phone,
+                            ChangedAfter = reservationData.Phone,
                             Date = editsList.Last().EditDate
                         });
 
-                    if (editsList.Last().Email != email)
+                    if (editsList.Last().Email != reservationData.Email)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Adres email",
                             ChangedBefore = editsList.Last().Email,
-                            ChangedAfter = email,
+                            ChangedAfter = reservationData.Email,
                             Date = editsList.Last().EditDate
                         });
 
-                    if (editsList.Last().ExtraInfo != extraInfo)
+                    if (editsList.Last().ExtraInfo != reservationData.ExtraInfo)
                         EditDetailsList.Add(new EditHistoryDetail {
                             UserName = editsList.Last().EditedByEmployeeId,
                             ChangedType = "Dodatkowe informacje",
                             ChangedBefore = editsList.Last().ExtraInfo,
-                            ChangedAfter = extraInfo,
+                            ChangedAfter = reservationData.ExtraInfo,
                             Date = editsList.Last().EditDate
                         });
 

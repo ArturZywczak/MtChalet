@@ -22,40 +22,40 @@
         <ScrollView VerticalOptions="FillAndExpand">
             <StackLayout>
                 <Label Text="Imię:" FontSize="Large"/>
-                <Label Text="{Binding Name}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Entry Text="{Binding Name, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding ReservationData.Name}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Entry Text="{Binding ReservationData.Name, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
                 
                 <Label Text="Nazwisko:" FontSize="Large"/>
-                <Label Text="{Binding Surname}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Entry Text="{Binding Surname, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding ReservationData.Surname}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Entry Text="{Binding ReservationData.Surname, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
 
                 <Label Text="Pokój" FontSize="Large" />
-                <Label Text="{Binding RoomID}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Picker ItemsSource="{Binding RoomIDs}" SelectedIndex="{Binding SelectedRoomID, Mode=TwoWay}" IsVisible="{Binding EditMode}"></Picker>
+                <Label Text="{Binding ReservationData.RoomId}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Picker ItemsSource="{Binding RoomIDs}" SelectedIndex="{Binding SelectedRoomIndex, Mode=TwoWay}" IsVisible="{Binding EditMode}"></Picker>
 
                 <Label Text="Ilość miejsc" FontSize="Large" />
-                <Label Text="{Binding NumberOfPeople}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Picker ItemsSource="{Binding AvaliableBeds}" SelectedIndex="{Binding SelectedBedCountID, Mode=TwoWay}" IsVisible="{Binding EditMode}" ></Picker>
+                <Label Text="{Binding ReservationData.NumberOfPeople}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Picker ItemsSource="{Binding AvaliableBeds}" SelectedIndex="{Binding SelectedBedCountIndex, Mode=TwoWay}" IsVisible="{Binding EditMode}" ></Picker>
 
                 <Label Text="Data Przyjazdu" FontSize="Large" />
-                <Label Text="{Binding StartingDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
-                <DatePicker Format="dd/MM/yyyy" Date="{Binding StartingDate, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding ReservationData.StartingDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <DatePicker Format="dd/MM/yyyy" Date="{Binding ReservationData.StartingDate, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
 
                 <Label Text="Data Wyjazdu" FontSize="Large" />
-                <Label Text="{Binding EndingDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Large" IsVisible="{Binding EditModeInversed}"/>
-                <DatePicker Format="dd/MM/yyyy" Date="{Binding EndingDate, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding ReservationData.EndingDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <DatePicker Format="dd/MM/yyyy" Date="{Binding ReservationData.EndingDate, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
 
                 <Label Text="Telefon:" FontSize="Large"/>
-                <Label Text="{Binding Phone}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Entry Text="{Binding Phone, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding ReservationData.Phone}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Entry Text="{Binding ReservationData.Phone, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
 
                 <Label Text="Email:" FontSize="Large"/>
-                <Label Text="{Binding Email}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Entry Text="{Binding Email, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding ReservationData.Email}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Entry Text="{Binding ReservationData.Email, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
 
                 <Label Text="Dodatkowe Informacje:" FontSize="Large"/>
-                <Label Text="{Binding ExtraInfo}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
-                <Editor Text="{Binding ExtraInfo, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
+                <Label Text="{Binding ReservationData.ExtraInfo}" FontSize="Small" IsVisible="{Binding EditModeInversed}"/>
+                <Editor Text="{Binding ReservationData.ExtraInfo, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
             </StackLayout>
         </ScrollView>
             <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="305" x:Name="EmployeeInfoBox" >
