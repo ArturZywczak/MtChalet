@@ -54,7 +54,15 @@ namespace MobileAppMtChalet.ViewModels {
         }
 
         private async void OnPreviewClicked(object obj) {
-            await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}");
+            Employee prevOnly = new Employee() {
+                Auth0ID = "PREVIEV_ONLY",
+                EmployeeId = 0,
+                Role = 0
+            };
+
+            string prevUser = prevOnly.Serialize();
+
+            await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}?UserData={prevUser}");
         }
 
         private async void OnLoginClicked(object obj) {

@@ -44,8 +44,6 @@ namespace MobileAppMtChalet.ViewModels {
             get => editMode;
             set {
                 SetProperty(ref editMode, value);
-                //SelectedRoomIndex = reservationData.RoomId - 1;
-                //SelectedBedCountIndex = reservationData.NumberOfPeople - 1;
 
                 SetProperty(ref selectedRoomIndex, reservationData.RoomId - 1);
                 SetProperty(ref selectedBedCountIndex, reservationData.NumberOfPeople - 1);
@@ -105,13 +103,7 @@ namespace MobileAppMtChalet.ViewModels {
 
             PrepareRoomInfo();
 
-            //EditMode = false;
-            //EditModeInversed = true;
             
-        }
-
-        public void OnAppearing() {
-            //LoadReservation();
         }
 
         #region Commands Functions
