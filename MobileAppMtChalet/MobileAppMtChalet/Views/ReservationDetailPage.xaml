@@ -11,7 +11,7 @@
 
     
     <StackLayout Spacing="20" Padding="15" >
-        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" >
+        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" IsVisible="{Binding CanEdit}">
             <!--  IsVisible="{Binding CanEdit}"    -->
             <Button Text="Usun Rezerwacje" Command="{Binding DeleteCommand}" BackgroundColor="Red"></Button>
             <Label Text="Włącz edycję" FontSize="Large" />
@@ -58,7 +58,7 @@
                 <Editor Text="{Binding ReservationData.ExtraInfo, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
             </StackLayout>
         </ScrollView>
-            <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="305" x:Name="EmployeeInfoBox" >
+            <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="305" x:Name="EmployeeInfoBox" IsVisible="{Binding CanViewDetails}">
                 <!--  IsVisible="{Binding CanViewDetails}"    -->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
@@ -96,9 +96,9 @@
         </Grid>
     
         <StackLayout Orientation="Horizontal" >
-            <!--  IsVisible="{Binding IsLogged}" Tak było ale tu powinno być inaczej, dla niezalogowanego tylko cofnij(?)    -->
-            <Button Text="Anuluj" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
-            <Button Text="Zapisz Zmiany" Command="{Binding SaveEditCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EditMode}"></Button>
+            <!--  IsVisible="{Binding CanEdit}" do buttona zapisz zmiany    -->
+            <Button Text="Cofnij" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Zapisz Zmiany" Command="{Binding SaveEditCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EditMode}" IsVisible="{Binding CanEdit}"></Button>
         </StackLayout>
     </StackLayout>
     

@@ -17,6 +17,9 @@ namespace MobileAppMtChalet.ViewModels {
             set {
                 SetProperty(ref userDataJson, value);
                 UserData = new Employee(value);
+
+                if (userData.Role > 2) CanViewDetails = true;
+                if (userData.Role > 1) CanEdit = true;
             }
         }
 
@@ -26,6 +29,17 @@ namespace MobileAppMtChalet.ViewModels {
             set {
                 SetProperty(ref userData, value);
             }
+        }
+
+        private bool canEdit = false;
+        public bool CanEdit {
+            get => canEdit;
+            set => SetProperty(ref canEdit, value);
+        }
+        private bool canViewDetails = false;
+        public bool CanViewDetails {
+            get => canViewDetails;
+            set => SetProperty(ref canViewDetails, value);
         }
 
 

@@ -61,6 +61,8 @@ namespace MobileAppMtChalet.ViewModels {
             }
         }
 
+
+
         private int selectedRoomIndex;
         public int SelectedRoomIndex {
             get => selectedRoomIndex;
@@ -89,7 +91,6 @@ namespace MobileAppMtChalet.ViewModels {
         #endregion
         public ReservationDetailViewModel(IMtChaletService mtChaletService) {
 
-            //RoomID = -1;
             _mtChaletService = mtChaletService;
             SaveEditCommand = new Command(OnSave);
             CancelCommand = new Command(OnCancel);
@@ -111,7 +112,7 @@ namespace MobileAppMtChalet.ViewModels {
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
-        private async void OnSave() { //TODO zamiast rezerwacji ma przygotować ReservationsEditHistory(zmienić nazwe?, ma dac stare id i dane pracownika)
+        private async void OnSave() { 
 
             EditedReservation editedReservation = new EditedReservation() {
                 OldReservationId = reservationData.ReservationId,
