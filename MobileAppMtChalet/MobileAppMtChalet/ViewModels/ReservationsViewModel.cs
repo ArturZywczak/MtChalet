@@ -26,7 +26,7 @@ namespace MobileAppMtChalet.ViewModels {
         }
 
         private readonly IMtChaletService _mtChaletService;
-        private string _selectedDate;
+        private string _selectedDate = DateTime.Now.ToString("ddMMyyyy");
         public string SelectedDate {
             get {
                 return _selectedDate;
@@ -96,6 +96,8 @@ namespace MobileAppMtChalet.ViewModels {
                 var reservations = await _mtChaletService.GetReservationOnDate(_selectedDate);
                 var rooms = await _mtChaletService.GetRooms();
                 SetupRoomData(reservations, rooms);
+
+                AddReservationCommand.ChangeCanExecute();
             }
             catch (Exception ex) {
                 Debug.WriteLine(ex);

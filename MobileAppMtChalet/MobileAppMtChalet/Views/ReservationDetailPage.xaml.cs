@@ -12,22 +12,23 @@ namespace MobileAppMtChalet.Views {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ReservationDetailPage : ContentPage {
         private readonly ReservationDetailViewModel _reservationDetailViewModel;
-        bool IsBoxOut;
+        bool _isBoxOut;
         public ReservationDetailPage() {
             InitializeComponent();
-            IsBoxOut = false;
+            _isBoxOut = false;
             _reservationDetailViewModel = Startup.Resolve<ReservationDetailViewModel>();
             BindingContext = _reservationDetailViewModel;
+
         }
 
         async void ShowExtraInfo_Clicked(Object sender, EventArgs e) {
-            if (!IsBoxOut) {
+            if (!_isBoxOut) {
                 await EmployeeInfoBox.TranslateTo(EmployeeInfoBox.TranslationX - 280, 0, 500);
-                IsBoxOut = true;
+                _isBoxOut = true;
             }
             else {
                 await EmployeeInfoBox.TranslateTo(EmployeeInfoBox.TranslationX + 280, 0, 500);
-                IsBoxOut = false;
+                _isBoxOut = false;
             }
 
             

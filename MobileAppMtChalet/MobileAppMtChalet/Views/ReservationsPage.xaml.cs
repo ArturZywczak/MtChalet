@@ -13,15 +13,17 @@ namespace MobileAppMtChalet.Views {
     public partial class ReservationsPage : ContentPage {
         private readonly ReservationsViewModel _reservationsViewModel;
         public ReservationsPage() {
-            InitializeComponent();
-
             _reservationsViewModel = Startup.Resolve<ReservationsViewModel>();
             BindingContext = _reservationsViewModel;
+
+            InitializeComponent();
+
         }
 
         protected override void OnAppearing() {
-            base.OnAppearing();
             _reservationsViewModel.OnAppearing();
         }
+
+        
     }
 }

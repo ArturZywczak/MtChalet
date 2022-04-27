@@ -7,10 +7,19 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:local="clr-namespace:MobileAppMtChalet.ViewModels"
              ios:Page.UseSafeArea="true">
-    
+
     <ContentPage.Content >
-        
         <StackLayout Spacing="3" Padding="15">
+
+            <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="0" BackgroundColor="Green" x:Name="StepsGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="1" BackgroundColor="Green" Text="Siema" VerticalOptions="CenterAndExpand" />
+                <Label Grid.Column="0" BackgroundColor="Red" Text="Gitara" VerticalOptions="CenterAndExpand" />
+            </Grid>
+
             <Label Text="Dodaj Rezerwacje" FontSize="Title" FontAttributes="Bold"></Label>
             <ScrollView>
                 <FlexLayout Wrap="Wrap"
@@ -74,7 +83,10 @@
             <StackLayout Orientation="Horizontal">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
                 <Button Text="{Binding SaveButtonText}" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Grid.Column="0" BackgroundColor="Red" Text="następny krok" Clicked="GoToNextStep_Clicked" VerticalOptions="Center" />
             </StackLayout>
+
+
         </StackLayout>
     </ContentPage.Content>
     
