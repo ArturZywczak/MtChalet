@@ -87,6 +87,7 @@
     <FlyoutItem Title="About" Icon="icon_about.png">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem> -->
+    
     <FlyoutItem Title="Pokaz rezerwacje" Icon="icon_feed.png">
         <ShellContent Route="ReservationsPage" ContentTemplate="{DataTemplate local:ReservationsPage}" />
     </FlyoutItem>
@@ -110,14 +111,22 @@
     // These may be provided inline as below or as separate classes.
 
     // This header appears at the top of the Flyout.
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyout-header
+    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyout-header -->
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
-            <Grid>ContentHere</Grid>
+            <Grid>
+                <Label>
+                    <Label.Text>
+                        <MultiBinding StringFormat="{}Witaj {0}!">
+                            <Binding Path="UserData.Name"/>
+                        </MultiBinding>
+                    </Label.Text>
+                </Label> 
+            </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
 
-    // ItemTemplate is for ShellItems as displayed in a Flyout
+    <!--// ItemTemplate is for ShellItems as displayed in a Flyout
     // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#define-flyoutitem-appearance
     <Shell.ItemTemplate>
         <DataTemplate>

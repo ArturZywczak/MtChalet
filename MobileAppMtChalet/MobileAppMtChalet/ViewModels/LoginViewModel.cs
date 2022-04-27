@@ -57,7 +57,8 @@ namespace MobileAppMtChalet.ViewModels {
             Employee prevOnly = new Employee() {
                 Auth0ID = "PREVIEV_ONLY",
                 EmployeeId = 0,
-                Role = 0
+                Role = 0,
+                Name = "Niezalogowany"
             };
 
             string prevUser = prevOnly.Serialize();
