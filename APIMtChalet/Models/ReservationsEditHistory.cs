@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 
 #nullable disable
-
+//TODO ReservationEditHistory powinno dziedziczyć po Reservation
+//Stworzyć konstruktor który przyjmuje Reservation
+//Stworzyć metodę która z reservationEditHistory daje Reservation
 namespace APIMtChalet.Models
 {
     public partial class ReservationsEditHistory {

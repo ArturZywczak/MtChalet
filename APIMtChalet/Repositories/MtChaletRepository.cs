@@ -12,10 +12,17 @@ namespace APIMtChalet.Repositories {
         public MtChaletRepository(MtChaletDBContext context) {
             _context = context;
         }
+        
         public async Task<Reservation> CreateReservation(Reservation reservation) {
+            //Add reservation to DB
             reservation.CreationDate = DateTime.Now;
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
+            
+            //TODO W DOMU sprawdź czy można podmienić wstawianie NewReservationID tym:
+            //var test = _context.Reservations.Add(reservation);
+            //NewReservationID = test.Entity.ReservationId
+            //Dodatkowo wtedy lepiej jakby zwracał tego testa
 
             //Add creation info to EditHistory
             _context.ReservationsEditsHistory.Add(new ReservationsEditHistory {
@@ -23,7 +30,7 @@ namespace APIMtChalet.Repositories {
                 Name = "",
                 RoomId = 0,
                 NumberOfPeople = 0,
-                StartingDate = DateTime.Now, //Enter lowest date?
+                StartingDate = DateTime.Now,
                 EndingDate = DateTime.Now,
                 EmployeeId = reservation.EmployeeId,
                 CreationDate = DateTime.Now,
@@ -52,7 +59,8 @@ namespace APIMtChalet.Repositories {
             _context.Reservations.Remove(reservationToDelete);
             await _context.SaveChangesAsync();
 
-            //Add delete info to EditHistory
+            //TODO po zmienieniu ReservationEditsHistory zmień to tak aby wykorzystywało nowy konstruktor z rezerwacją
+            //Add delete information to EditHistory
             _context.ReservationsEditsHistory.Add(new ReservationsEditHistory {
                 OldReservationId = data.ReservationId,
                 Name = reservationToDelete.Name,
@@ -80,7 +88,9 @@ namespace APIMtChalet.Repositories {
 
         public async Task<IEnumerable<Reservation>> GetReservation(DateTime date) {
 
-            var t = await Task.Run(() => { return _context.Reservations.Where(s => s.StartingDate == date).AsEnumerable(); }); //WTF XDDD
+            var t = await Task.Run(() => { 
+                return _context.Reservations.Where(s => s.StartingDate == date).AsEnumerable(); //Used to convert from List to IEnumerable
+                }); 
             return t;
         }
 
@@ -94,10 +104,12 @@ namespace APIMtChalet.Repositories {
         }
 
         public async Task<Reservation> EditReservation(ReservationsEditHistory newReservation) {
-
-            //pobierz poprzednia
+            //TODO niekoniecznie w domu sprawdź które SaveChangesAsync można usunąć
+            //Get previous reservation to temp
             var oldReservation = await _context.Reservations.FindAsync(newReservation.OldReservationId);
-            //dodaj nowa
+            
+            //Add new reservation
+            //TODO remake with new method from ReservationEditHistory
             var temp = new Reservation {
                 Name = newReservation.Name,
                 Surname = newReservation.Surname,
@@ -114,11 +126,11 @@ namespace APIMtChalet.Repositories {
             _context.Reservations.Add(temp);
             await _context.SaveChangesAsync();
 
-            //usuń poprzednia
+            //Remove previous reservation
             _context.Reservations.Remove(oldReservation);
             await _context.SaveChangesAsync();
 
-            //poprzednia dodaj do historii
+            //Add previous reservation to edit history
             _context.ReservationsEditsHistory.Add(new ReservationsEditHistory {
                 OldReservationId = oldReservation.ReservationId,
                 Name = oldReservation.Name,
@@ -143,7 +155,7 @@ namespace APIMtChalet.Repositories {
 
             await _context.SaveChangesAsync();
 
-
+            //TODO niekoniecznie upewnij się że zwraca pustą jeśli błąd
             return temp;
         }
 
@@ -158,7 +170,7 @@ namespace APIMtChalet.Repositories {
                 temp = await _context.ReservationsEditsHistory.Where(s => s.NewReservationId == temp.OldReservationId).FirstOrDefaultAsync();
                 result.Add(temp);
             }
-            var t = await Task.Run(() => { return result; }); //WTF XDDD
+            var t = await Task.Run(() => { return result; }); //Used to convert from List to IEnumerable
             return t;
 
         }

@@ -33,6 +33,7 @@ namespace APIMtChalet.Models {
         
     }
 
+    //TODO niekoniecznie można to ogarnąć, ale po co
     public class ReservationForDeleting {
 
         public int ReservationId { get; set; }
