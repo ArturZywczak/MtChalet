@@ -18,11 +18,16 @@ namespace MobileAppMtChalet.Models {
         public string EmployeeId { get; set; }
         public DateTime CreationDate { get; set; }
 
+        ///<summary> Serialize Reservation data to Json string </summary>
+        ///<returns> Json data string </returns>
         public string Serialize() {
             string jsonString = JsonConvert.SerializeObject(this, new JsonSerializerSettings());
             return jsonString;
         }
 
+        ///<summary> Deserialize Json string to Reservation </summary>
+        ///<param name = "e"> Json string </param>
+        ///<returns> Reservation object </returns>
         public Reservation Deserialize(string e) {
             Reservation temp = JsonConvert.DeserializeObject<Reservation>(e);
             return temp;
@@ -32,10 +37,11 @@ namespace MobileAppMtChalet.Models {
 
         }
 
+        ///<summary> Create new Reservation object using json string </summary>
+        ///<param name="e"> Json string </param>
         public Reservation(string e) {
             Reservation temp = Deserialize(e);
 
-            //TODO is there better way to do this?
             this.ReservationId = temp.ReservationId;
             this.Name = temp.Name;
             this.Surname = temp.Surname;
@@ -51,6 +57,7 @@ namespace MobileAppMtChalet.Models {
         }
     }
 
+    ///<summary> Reservations in given room on current day, used to present data in reservations page
     public class ReservationsByRoom {
 
         public int FreeBeds { get; set; }
@@ -63,6 +70,7 @@ namespace MobileAppMtChalet.Models {
         }
     }
 
+    ///<summary> Grouping together data for creating single BindingContext, in this case reservation list
     public class Grouping<K, T> : ObservableCollection<T> {
         public K Key { get; private set; }
 
@@ -73,12 +81,17 @@ namespace MobileAppMtChalet.Models {
         }
     }
 
+    ///<summary> Reservation with extra info about previous reservation and employee, used to store reservation edits
     public partial class EditedReservation : Reservation {
         public int ReservationEditId { get; set; }
         public int OldReservationId { get; set; }
         public DateTime EditDate { get; set; }
         public string EditedByEmployeeId { get; set; }
         public int NewReservationId { get; set; }
+        
+        ///<summary> Deserialize Json string to EditedReservation </summary>
+        ///<param name = "e"> Json string </param>
+        ///<returns> Reservation object </returns>
         public new EditedReservation Deserialize(string e) {
             EditedReservation temp = JsonConvert.DeserializeObject<EditedReservation>(e);
             return temp;
@@ -87,10 +100,11 @@ namespace MobileAppMtChalet.Models {
 
         }
 
+        ///<summary> Create new EditedReservation object using json string </summary>
+        ///<param name="e"> Json string </param>
         public EditedReservation(string e) {
             EditedReservation temp = Deserialize(e);
 
-            //TODO is there better way to do this? | Is this necesarry?
             this.ReservationId = temp.ReservationId;
             this.Name = temp.Name;
             this.Surname = temp.Surname;
@@ -112,6 +126,7 @@ namespace MobileAppMtChalet.Models {
         }
     }
 
+    // TODO porządek z tym, tą funkcje giganta przerzucić do tego jakoś
     public class EditHistoryDetail {
 
         public string UserName { get; set; }

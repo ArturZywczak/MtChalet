@@ -14,11 +14,16 @@ namespace MobileAppMtChalet.Models {
         public string Email { get; set; }
         public int Role { get; set; }
 
+        ///<summary> Serialize employee data to Json string </summary>
+        ///<returns> Json data string </returns>
         public string Serialize() {
             string jsonString = JsonConvert.SerializeObject(this, new JsonSerializerSettings());
             return jsonString;
         }
 
+        ///<summary> Deserialize Json string to Employee </summary>
+        ///<param name = "e"> Json string </param>
+        ///<returns> Employee object </returns>
         public Employee Deserialize(string e) {
             Employee temp = JsonConvert.DeserializeObject<Employee>(e);
             return temp;
@@ -28,10 +33,11 @@ namespace MobileAppMtChalet.Models {
 
         }
 
+        ///<summary> Create new Employee object using json string </summary>
+        ///<param name="e"> Json string </param>
         public Employee(string e) {
             Employee temp = Deserialize(e);
 
-            //TODO is there better way to do this?
             this.Auth0ID = temp.Auth0ID;
             this.EmployeeId = temp.EmployeeId;
             this.ConnectionType = temp.ConnectionType;

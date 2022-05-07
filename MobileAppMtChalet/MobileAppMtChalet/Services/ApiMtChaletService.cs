@@ -29,7 +29,6 @@ namespace MobileAppMtChalet.Services {
 
         }
 
-        //TODO REWORK THIS
         public async Task EditReservation(EditedReservation reservation) {
             var updatedSegments = JsonConvert.SerializeObject(reservation).Trim('\\');
 
@@ -67,7 +66,7 @@ namespace MobileAppMtChalet.Services {
 
         public async Task<IEnumerable<EditedReservation>> GetEditReservationDetails(int reservationID) {
             var response = await _httpClient.GetAsync("reservations/id/edit/" + reservationID);
-            response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode(); //TODO w każdym jakieś łapanie tego excception
 
             var responseAsString = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<EditedReservation>>(responseAsString);
@@ -77,7 +76,15 @@ namespace MobileAppMtChalet.Services {
         public async Task<Employee> GetEmployee(string auth0ID) {
             var response = await _httpClient.GetAsync("employee/" + auth0ID);
             response.EnsureSuccessStatusCode(); //TODO what if employee isint in db? Add some kind of alert to contact db admin
-
+            /* 
+            if (response.IsSuccessStatusCode){
+                // Handle success
+            }
+            else{
+                // Handle failure
+            }
+            
+            */ 
             var responseAsString = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Employee>(responseAsString);
         }

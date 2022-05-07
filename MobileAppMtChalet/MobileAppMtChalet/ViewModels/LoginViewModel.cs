@@ -71,7 +71,10 @@ namespace MobileAppMtChalet.ViewModels {
             var authenticationService = DependencyService.Get<IAuthenticationService>();
             var authenticationResult = await authenticationService.Authenticate();
             if (!authenticationResult.IsError) {
-                //TODO add api acces, check auth0id with user id in database, if error throw msg, if correct serialise and send to next screen, in next screen deserialise
+                //TODO Zalogowano w auth0 ale nie w bazie uprawnień, trzeba będzie w jsonie przesłac jakieś powiadomienie
+                //a w następnym ekranie wrzucić to na notyfikacje, coś w stylu skontaktuj sie z administratorem
+                
+
                 var test =  await _mtChaletService.GetEmployee(authenticationResult.User_Id);
                 
                 string jsonString = test.Serialize();
