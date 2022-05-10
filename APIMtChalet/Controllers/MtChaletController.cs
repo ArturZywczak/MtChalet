@@ -44,7 +44,7 @@ namespace APIMtChalet.Controllers {
         [HttpGet("reservations/id/{resId}")]
         public async Task<Reservation> GetReservationsById(int resId) {
 
-                return await _mtChaletRepository.GetReservation(resId);
+            return await _mtChaletRepository.GetReservation(resId);
         }
 
         ///<summary> Gets reservation edit history from reservation id </summary>
@@ -77,7 +77,6 @@ namespace APIMtChalet.Controllers {
         }
 
         ///<summary> Edit reservation using HttpPut </summary>
-        ///<remarks> Unused because throwing 405, workaround above </remarks>
         ///<param name="id"> ID of reservation to edit </param>
         ///<param name="reservation"> Edited reservation </param>
         ///<returns> <c>400</c> if <paramref name="id"/> doesnt match <paramref name="reservation"/>, 
@@ -87,8 +86,8 @@ namespace APIMtChalet.Controllers {
             if(id != reservation.ReservationId) {
                 return BadRequest();
             }
-
-            await _mtChaletRepository.UpdateReservation(reservation);
+            
+            await _mtChaletRepository.EditReservation(reservation);
 
             return Ok();
         }
