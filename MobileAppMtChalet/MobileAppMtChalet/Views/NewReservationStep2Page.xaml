@@ -74,6 +74,7 @@
 
                 </FlexLayout>
             </ScrollView>
+            
             <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
                 <Button Text="Przejdź do potwierdzenia" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>

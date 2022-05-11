@@ -184,7 +184,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].Name != editsList[i - 1].Name) 
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i-1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType ="Imię",
                             ChangedBefore = editsList[i - 1].Name, 
                             ChangedAfter = editsList[i].Name, 
@@ -193,7 +193,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].Surname != editsList[i - 1].Surname)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i - 1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType = "Nazwisko",
                             ChangedBefore = editsList[i - 1].Surname,
                             ChangedAfter = editsList[i].Surname,
@@ -202,7 +202,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].RoomId != editsList[i - 1].RoomId)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i - 1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType = "Nr pokoju",
                             ChangedBefore = editsList[i - 1].RoomId.ToString(),
                             ChangedAfter = editsList[i].RoomId.ToString(),
@@ -211,7 +211,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].NumberOfPeople != editsList[i - 1].NumberOfPeople)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i - 1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType = "Ilość osób w pokoju",
                             ChangedBefore = editsList[i - 1].NumberOfPeople.ToString(),
                             ChangedAfter = editsList[i].NumberOfPeople.ToString(),
@@ -220,7 +220,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].StartingDate != editsList[i - 1].StartingDate)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i - 1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType = "Datę przybycia",
                             ChangedBefore = editsList[i - 1].StartingDate.ToString(),
                             ChangedAfter = editsList[i].StartingDate.ToString(),
@@ -229,7 +229,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].EndingDate != editsList[i - 1].EndingDate)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i - 1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType = "Datę wyjazdu",
                             ChangedBefore = editsList[i - 1].EndingDate.ToString(),
                             ChangedAfter = editsList[i].EndingDate.ToString(),
@@ -238,7 +238,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].Phone != editsList[i - 1].Phone)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i - 1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType = "Nr telefonu",
                             ChangedBefore = editsList[i - 1].Phone,
                             ChangedAfter = editsList[i].Phone,
@@ -247,7 +247,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].Email != editsList[i - 1].Email)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i - 1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType = "Adres email",
                             ChangedBefore = editsList[i - 1].Email,
                             ChangedAfter = editsList[i].Email,
@@ -256,7 +256,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                     if (editsList[i].ExtraInfo != editsList[i - 1].ExtraInfo)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList[i - 1].EditedByEmployeeId,
+                            UserName = "Barłomiej",
                             ChangedType = "Dodatkowe informacje",
                             ChangedBefore = editsList[i - 1].ExtraInfo,
                             ChangedAfter = editsList[i].ExtraInfo,
@@ -268,7 +268,7 @@ namespace MobileAppMtChalet.ViewModels {
 
             if (editsList.Last().Name != reservationData.Name)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Imię",
                         ChangedBefore = editsList.Last().Name,
                         ChangedAfter = reservationData.Name,
@@ -277,7 +277,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                 if (editsList.Last().Surname != reservationData.Surname)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Nazwisko",
                         ChangedBefore = editsList.Last().Surname,
                         ChangedAfter = reservationData.Surname,
@@ -286,7 +286,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                 if (editsList.Last().RoomId != reservationData.RoomId)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Nr pokoju",
                         ChangedBefore = editsList.Last().RoomId.ToString(),
                         ChangedAfter = reservationData.RoomId.ToString(),
@@ -295,7 +295,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                 if (editsList.Last().NumberOfPeople != reservationData.NumberOfPeople)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Ilość osób w pokoju",
                         ChangedBefore = editsList.Last().NumberOfPeople.ToString(),
                         ChangedAfter = reservationData.NumberOfPeople.ToString(),
@@ -304,7 +304,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                 if (editsList.Last().StartingDate != reservationData.StartingDate)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Datę przybycia",
                         ChangedBefore = editsList.Last().StartingDate.ToString(),
                         ChangedAfter = reservationData.StartingDate.ToString(),
@@ -313,7 +313,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                 if (editsList.Last().EndingDate != reservationData.EndingDate)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Datę wyjazdu",
                         ChangedBefore = editsList.Last().EndingDate.ToString(),
                         ChangedAfter = reservationData.EndingDate.ToString(),
@@ -322,7 +322,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                 if (editsList.Last().Phone != reservationData.Phone)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Nr telefonu",
                         ChangedBefore = editsList.Last().Phone,
                         ChangedAfter = reservationData.Phone,
@@ -331,7 +331,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                 if (editsList.Last().Email != reservationData.Email)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Adres email",
                         ChangedBefore = editsList.Last().Email,
                         ChangedAfter = reservationData.Email,
@@ -340,7 +340,7 @@ namespace MobileAppMtChalet.ViewModels {
 
                 if (editsList.Last().ExtraInfo != reservationData.ExtraInfo)
                     EditDetailsList.Add(new EditHistoryDetail {
-                        UserName = editsList.Last().EditedByEmployeeId,
+                        UserName = "Barłomiej",
                         ChangedType = "Dodatkowe informacje",
                         ChangedBefore = editsList.Last().ExtraInfo,
                         ChangedAfter = reservationData.ExtraInfo,

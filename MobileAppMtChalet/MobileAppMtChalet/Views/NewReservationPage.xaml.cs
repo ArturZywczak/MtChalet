@@ -17,7 +17,7 @@ namespace MobileAppMtChalet.Views {
         public NewReservationPage() {
             InitializeComponent();
 
-            PrepareGrid();
+
 
             _isSecondStep = false;
             _newReservationViewModel = Startup.Resolve<NewReservationViewModel>();
@@ -25,40 +25,9 @@ namespace MobileAppMtChalet.Views {
 
         }
 
-        async void GoToNextStep_Clicked(Object sender, EventArgs e) {
-            var m = DeviceDisplay.MainDisplayInfo;
 
-            if (!_isSecondStep) {
-                await StepsGrid.TranslateTo(StepsGrid.TranslationX - (m.Width / m.Density), 0, 500);
-                _isSecondStep = true;
-            }
-            else {
-                await StepsGrid.TranslateTo(StepsGrid.TranslationX + (m.Width / m.Density), 0, 500);
-                _isSecondStep = false;
-            }
-        }
 
-        void PrepareGrid() {
-            var m = DeviceDisplay.MainDisplayInfo;
-            
-            StepsGrid.ColumnDefinitions[0].Width = m.Width / m.Density;
-            StepsGrid.ColumnDefinitions[1].Width = m.Width / m.Density;
-        }
 
-        protected override void OnSizeAllocated(double width, double height) {
-            base.OnSizeAllocated(width, height); // Important!
-
-            PrepareGrid();
-           
-            var m = DeviceDisplay.MainDisplayInfo;
-            if (!_isSecondStep) {
-                StepsGrid.TranslationX = 0;
-            }
-            else {
-                StepsGrid.TranslationX = -(m.Width / m.Density);
-                }
-            
-        }
 
 
     }
