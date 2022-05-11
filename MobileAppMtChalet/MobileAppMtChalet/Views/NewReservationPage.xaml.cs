@@ -26,8 +26,6 @@ namespace MobileAppMtChalet.Views {
         }
 
         async void GoToNextStep_Clicked(Object sender, EventArgs e) {
-
-
             var m = DeviceDisplay.MainDisplayInfo;
 
             if (!_isSecondStep) {
@@ -38,10 +36,7 @@ namespace MobileAppMtChalet.Views {
                 await StepsGrid.TranslateTo(StepsGrid.TranslationX + (m.Width / m.Density), 0, 500);
                 _isSecondStep = false;
             }
-
-
         }
-
 
         void PrepareGrid() {
             var m = DeviceDisplay.MainDisplayInfo;

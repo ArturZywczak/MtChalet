@@ -8,8 +8,9 @@ using Android.Content;
 
 namespace MobileAppMtChalet.Droid
 {
-    [Activity(Label = "AndroidSample", MainLauncher = true, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize,
-    LaunchMode = LaunchMode.SingleTask)]
+    [Activity(Label = "AndroidSample", MainLauncher = true, 
+        ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize,
+        LaunchMode = LaunchMode.SingleTask)]
     [IntentFilter(
     new[] { Intent.ActionView },
     Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
@@ -18,6 +19,11 @@ namespace MobileAppMtChalet.Droid
     DataPathPrefix = "/android/com.companyname.mobileappmtchalet/callback")]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        protected override void OnNewIntent(Intent intent) {
+            base.OnNewIntent(intent);
+
+            Auth0.OidcClient.ActivityMediator.Instance.Send(intent.DataString);
+        }
         protected override void OnCreate(Bundle savedInstanceState) {
 
 
@@ -34,10 +40,6 @@ namespace MobileAppMtChalet.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        protected override void OnNewIntent(Intent intent) {
-            base.OnNewIntent(intent);
 
-            Auth0.OidcClient.ActivityMediator.Instance.Send(intent.DataString);
-        }
     }
 }

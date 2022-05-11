@@ -70,7 +70,8 @@ namespace MobileAppMtChalet.Models {
         }
     }
 
-    ///<summary> Grouping together data for creating single BindingContext, in this case reservation list
+    ///<summary> Grouping together data for creating single BindingContext, 
+    ///in this case reservation list </summary>
     public class Grouping<K, T> : ObservableCollection<T> {
         public K Key { get; private set; }
 
@@ -136,7 +137,83 @@ namespace MobileAppMtChalet.Models {
 
         public DateTime Date { get; set; }
 
+        public EditHistoryDetail() {
 
+        }
+
+        public EditHistoryDetail(IEnumerable<EditedReservation> edits) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
     }
 }
 

@@ -49,16 +49,6 @@ namespace MobileAppMtChalet.ViewModels {
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
-        private async void OnSave() {
-
-
-
-            await _mtChaletService.AddReservation(newReservation);
-
-            //TODO some kind of loading, confirmation/error msg
-
-            await Shell.Current.GoToAsync($"//ReservationsPage?UserData={UserData.Serialize()}");
-        }
 
         void deserializeReservation() {
             newReservation = JsonConvert.DeserializeObject<Reservation>(newReservationJson);
@@ -73,5 +63,14 @@ namespace MobileAppMtChalet.ViewModels {
             ReservationDetails.Add("Email", newReservation.Email);
             ReservationDetails.Add("Dodatkowe Informacje", newReservation.ExtraInfo);
         }
+        private async void OnSave() {
+
+            await _mtChaletService.AddReservation(newReservation);
+
+
+            await Shell.Current.GoToAsync($"//ReservationsPage?UserData={UserData.Serialize()}");
+        }
+
+
     }
 }

@@ -140,5 +140,9 @@ namespace APIMtChalet.Repositories {
 
             return await _context.Employees.Where(s => s.Auth0ID == auth0ID).FirstOrDefaultAsync();
         }
+
+        public Task DeleteReservationWithBody(ReservationForDeleting data) {
+            throw new NotImplementedException();
+        }
     }
 }

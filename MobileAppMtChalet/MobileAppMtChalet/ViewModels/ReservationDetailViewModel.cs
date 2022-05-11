@@ -104,7 +104,6 @@ namespace MobileAppMtChalet.ViewModels {
 
             PrepareRoomInfo();
 
-            
         }
 
         #region Commands Functions
@@ -174,186 +173,185 @@ namespace MobileAppMtChalet.ViewModels {
             }
         }
 
-
+        
         async void PrepareEditInfo() {
             try {
-                IEnumerable<EditedReservation> edits = await _mtChaletService.GetEditReservationDetails(reservationData.ReservationId);
+                IEnumerable<EditedReservation> edits = 
+                    await _mtChaletService.GetEditReservationDetails(reservationData.ReservationId);
                 var editsList = edits.Reverse().ToList();
 
-                for (int i = 0; i != editsList.Count-1; i++) { //-1 bo ostatni edit musi zostać porównany do aktualnej rezerwacji
-                    if (editsList[i].OldReservationId == 0) ; //TODO HERE NEW
+                for (int i = 0; i != editsList.Count-1; i++) { 
 
-                    else { //porównaj do poprzedniego, jeśli się nie zgadza to dodaj do listy zmian
-                        //to powinno być w jakiejś funkcji
-                        if (editsList[i].Name != editsList[i - 1].Name) 
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i-1].EditedByEmployeeId,
-                                ChangedType ="Imię",
-                                ChangedBefore = editsList[i - 1].Name, 
-                                ChangedAfter = editsList[i].Name, 
-                                Date = editsList[i - 1].EditDate});
-
-                        if (editsList[i].Surname != editsList[i - 1].Surname)
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i - 1].EditedByEmployeeId,
-                                ChangedType = "Nazwisko",
-                                ChangedBefore = editsList[i - 1].Surname,
-                                ChangedAfter = editsList[i].Surname,
-                                Date = editsList[i - 1].EditDate
-                            });
-
-                        if (editsList[i].RoomId != editsList[i - 1].RoomId)
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i - 1].EditedByEmployeeId,
-                                ChangedType = "Nr pokoju",
-                                ChangedBefore = editsList[i - 1].RoomId.ToString(),
-                                ChangedAfter = editsList[i].RoomId.ToString(),
-                                Date = editsList[i - 1].EditDate
-                            });
-
-                        if (editsList[i].NumberOfPeople != editsList[i - 1].NumberOfPeople)
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i - 1].EditedByEmployeeId,
-                                ChangedType = "Ilość osób w pokoju",
-                                ChangedBefore = editsList[i - 1].NumberOfPeople.ToString(),
-                                ChangedAfter = editsList[i].NumberOfPeople.ToString(),
-                                Date = editsList[i - 1].EditDate
-                            });
-
-                        if (editsList[i].StartingDate != editsList[i - 1].StartingDate)
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i - 1].EditedByEmployeeId,
-                                ChangedType = "Datę przybycia",
-                                ChangedBefore = editsList[i - 1].StartingDate.ToString(),
-                                ChangedAfter = editsList[i].StartingDate.ToString(),
-                                Date = editsList[i - 1].EditDate
-                            });
-
-                        if (editsList[i].EndingDate != editsList[i - 1].EndingDate)
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i - 1].EditedByEmployeeId,
-                                ChangedType = "Datę wyjazdu",
-                                ChangedBefore = editsList[i - 1].EndingDate.ToString(),
-                                ChangedAfter = editsList[i].EndingDate.ToString(),
-                                Date = editsList[i - 1].EditDate
-                            });
-
-                        if (editsList[i].Phone != editsList[i - 1].Phone)
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i - 1].EditedByEmployeeId,
-                                ChangedType = "Nr telefonu",
-                                ChangedBefore = editsList[i - 1].Phone,
-                                ChangedAfter = editsList[i].Phone,
-                                Date = editsList[i - 1].EditDate
-                            });
-
-                        if (editsList[i].Email != editsList[i - 1].Email)
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i - 1].EditedByEmployeeId,
-                                ChangedType = "Adres email",
-                                ChangedBefore = editsList[i - 1].Email,
-                                ChangedAfter = editsList[i].Email,
-                                Date = editsList[i - 1].EditDate
-                            });
-
-                        if (editsList[i].ExtraInfo != editsList[i - 1].ExtraInfo)
-                            EditDetailsList.Add(new EditHistoryDetail {
-                                UserName = editsList[i - 1].EditedByEmployeeId,
-                                ChangedType = "Dodatkowe informacje",
-                                ChangedBefore = editsList[i - 1].ExtraInfo,
-                                ChangedAfter = editsList[i].ExtraInfo,
-                                Date = editsList[i - 1].EditDate
-                            });
-                    }
-                }
-
-                { 
-                        if (editsList.Last().Name != reservationData.Name)
+                    if (editsList[i].Name != editsList[i - 1].Name) 
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
-                            ChangedType = "Imię",
-                            ChangedBefore = editsList.Last().Name,
-                            ChangedAfter = reservationData.Name,
-                            Date = editsList.Last().EditDate
+                            UserName = editsList[i-1].EditedByEmployeeId,
+                            ChangedType ="Imię",
+                            ChangedBefore = editsList[i - 1].Name, 
+                            ChangedAfter = editsList[i].Name, 
+                            Date = editsList[i - 1].EditDate
                         });
 
-                    if (editsList.Last().Surname != reservationData.Surname)
+                    if (editsList[i].Surname != editsList[i - 1].Surname)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
+                            UserName = editsList[i - 1].EditedByEmployeeId,
                             ChangedType = "Nazwisko",
-                            ChangedBefore = editsList.Last().Surname,
-                            ChangedAfter = reservationData.Surname,
-                            Date = editsList.Last().EditDate
+                            ChangedBefore = editsList[i - 1].Surname,
+                            ChangedAfter = editsList[i].Surname,
+                            Date = editsList[i - 1].EditDate
                         });
 
-                    if (editsList.Last().RoomId != reservationData.RoomId)
+                    if (editsList[i].RoomId != editsList[i - 1].RoomId)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
+                            UserName = editsList[i - 1].EditedByEmployeeId,
                             ChangedType = "Nr pokoju",
-                            ChangedBefore = editsList.Last().RoomId.ToString(),
-                            ChangedAfter = reservationData.RoomId.ToString(),
-                            Date = editsList.Last().EditDate
+                            ChangedBefore = editsList[i - 1].RoomId.ToString(),
+                            ChangedAfter = editsList[i].RoomId.ToString(),
+                            Date = editsList[i - 1].EditDate
                         });
 
-                    if (editsList.Last().NumberOfPeople != reservationData.NumberOfPeople)
+                    if (editsList[i].NumberOfPeople != editsList[i - 1].NumberOfPeople)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
+                            UserName = editsList[i - 1].EditedByEmployeeId,
                             ChangedType = "Ilość osób w pokoju",
-                            ChangedBefore = editsList.Last().NumberOfPeople.ToString(),
-                            ChangedAfter = reservationData.NumberOfPeople.ToString(),
-                            Date = editsList.Last().EditDate
+                            ChangedBefore = editsList[i - 1].NumberOfPeople.ToString(),
+                            ChangedAfter = editsList[i].NumberOfPeople.ToString(),
+                            Date = editsList[i - 1].EditDate
                         });
 
-                    if (editsList.Last().StartingDate != reservationData.StartingDate)
+                    if (editsList[i].StartingDate != editsList[i - 1].StartingDate)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
+                            UserName = editsList[i - 1].EditedByEmployeeId,
                             ChangedType = "Datę przybycia",
-                            ChangedBefore = editsList.Last().StartingDate.ToString(),
-                            ChangedAfter = reservationData.StartingDate.ToString(),
-                            Date = editsList.Last().EditDate
+                            ChangedBefore = editsList[i - 1].StartingDate.ToString(),
+                            ChangedAfter = editsList[i].StartingDate.ToString(),
+                            Date = editsList[i - 1].EditDate
                         });
 
-                    if (editsList.Last().EndingDate != reservationData.EndingDate)
+                    if (editsList[i].EndingDate != editsList[i - 1].EndingDate)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
+                            UserName = editsList[i - 1].EditedByEmployeeId,
                             ChangedType = "Datę wyjazdu",
-                            ChangedBefore = editsList.Last().EndingDate.ToString(),
-                            ChangedAfter = reservationData.EndingDate.ToString(),
-                            Date = editsList.Last().EditDate
+                            ChangedBefore = editsList[i - 1].EndingDate.ToString(),
+                            ChangedAfter = editsList[i].EndingDate.ToString(),
+                            Date = editsList[i - 1].EditDate
                         });
 
-                    if (editsList.Last().Phone != reservationData.Phone)
+                    if (editsList[i].Phone != editsList[i - 1].Phone)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
+                            UserName = editsList[i - 1].EditedByEmployeeId,
                             ChangedType = "Nr telefonu",
-                            ChangedBefore = editsList.Last().Phone,
-                            ChangedAfter = reservationData.Phone,
-                            Date = editsList.Last().EditDate
+                            ChangedBefore = editsList[i - 1].Phone,
+                            ChangedAfter = editsList[i].Phone,
+                            Date = editsList[i - 1].EditDate
                         });
 
-                    if (editsList.Last().Email != reservationData.Email)
+                    if (editsList[i].Email != editsList[i - 1].Email)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
+                            UserName = editsList[i - 1].EditedByEmployeeId,
                             ChangedType = "Adres email",
-                            ChangedBefore = editsList.Last().Email,
-                            ChangedAfter = reservationData.Email,
-                            Date = editsList.Last().EditDate
+                            ChangedBefore = editsList[i - 1].Email,
+                            ChangedAfter = editsList[i].Email,
+                            Date = editsList[i - 1].EditDate
                         });
 
-                    if (editsList.Last().ExtraInfo != reservationData.ExtraInfo)
+                    if (editsList[i].ExtraInfo != editsList[i - 1].ExtraInfo)
                         EditDetailsList.Add(new EditHistoryDetail {
-                            UserName = editsList.Last().EditedByEmployeeId,
+                            UserName = editsList[i - 1].EditedByEmployeeId,
                             ChangedType = "Dodatkowe informacje",
-                            ChangedBefore = editsList.Last().ExtraInfo,
-                            ChangedAfter = reservationData.ExtraInfo,
-                            Date = editsList.Last().EditDate
+                            ChangedBefore = editsList[i - 1].ExtraInfo,
+                            ChangedAfter = editsList[i].ExtraInfo,
+                            Date = editsList[i - 1].EditDate
                         });
+            }
 
 
-                } //paskudztwo
 
+            if (editsList.Last().Name != reservationData.Name)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Imię",
+                        ChangedBefore = editsList.Last().Name,
+                        ChangedAfter = reservationData.Name,
+                        Date = editsList.Last().EditDate
+                    });
+
+                if (editsList.Last().Surname != reservationData.Surname)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Nazwisko",
+                        ChangedBefore = editsList.Last().Surname,
+                        ChangedAfter = reservationData.Surname,
+                        Date = editsList.Last().EditDate
+                    });
+
+                if (editsList.Last().RoomId != reservationData.RoomId)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Nr pokoju",
+                        ChangedBefore = editsList.Last().RoomId.ToString(),
+                        ChangedAfter = reservationData.RoomId.ToString(),
+                        Date = editsList.Last().EditDate
+                    });
+
+                if (editsList.Last().NumberOfPeople != reservationData.NumberOfPeople)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Ilość osób w pokoju",
+                        ChangedBefore = editsList.Last().NumberOfPeople.ToString(),
+                        ChangedAfter = reservationData.NumberOfPeople.ToString(),
+                        Date = editsList.Last().EditDate
+                    });
+
+                if (editsList.Last().StartingDate != reservationData.StartingDate)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Datę przybycia",
+                        ChangedBefore = editsList.Last().StartingDate.ToString(),
+                        ChangedAfter = reservationData.StartingDate.ToString(),
+                        Date = editsList.Last().EditDate
+                    });
+
+                if (editsList.Last().EndingDate != reservationData.EndingDate)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Datę wyjazdu",
+                        ChangedBefore = editsList.Last().EndingDate.ToString(),
+                        ChangedAfter = reservationData.EndingDate.ToString(),
+                        Date = editsList.Last().EditDate
+                    });
+
+                if (editsList.Last().Phone != reservationData.Phone)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Nr telefonu",
+                        ChangedBefore = editsList.Last().Phone,
+                        ChangedAfter = reservationData.Phone,
+                        Date = editsList.Last().EditDate
+                    });
+
+                if (editsList.Last().Email != reservationData.Email)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Adres email",
+                        ChangedBefore = editsList.Last().Email,
+                        ChangedAfter = reservationData.Email,
+                        Date = editsList.Last().EditDate
+                    });
+
+                if (editsList.Last().ExtraInfo != reservationData.ExtraInfo)
+                    EditDetailsList.Add(new EditHistoryDetail {
+                        UserName = editsList.Last().EditedByEmployeeId,
+                        ChangedType = "Dodatkowe informacje",
+                        ChangedBefore = editsList.Last().ExtraInfo,
+                        ChangedAfter = reservationData.ExtraInfo,
+                        Date = editsList.Last().EditDate
+                    });
 
             }
+
+
+
+            
             catch (Exception ex) {
                 Debug.WriteLine(ex);
             }

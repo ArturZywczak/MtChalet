@@ -27,7 +27,8 @@
                     <DataTemplate >
                         <ViewCell Height="40">
                             <StackLayout Orientation="Horizontal" Padding="2" BackgroundColor="Black">
-                                <Label  BackgroundColor="#2f72c4" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontAttributes="Bold">
+                                <Label  BackgroundColor="#2f72c4" VerticalTextAlignment="Center" 
+                                        HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontAttributes="Bold">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}Pokój nr: {0}, Pokój {1}-osobowy, wolne miejsca: {2}">
                                                 <Binding Path="Key.Room.RoomId"/>
@@ -53,7 +54,8 @@
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="2*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label  Grid.Column="0" BackgroundColor="#5398ed" VerticalTextAlignment="Center" Padding="2">
+                                    <Label  Grid.Column="0" BackgroundColor="#5398ed" VerticalTextAlignment="Center" 
+                                            Padding="2">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{1}os {0} {2}">
                                                 <Binding Path="Surname"/>
@@ -62,13 +64,16 @@
                                             </MultiBinding>
                                         </Label.Text>
                                     </Label>
-                                    <Label Grid.Column="1" Text="{Binding Phone}" BackgroundColor="#5398ed" VerticalTextAlignment="Center" Padding="2"/>
-                                    <Label Grid.Column="2" Text="TuKasa" BackgroundColor="#5398ed" VerticalTextAlignment="Center" Padding="2"/>
+                                    <Label Grid.Column="1" Text="{Binding Phone}" BackgroundColor="#5398ed" 
+                                           VerticalTextAlignment="Center" Padding="2"/>
+                                    <Label Grid.Column="2" Text="TuKasa" BackgroundColor="#5398ed" 
+                                           VerticalTextAlignment="Center" Padding="2"/>
                                 </Grid>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer 
                                         NumberOfTapsRequired="1"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ReservationsViewModel}}, Path=ReservationTapped}"		
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ReservationsViewModel}}, 
+                                        Path=ReservationTapped}"		
                                         CommandParameter="{Binding .}"/>
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>

@@ -2,6 +2,7 @@
 using System;
 using MobileAppMtChalet.Services;
 using MobileAppMtChalet.ViewModels;
+using MobileAppMtChalet.Config;
 
 namespace MobileAppMtChalet {
     public static class Startup {
@@ -11,7 +12,7 @@ namespace MobileAppMtChalet {
 
             //add services
             services.AddHttpClient<IMtChaletService, ApiMtChaletService>(c => {
-                c.BaseAddress = new Uri("http://10.0.2.2:5000/api/MtChalet/");
+                c.BaseAddress = new Uri(ApiConfig.ApiURI);
                 c.DefaultRequestHeaders.Add("Accept", "application/json");
             });
 

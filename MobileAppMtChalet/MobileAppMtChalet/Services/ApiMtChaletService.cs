@@ -20,6 +20,7 @@ namespace MobileAppMtChalet.Services {
             var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync("reservations", httpContent);
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task DeleteReservation(int reservationID) {

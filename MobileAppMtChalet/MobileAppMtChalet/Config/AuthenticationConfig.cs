@@ -8,4 +8,8 @@ namespace MobileAppMtChalet.Config {
         public const string ClientId = "3paaMbBVm5U4t40OGOfkQ1saqYtSmgLo"; // ClientId from Auth0 portal
         public const string Audience = "https://dev-g02o2lna.eu.auth0.com/api/v2/"; // Audience from Auth0 portal
     }
+
+    public static class ApiConfig {
+        public const string ApiURI = "http://10.0.2.2:5000/api/MtChalet/";
+    }
 }

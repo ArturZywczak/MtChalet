@@ -119,80 +119,68 @@ namespace MobileAppMtChalet.ViewModels {
             await Shell.Current.GoToAsync("..");
         }
         private async void OnSave() {
-            //TODO pause input, add loading screen
+            IsBusy = true;
 
-            if (valid) {
-
-                Reservation newReservation = new Reservation() {
-                RoomId = roomID + 1,
-                NumberOfPeople = numberOfPeople + 1,
-                StartingDate = startingDate,
-                EndingDate = endingDate,
-
-                EmployeeId = UserData.Auth0ID,
-                CreationDate = DateTime.Now
-
-            };
-                //TODO go to next page, entering details
-
-                //TEST JSON
-                string jsonString = JsonConvert.SerializeObject(newReservation, new JsonSerializerSettings { DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ" }); //Date format! Throws exception on deserialising if using default format
-
-                await Shell.Current.GoToAsync($"{nameof(NewReservationStep2Page)}?NewReservation={jsonString}&UserData={UserData.Serialize()}");
-
-                //await Shell.Current.GoToAsync("..");
-            }
-            else {
+            if (!valid) {
                 //check if reservation is valid
-
-                
                 bool enoughBeds = true;
 
-                //If reservation is longer than i day check avaliability for every day
+                //If reservation is longer than one day check avaliability for every day
                 for (int i = 0; i < (endingDate - startingDate).TotalDays; i++) {
                     //Get starting date, format it
-                    string day = startingDate.AddDays(i).Day.ToString(); if (day.Length == 1) day = "0" + day;
-                    string month = startingDate.AddDays(i).Month.ToString(); if (month.Length == 1) month = "0" + month;
+                    string day = startingDate.AddDays(i).Day.ToString(); 
+                    if (day.Length == 1) day = "0" + day;
+                    string month = startingDate.AddDays(i).Month.ToString(); 
+                    if (month.Length == 1) month = "0" + month;
                     string year = startingDate.AddDays(i).Year.ToString();
                     string result = day + month + year;
 
                     //get reservations on this day
                     var reservationsOnDay = await _mtChaletService.GetReservationOnDate(result);
+                    //count avaliable beds including currently created reservation, -1 because it
+                    //takes index
+                    var freeBeds = Rooms[roomID].RoomCap - numberOfPeople - 1;
 
-                    var freeBeds = Rooms[roomID].RoomCap - numberOfPeople - 1; //count avaliable beds including currently created reservation, -1 because it takes index
-
-                    //Count remaining beds, if not enough to enter currently created reservation throw error
+                    //Count remaining beds, if not enough to enter currently created reservation
+                    //throw error
                     foreach (Reservation res in reservationsOnDay) {
-                        if (res.RoomId == roomID+1) freeBeds -= res.NumberOfPeople; //+1 because it takes index
+                        //+1 because it takes index
+                        if (res.RoomId == roomID + 1) freeBeds -= res.NumberOfPeople;
                         if (freeBeds < 0) {
                             enoughBeds = false;
                             break;
-                            } 
+                        }
                     }
-
                     if (!enoughBeds) break;
                 }
 
                 if (enoughBeds) {
-                    //TODO TEMP Reservation to DB
-
                     valid = true;
                     SaveButtonText = "Dalej";
                 }
                 else {
-                    //TODO some kind of error msg
                     valid = false;
                 }
-               
-
 
             }
-           
+            else {
 
-            //await _mtChaletService.AddReservation(newReservation);
+                Reservation newReservation = new Reservation() {
+                    RoomId = roomID + 1,
+                    NumberOfPeople = numberOfPeople + 1,
+                    StartingDate = startingDate,
+                    EndingDate = endingDate,
+                    EmployeeId = UserData.Auth0ID,
+                    CreationDate = DateTime.Now
 
-            // This will pop the current page off the navigation stack
-            //await Shell.Current.GoToAsync("..");
+                };
+
+                string jsonString = JsonConvert.SerializeObject(newReservation, new JsonSerializerSettings { DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ" }); //Date format! Throws exception on deserialising if using default format
+
+                await Shell.Current.GoToAsync($"{nameof(NewReservationStep2Page)}?NewReservation={jsonString}&UserData={UserData.Serialize()}");
+
+            }
+            IsBusy = false;
         }
         #endregion
 

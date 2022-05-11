@@ -11,9 +11,10 @@
 
     
     <StackLayout Spacing="20" Padding="15" >
-        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" IsVisible="{Binding CanEdit}">
-            <!--  IsVisible="{Binding CanEdit}"    -->
-            <Button Text="Usun Rezerwacje" Command="{Binding DeleteCommand}" BackgroundColor="Red"></Button>
+        <StackLayout Orientation="Horizontal" BackgroundColor="Gray" 
+                     HorizontalOptions="FillAndExpand" IsVisible="{Binding CanEdit}">
+            <Button Text="Usun Rezerwacje" Command="{Binding DeleteCommand}" 
+                    BackgroundColor="Red"></Button>
             <Label Text="Włącz edycję" FontSize="Large" />
             <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding EditMode}" />
         </StackLayout>
@@ -58,13 +59,14 @@
                 <Editor Text="{Binding ReservationData.ExtraInfo, Mode=TwoWay}" IsVisible="{Binding EditMode}"/>
             </StackLayout>
         </ScrollView>
-            <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="305" x:Name="EmployeeInfoBox" IsVisible="{Binding CanViewDetails}">
-                <!--  IsVisible="{Binding CanViewDetails}"    -->
+            <Grid HorizontalOptions="End" VerticalOptions="Center" TranslationX="305" 
+                  x:Name="EmployeeInfoBox" IsVisible="{Binding CanViewDetails}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="280"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" BackgroundColor="Red" Text="Dodatkowe Info" Clicked="ShowExtraInfo_Clicked" VerticalOptions="Center"/>
+                <Button Grid.Column="0" BackgroundColor="LightGreen" Text="Dodatkowe Info" 
+                        Clicked="ShowExtraInfo_Clicked" VerticalOptions="Center"/>
                 <StackLayout Grid.Column="1" BackgroundColor="Aquamarine">
                     <ListView ItemsSource="{Binding EditDetailsList}" BackgroundColor="Green">
                         <ListView.Header>
@@ -94,9 +96,8 @@
 
             </Grid>
         </Grid>
-    
+
         <StackLayout Orientation="Horizontal" >
-            <!--  IsVisible="{Binding CanEdit}" do buttona zapisz zmiany    -->
             <Button Text="Cofnij" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
             <Button Text="Zapisz Zmiany" Command="{Binding SaveEditCommand}" HorizontalOptions="FillAndExpand" IsEnabled="{Binding EditMode}" IsVisible="{Binding CanEdit}"></Button>
         </StackLayout>

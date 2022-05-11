@@ -50,7 +50,7 @@ namespace APIMtChalet.Controllers {
         ///<summary> Gets reservation edit history from reservation id </summary>
         ///<param name="resId"> Reservation ID number </param>
         ///<returns>List of reservation edits, empty if reservation not found. If no edits were made it still returns initial reservation</returns>
-        [HttpGet("reservations/id/edit/{resId}")]
+        [HttpGet("reservations/id/editHistory/{resId}")]
         public async Task<IEnumerable<ReservationsEditHistory>> GetReservationEditHistoryById(int resId) {
 
             return await _mtChaletRepository.GetReservationEditHistory(resId);
@@ -65,7 +65,7 @@ namespace APIMtChalet.Controllers {
             return CreatedAtAction(nameof(PostReservation), new { id = newReservation.ReservationId }, newReservation);
         }
 
-        ///<summary> Edits reservation</summary>
+/*        ///<summary> Edits reservation</summary>
         ///<remarks> Using HttpPost instead of put because IS9 throws 405, tried to fix it but made this workaround instead </remarks>
         ///<param name="reservation"> Reservation to edit </param>
         ///<returns> Updated reservation</returns>
@@ -74,14 +74,14 @@ namespace APIMtChalet.Controllers {
 
             var newReservation = await _mtChaletRepository.EditReservation(reservation);
             return CreatedAtAction(nameof(UpdateReservation), new { id = newReservation.ReservationId }, newReservation);
-        }
+        }*/
 
         ///<summary> Edit reservation using HttpPut </summary>
         ///<param name="id"> ID of reservation to edit </param>
         ///<param name="reservation"> Edited reservation </param>
         ///<returns> <c>400</c> if <paramref name="id"/> doesnt match <paramref name="reservation"/>, 
         ///<c>200</c> if changes made succesfully </returns>
-        [HttpPut]
+        [HttpPut("reservations/edit")]
         public async Task<ActionResult> PutReservation(int id, [FromBody] Reservation reservation) {
             if(id != reservation.ReservationId) {
                 return BadRequest();
@@ -92,7 +92,7 @@ namespace APIMtChalet.Controllers {
             return Ok();
         }
 
-        ///<summary> Remove reservation </summary>
+/*        ///<summary> Remove reservation </summary>
         ///<param name="id"> ID of reservation to edit </param>
         ///<returns> <c>404</c> if <paramref name="id"/> not found, 
         ///<c>200</c> if deleted succesfully </returns>
@@ -103,7 +103,7 @@ namespace APIMtChalet.Controllers {
 
             await _mtChaletRepository.DeleteReservation(reservationToDelete.ReservationId);
             return Ok();
-        }
+        }*/
 
         ///<summary> Remove reservation </summary>
         ///<remarks> Passing entre reservation in body instead of reservation id for creating edit history </remarks>

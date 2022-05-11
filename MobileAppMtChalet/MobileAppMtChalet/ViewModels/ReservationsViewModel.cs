@@ -69,11 +69,7 @@ namespace MobileAppMtChalet.ViewModels {
                 },
                 canExecute: () => {
                     if (UserData == null) return false;
-                    else { 
-
-                        return UserData.Role > 1; 
-                    
-                    }
+                    else return UserData.Role > 1; 
                 });
             ReservationsList = new ObservableCollection<Models.Grouping<ReservationsByRoom, Reservation>>();
 
@@ -88,6 +84,10 @@ namespace MobileAppMtChalet.ViewModels {
         async void OnReservationSelected(Reservation reservation) {
             if (reservation == null) return;
             await Shell.Current.GoToAsync($"{nameof(ReservationDetailPage)}?ReservationData={reservation.Serialize()}&UserData={UserData.Serialize()}");
+        }
+        public void OnAppearing() {
+            IsBusy = true;
+            AddReservationCommand.ChangeCanExecute();
         }
         async Task ExecuteLoadReservationsCommand() {
             try {
@@ -106,8 +106,6 @@ namespace MobileAppMtChalet.ViewModels {
                 IsBusy = false;
             }
         }
-        #endregion
-        #region Other functions
         private void SetupRoomData(IEnumerable<Reservation> reservations, IEnumerable<Room> rooms) {
 
             foreach(var room in rooms) {
@@ -120,16 +118,12 @@ namespace MobileAppMtChalet.ViewModels {
                         asset.FreeBeds -= reservation.NumberOfPeople;
                     }
                 }
-
                 var group = new Models.Grouping<ReservationsByRoom, Reservation>(asset, asset.Reservations);
                 ReservationsList.Add(group);
             }
 
         }
-        public void OnAppearing() {
-            IsBusy = true;
-            AddReservationCommand.ChangeCanExecute();
-        }
+
 
         #endregion
 

@@ -71,15 +71,12 @@ namespace MobileAppMtChalet.ViewModels {
             var authenticationService = DependencyService.Get<IAuthenticationService>();
             var authenticationResult = await authenticationService.Authenticate();
             if (!authenticationResult.IsError) {
-                //TODO Zalogowano w auth0 ale nie w bazie uprawnień, trzeba będzie w jsonie przesłac jakieś powiadomienie
-                //a w następnym ekranie wrzucić to na notyfikacje, coś w stylu skontaktuj sie z administratorem
-                
 
-                var test =  await _mtChaletService.GetEmployee(authenticationResult.User_Id);
-                
-                string jsonString = test.Serialize();
+                var temp =  await _mtChaletService.GetEmployee(authenticationResult.User_Id);
+                string jsonString = temp.Serialize();
 
-                // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
+                // Prefixing with `//` switches to a different navigation stack instead
+                // of pushing to the active one
                 await Shell.Current.GoToAsync($"//{nameof(ReservationsPage)}?UserData={jsonString}");
                 
             }
